@@ -1,0 +1,105 @@
+/*========================== header ================================*/
+header {
+    background-color: #5C81D3; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 400px;
+    color: white;
+}
+
+header > section:first-child{
+    flex-basis: 10%;
+}
+
+header > section:nth-child(2){
+    flex-basis: 69%;
+}
+header > section:nth-child(3){
+    flex-basis: 7%;
+}
+header > section:nth-child(4){
+    flex-basis: 7%;
+}
+header > section:nth-child(5){
+    flex-basis: 7%;
+}
+
+
+#homeLogo {
+    height: 50px; 
+}
+
+
+/* 게시판, 채팅, 로그인 메뉴 */
+header section:not(:first-child):not(:nth-child(2)) {
+    margin-left: 25px;
+    
+}
+
+header section a {
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+
+header section a:hover {
+    opacity: 1;
+    font-size: 20px;
+}
+
+#drop-board-list{
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    height: 50px;          
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    padding-right: 5%;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #5C81D3;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+nav ul li a:hover {
+    color: var(--hover-blue);
+    text-decoration: underline;
+}
+
+header {
+    background-color: #5c86e0; /* var(--main-blue) 대신 직접 지정 또는 변수 확인 */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    color: white;
+}
+
+/* 게시판, 채팅, 로그인 메뉴들을 감싸는 영역 */
+header section:last-of-type {
+    display: flex;
+    align-items: center;
+}
+
+header section a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 25px; /* 메뉴 간 간격 */
+    opacity: 0.9;
+}

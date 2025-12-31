@@ -162,6 +162,14 @@
     display: flex;
 }
 
+#calender-upper > div:last-child{
+    display: flex;
+    border: 1px solid rgb(36, 177, 43);
+    margin : 3px;
+    padding : 3px;
+
+}
+
 .calender-table{
     border:1px solid rgb(22, 149, 172);
     width:95%;
@@ -170,11 +178,16 @@
     justify-content: space-between;
 }
 
-
-.calender-table-body >th{
+.calender-table-body > th{
     width:40px;
     height:15px;
-    border:1px solid rgb(22, 149, 172);
+    border:1px solid rgb(172, 22, 160);
 }
+
+
+
+/*------------ 구분선 ---------------*/
+/* todo 부분 */
+
 
 /*------------ 구분선 ---------------*/
