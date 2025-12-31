@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/board/boardDetail-style.css">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<th:block th:replace="~{common/header}"></th:block>
+
+<main class="container">
+    <div class="write-box">
+
+        <!-- 카테고리 + 제목 -->
+        <div class="title-wrapper">
+            <span th:text="${board.boardCategory}"></span>
+            <h2 th:text="${board.boardTitle}"></h2>
+        </div>
+
+        <!-- 내용 -->
+        <div class="content-wrapper">
+            <div th:utext="${board.boardContent}"></div>
+        </div>
+
+        <!-- 이미지/파일 -->
+        <div class="file-wrapper">
+            <div th:each="img : ${boardImageList}" class="boardImg">
+                <img th:src="@{${img.filePath}}" class="preview">
+            </div>
+            <div th:each="file : ${boardFileList}" class="boardFile">
+                <a th:href="@{${file.filePath}}" th:text="${file.originName}" target="_blank"></a>
+            </div>
+        </div>
+
+        <!-- 좋아요/싫어요 -->
+        <div class="toolbar">
+            <button id="likeBtn" th:data-board-no="${board.boardNo}">좋아요</button>
+            <button id="hateBtn" th:data-board-no="${board.boardNo}">싫어요</button>
+        </div>
+
+        <!-- 댓글 -->
+        <div class="content-wrapper" id="commentSection">
+            <div th:each="c : ${commentList}" class="comment">
+                <p th:text="${c.memberName}"></p>
+                <p th:text="${c.commentContent}"></p>
+                <button class="edit-comment-btn" th:data-comment-id="${c.commentId}">수정</button>
+                <button class="delete-comment-btn" th:data-comment-id="${c.commentId}">삭제</button>
+            </div>
+
+            <textarea id="newCommentContent" placeholder="댓글을 입력하세요"></textarea>
+            <button id="addCommentBtn">댓글 작성</button>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{common/footer}"></th:block>
+<script th:src="@{/js/board/boardDetail.js}"></script>
+</body>
+</html>
+

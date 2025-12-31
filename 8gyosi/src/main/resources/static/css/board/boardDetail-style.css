@@ -1,0 +1,132 @@
+/* boardWrite-style.css 기반, boardDetail 전용 */
+* { 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.write-box {
+  width: 90%;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 제목 영역 */
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #5f86e5;
+  gap: 10px;
+  border-radius: 4px 4px 0 0;
+  color: white;
+  font-size: 14px;
+}
+
+/* 본문 */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.content-wrapper div {
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 400px;
+}
+
+/* 이미지/파일 */
+.boardImg,
+.boardFile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.boardFile a {
+  text-decoration: none;
+  color: #5f86e5;
+}
+
+/* 좋아요/댓글 버튼 */
+.like-area button {
+  padding: 4px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #5f86e5;
+  color: white;
+}
+
+/* 댓글 */
+.comment-wrapper {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.comment-wrapper p {
+  padding: 6px 0;
+  border-bottom: 1px dashed #ccc;
+}
+
+/* ================= DARK MODE ================= */
+body.dark {
+  background-color: #121212;
+  color: #e5e5e5;
+}
+
+body.dark .title-wrapper {
+  background-color: #1f1f1f;
+  color: #e5e5e5;
+}
+
+body.dark .content-wrapper div {
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+  border: 1px solid #555;
+}
+
+body.dark .boardFile a {
+  color: #22d3ee;
+}
+
+body.dark .like-area button {
+  background-color: #22d3ee;
+  color: #121212;
+}
+
+body.dark .comment-wrapper p {
+  border-color: #555;
+}

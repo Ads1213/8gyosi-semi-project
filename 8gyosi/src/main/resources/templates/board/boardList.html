@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>board-list</title>
 
-  <th:block th:replace="#"></th:block>
+  <th:block th:replace="~{common/common}"></th:block>
 
-  <link rel="stylesheet" href="/8gyosi/src/main/resources/static/css/board/boardList-style.css">
+  <link rel="stylesheet" href="/css/board/boardList-style.css">
 
   <!-- font awesome 라이브러리 추가 + key 등록-->
   <script src="https://kit.fontawesome.com/0968aeef36.js" crossorigin="anonymous"></script>
@@ -16,7 +16,7 @@
 </head>
 
 <main>
-	
+	<th:block th:replace="~{common/header}"></th:block>
   <section class="board-wrapper">
     <section class="board-list">
       <ul>
@@ -91,10 +91,12 @@
       <ul class="pagination">
 
         <!-- 첫 페이지로 이동 ( << )-->
-        <li><a th:href="#">&lt;&lt;</a></li>
+       <!-- <li><a th:href="#">&lt;&lt;</a></li>-->
+        <li><a href="#">&lt;&lt;</a></li>
 
         <!-- 이전 목록 마지막 번호로 이동( < ) -->
-        <li><a th:href="#">&lt;</a></li>
+        <!--<li><a th:href="#">&lt;</a></li> -->
+        <li><a href="#">&lt;</a></li>
 
         <!-- 특정 페이지로 이동(현재 보고있는 페이지/보고있지 않은 페이지) -->
         <!-- # 추후 반복문으로 작성할것 -->
@@ -112,10 +114,11 @@
 
 
         <!-- 다음 목록 시작 번호로 이동 -->
-        <li><a th:href="#">&gt;</a></li>
+       <!-- ><li><a th:href="#">&gt;</a></li> -->
+        <li><a href="#">&gt;</a></li>
 
         <!-- 끝 페이지로 이동 -->
-        <li><a th:href="#">&gt;&gt;</a></li>
+        <li><a href="#">&gt;&gt;</a></li>
       </ul>
       <!-- # 검색인 경우 추후 추가할것-->
     </div>
@@ -147,12 +150,10 @@
     </form>
   </section>
 
-  <!-- footer -->
-  <th:block th:replace="#"></th:block>
-
-  <script src="#"></script>
-  </section>
   
+  </section>
+  <!-- footer -->
+  <th:block th:replace="~{common/footer}"></th:block>  
 </main>
 
 </html>
