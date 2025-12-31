@@ -3,7 +3,7 @@
 <mapper namespace="edu.kh.eightgyosi.member.model.mapper.MemberMapper"> <!-- 해당 부분 패키지명 수정해서 사용  -->
   <!-- 삭제해도 무방 <cache-ref namespace=""/> -->
   
-  <!-- 로그인 -->
+  <!-- 로그인 : dasol -->
   <select id="login" resultType="Member">
   	SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_PW,
   	MEMBER_NICKNAME, MEMBER_TEL, MEMBER_SCHOOL,

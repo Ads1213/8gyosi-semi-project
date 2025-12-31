@@ -8,7 +8,7 @@ public interface MemberService {
 	 * @author dasol
 	 * 
 	 * @param member
-	 * @throws Exception 
+	 * @return loginMember
 	 * 
 	 */
 	Member login(Member member) throws Exception;

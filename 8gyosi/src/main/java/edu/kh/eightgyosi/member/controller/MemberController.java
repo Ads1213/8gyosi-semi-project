@@ -28,33 +28,22 @@ public class MemberController {
 	/** @author dasol
 	 * 
 	 * @param member
-	 * @param ra
-	 * @param model
-	 * @param saveId
-	 * @param resp
-	 * @throws Exception
 	 */
 	@PostMapping("login")
-	public String login(Member member, RedirectAttributes ra,
-						Model model,
-						@RequestParam(value = "saveId", required = false)
-						String saveId, HttpServletResponse resp) throws Exception {
+	public String login(Member member) {
 		
-		// 로그인 서비스 호출
-		Member loginMember = service.login(member);
-		
-		log.debug("loginMember : " + loginMember);
-		
-		// 로그인 실패 시
-		if(loginMember == null) {
-			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
-		
-		} else {
-			// 로그인 성공 시
-			model.addAttribute("loginMember", loginMember);
+		try {
+			Member loginMember = service.login(member);
+			
+			
+		} catch (Exception e) {
+			
+			log.info("로그인 중 예외 발생");
+			e.printStackTrace();
 		}
 		
-		return "redirect:/";
+		return "";
+	
 	}
 	
 	@GetMapping("logout")
