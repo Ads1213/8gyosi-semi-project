@@ -13,3 +13,5 @@ public class MyPageController {
 		return "myPage/myPage-main"; // forward
 	}
 }
+
+// seongjong

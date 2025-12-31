@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>8교시 메인화면 테스트</title>
 
-  <link rel="stylesheet" href="/css/common/main.css">
+
+  <th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
 
+	<!-- common/header.html 을 header로 사용합니다. -->
+	  <!-- !! 모든 화면에서 해당 header를 사용해주세요. -->
+	  <th:block th:replace="~{common/header}"></th:block>
+	  
   <h3> 8교시 시작</h3>
   <a href="/myPage"> 8교시 마이페이지 링크 test</a>
+  
   
   <container id="main-container"> <!-- 메인화면 이미지 섹션 + 게시판 전체 섹션-->
     
@@ -871,5 +877,11 @@
 
   </container>
 
+  <!-- common/footer.html 을 footer로 사용합니다. -->
+  <!-- !! 모든 화면에서 해당 footer를 사용해주세요. -->
+  <th:block th:replace="~{common/footer}"></th:block>
+  
 </body>
 </html>
+
+<!-- seongjong -->
