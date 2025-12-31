@@ -30,8 +30,29 @@
       <a href="#">채팅</a>
     </section>
     <section>
-      <a href="/8gyosi/signup">로그인(임시 회원가입 연결 경로)</a>
+	  <a href="#" id="login-link">로그인</a>
     </section>
+
+
+    <!-- 로그인 창 부분 -->
+    <div id="login-window" class="hidden">
+		<div>로고 들어갈 부분</div>
+    <form action="/main/login" id="login-btn">
+      <fieldset id="login-area">
+        <input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
+        <input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
+      </fieldset>
+      <button>로그인하기</button>
+    </form>
+		<form action="/8gyosi/signup">
+      <button id="signup" type="submit">회원가입</button>
+    </form>
+		<div>
+      <button id="findEmailPw">이메일/비밀번호 찾기</button>
+    </div>
+	</div>
+
+
     <script>
         const mainMenu = document.querySelector("#header_board");
         const subMenu = document.querySelector('.sub_menu');
@@ -46,7 +67,10 @@
       </script>
 
 
+  <script src="/js/common/header.js"></script>
+
   </header>
+
 
 
   <!-- # 추후 common에서 조립하여 쓸 수 있도록 한다.-->
