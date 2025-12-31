@@ -11,18 +11,21 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Member {
 	
-	private int memberNo;
-	private String memberEmail;
-	private String memberPw;
-	private String memberNickName;
-	private String memberTel;
-	private String memberSchool;
-	private String memberBirth;
-	private String memberAddress;
-	private String profileImg;
-	private String enrollDate;
-	private String memberDelFl;
-	private int authority;
-	private String memberBg;
+	private int memberNo;		// 회원 번호
+	private String memberEmail;	// 회원 이메일(회원 ID)
+	private String memberPw;	// 회원 비밀번호
+	private String memberNickName;	// 회원 별명(활동명)
+	private String memberTel;		// 회원 전화번호
+	private String memberSchool;	// 회원 학교
+	private String memberBirth;		// 회원 생년월일
+	private String memberAddress;	// 회원 주소
+	private String profileImg;		// 프로필 이미지
+	private String enrollDate;		// 회원 가입일
+	private String memberDelFl;		// 회원 탈퇴 여부(Y, N)
+	private int authority;			// 권한( 1: 일반 2: 관리자 )
+	private String memberBg;		// 회원 테마
+	
+	
+	// 다솔
 
 }
