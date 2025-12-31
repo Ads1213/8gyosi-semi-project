@@ -59,7 +59,7 @@
     height: 800px;
     border-radius: 15px;
 }
-
+/*------------ 구분선 ---------------*/
 /* 시간표 부분 */
 .class-table{
     width:95%;
@@ -148,3 +148,33 @@
     padding-top:2px;
     margin-bottom: 5px;
 }
+/*------------ 구분선 ---------------*/
+
+/*------------ 구분선 ---------------*/
+/* 캘린더 부분 */
+
+.calender-main-content{
+    display: flex;
+    flex-direction: column;
+}
+
+#calender-upper{
+    display: flex;
+}
+
+.calender-table{
+    border:1px solid rgb(22, 149, 172);
+    width:95%;
+    height:95%;
+    display:flex;
+    justify-content: space-between;
+}
+
+
+.calender-table-body >th{
+    width:40px;
+    height:15px;
+    border:1px solid rgb(22, 149, 172);
+}
+
+/*------------ 구분선 ---------------*/
