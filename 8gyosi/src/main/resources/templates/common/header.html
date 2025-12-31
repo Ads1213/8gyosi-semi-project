@@ -14,29 +14,44 @@
     <section></section>
 
     <section id="drop-board">
-      <a href="/board">게시판(임시연결)</a>
+       <ul id="header_menu">
+        <li id="header_board"><a href="/board">게시판</a>
+          <ul class="sub_menu">
+            <li><a href="#">자유 게시판</a></li>
+            <li><a href="#">질문 게시판</a></li>
+            <li><a href="#">급식표 게시판</a></li>
+            <li><a href="#">입시정보 게시판</a></li>
+            <li><a href="#">문제풀이 게시판</a></li>
+            <li><a href="#">공지사항</a></li>
+          </ul>
+        </li>
     </section>
     <section>
       <a href="#">채팅</a>
     </section>
     <section>
-      <a href="#">로그인</a>
+      <a href="/8gyosi/signup">로그인(임시 회원가입 연결 경로)</a>
     </section>
+    <script>
+        const mainMenu = document.querySelector("#header_board");
+        const subMenu = document.querySelector('.sub_menu');
+
+        mainMenu.addEventListener('mouseover', () => {
+          subMenu.classList.add('active');
+        });
+        mainMenu.addEventListener('mouseleave', () => {
+          subMenu.classList.remove('active');
+          
+        });
+      </script>
+
+
   </header>
 
 
   <!-- # 추후 common에서 조립하여 쓸 수 있도록 한다.-->
   <!-- navigator -->
-  <nav>
-    <ul id="drop-board-list">
-      <li><a href="#">자유 게시판</a></li>
-      <li><a href="#">질문 게시판</a></li>
-      <li><a href="#">급식표 게시판</a></li>
-      <li><a href="#">입시정보 게시판</a></li>
-      <li><a href="#">문제풀이 게시판</a></li>
-      <li><a href="#">공지사항</a></li>
-    </ul>
-  </nav>
+
   <!-- cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
   <th:block th:each=" boardType: ${application.boardTypeList}">
     <li>
@@ -45,5 +60,3 @@
     </li>
   </th:block> 
   -->
-  
-  <!-- jihun -->
