@@ -46,6 +46,10 @@ public class MemberController {
 	
 	}
 	
+	/** 로그아웃 기능
+	 * @param status
+	 * @return
+	 */
 	@GetMapping("logout")
 	public String logout(SessionStatus status) {
 		
