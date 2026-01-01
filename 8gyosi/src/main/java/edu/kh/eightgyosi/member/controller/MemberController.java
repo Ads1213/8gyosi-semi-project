@@ -87,7 +87,6 @@ public class MemberController {
 	 * @author dasol
 	 * @param SessionStatus : @SessionAttributes로 지정된 특정 속성을
 	 * 						 세션에서 제거할 수 있는 기능을 제공하는 객체
-	 * @return
 	 */
 	@GetMapping("logout")
 	public String logout(SessionStatus status) {

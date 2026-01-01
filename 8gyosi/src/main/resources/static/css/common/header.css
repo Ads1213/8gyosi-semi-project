@@ -157,6 +157,7 @@ header section a {
     border: 2px solid black;
     padding:10px;
     position:fixed;
+    background-color: rgba(79, 116, 236, 0.7);
 }
 
 .hidden{
@@ -165,4 +166,9 @@ header section a {
 
 .show{
     display:block;
+}
+
+#login-window > section{
+    display: flex;
+    flex-direction: column;
 }
