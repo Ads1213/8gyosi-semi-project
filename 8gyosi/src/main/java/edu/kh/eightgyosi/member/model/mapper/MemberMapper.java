@@ -1,8 +1,8 @@
-package edu.kh.eightgyosi.model.mapper;
+package edu.kh.eightgyosi.member.model.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import edu.kh.eightgyosi.model.dto.Member;
+import edu.kh.eightgyosi.member.model.dto.Member;
 
 @Mapper
 public interface MemberMapper {

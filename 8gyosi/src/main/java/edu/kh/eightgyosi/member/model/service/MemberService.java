@@ -1,6 +1,6 @@
-package edu.kh.eightgyosi.model.service;
+package edu.kh.eightgyosi.member.model.service;
 
-import edu.kh.eightgyosi.model.dto.Member;
+import edu.kh.eightgyosi.member.model.dto.Member;
 
 public interface MemberService {
 	
