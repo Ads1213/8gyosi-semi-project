@@ -1,4 +1,4 @@
-package edu.kh.eightgyosi.model.dto;
+package edu.kh.eightgyosi.member.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
