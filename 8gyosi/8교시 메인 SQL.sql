@@ -42,6 +42,12 @@ ALTER TABLE "MEMBER" MODIFY (MEMBER_PW NVARCHAR2(100));
 
 COMMIT; -- 수행
 
+-- 이메일 중복 검사 ( dasol )
+SELECT COUNT(*)
+   		FROM MEMBER
+   		WHERE MEMBER_DEL_FL = 'N'
+   		AND MEMBER_EMAIL = 'ads1213@gmail.com';
+
 SELECT * FROM "MEMBER";
 
 

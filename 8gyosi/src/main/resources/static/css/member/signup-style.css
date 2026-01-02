@@ -11,6 +11,22 @@ body {
   color: #333;
 }
 
+/* 필수 작성 */
+.required{
+  color: red;
+  padding: 0 5px;
+}
+
+/* 메세지 색상 지정 */
+.confirm{ color : green; }
+.error{ color : red; }
+
+/* 입력 관련 메세지 */
+.signUp-message{
+  font-size: 14px;
+  letter-spacing: -1px;
+}
+
 /* 헤더 */
 .navbar {
   background-color: #5c7cfa;
