@@ -32,7 +32,7 @@ public class Board {
     private String boardContent;
 
     /** 작성일 */
-    private LocalDateTime createDate;
+    private String boardCreateDate;
 
     /** 삭제 여부 (Y/N) */
     private String boardDelFl;

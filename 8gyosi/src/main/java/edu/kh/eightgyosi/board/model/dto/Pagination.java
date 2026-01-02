@@ -1,7 +1,7 @@
 package edu.kh.eightgyosi.board.model.dto;
 
 
-public class pagination {
+public class Pagination {
 	private int currentPage;		// 현재 페이지 번호
 	private int listCount;			// 전체 게시글 수
 	
@@ -18,7 +18,7 @@ public class pagination {
 	
 	
 	
-	public pagination(int currentPage, int listCount) {
+	public Pagination(int currentPage, int listCount) {
 		super();
 		this.currentPage = currentPage;
 		this.listCount = listCount;
@@ -28,7 +28,7 @@ public class pagination {
 
 
 	
-	public pagination(int currentPage, int listCount, int limit, int pageSize) {
+	public Pagination(int currentPage, int listCount, int limit, int pageSize) {
 		super();
 		this.currentPage = currentPage;
 		this.listCount = listCount;
