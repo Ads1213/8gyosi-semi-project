@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member login(Member member) throws Exception {
 		
+		
 		// 데이터 가공 ( 암호화 )
 		String bcryptPassword = bcrypt.encode(member.getMemberPw());
 		log.debug("bcryptPassword : " + bcryptPassword);

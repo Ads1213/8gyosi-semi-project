@@ -40,13 +40,6 @@
     height:auto;
 }
 
-
-
-.diary{
-    width:45%;
-    height:auto;
-}
-
 .wrong-note{
     width:50%;
     height:auto;
@@ -174,14 +167,27 @@
     border:1px solid rgb(22, 149, 172);
     width:95%;
     height:95%;
-    display:flex;
-    justify-content: space-between;
 }
 
-.calender-table-body > th{
+.calender-table-body .tdEmpty{
     width:40px;
     height:15px;
-    border:1px solid rgb(172, 22, 160);
+	background-color: brown;
+	color : white;
+}
+
+.calender-table-body .tdEmpty{
+    width:40px;
+    height:15px;
+	background-color: rgb(255, 255, 0);
+	color : white;
+}
+
+.calender-table-body .tdNormal{
+    width:40px;
+    height:15px;
+	background-color: darkblue;
+	color : white;
 }
 
 
@@ -193,10 +199,15 @@
     flex-direction: column;
     padding : 10px;
 }
-
+/*------------ 구분선 ---------------*/
+.lower{
+    display: flex;
+}
 
 /*------------ 구분선 ---------------*/
 /* 일기장 부분 */
+.diary
+
 
 
 /*------------ 구분선 ---------------*/
