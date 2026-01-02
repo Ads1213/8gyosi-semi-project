@@ -6,8 +6,10 @@
     <title>마이페이지 메인</title>
 
     <link rel="stylesheet" href="/css/myPage/myPage-main.css">
+	<th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
+	<th:block th:replace="~{common/header}"></th:block>
     <h3> 마이페이지 메인 테스트</h3>
     <container id="container">
 
@@ -255,7 +257,7 @@
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
                 
-                <section class="diary"> <!-- 일기장-->
+                <section class="diary main-content"> <!-- 일기장-->
                     <div id="diary-name" class="diary-component">오늘은 무슨 일 있었나요?</div>
                     <div id="diary-today" class="diary-component">날짜부분</div>
                     <form action="/myPage/diary" method="POST" id="diary-form">
@@ -263,11 +265,11 @@
                             <input type="text" name="diary-title" placeholder="제목을 입력해주세요">
                         </label>
                         <label>
-                            <input type="text" name="diary-content" placeholder="내용을 입력해주세요">
+                            <input type="text" name="diary-content" placeholder="내용을 입력해주세요" id="diary-content">
                         </label>
                         <button type="submit">저장</button>
                     </form>
-                    <a href="#">수정하기</a>
+                    <button>수정</button>
                 </section> <!-- 일기장 끝-->    
 
                 <section class="wrong-note main-content"> <!-- 오답노트-->
@@ -279,7 +281,18 @@
         </container>
 
         <container class="sidebar"> <!-- 프로필 및 색상 테마 수정 부분-->
-
+			<section class="myProfile">
+				<div id="myName">
+					회원 이름 들어갈 부분
+				</div>
+				<div id="">
+					<div id="myProfilePicture"></div>
+					<button>수정</button>
+				</div>
+			</section>
+			<section class="selectTheme">
+				
+			</section>
         </container>
 
     </container>
@@ -295,6 +308,7 @@
 	</script>
 	
 	<script src="/js/myPage/myPage-main.js"></script>
+	<th:block th:replace="~{common/footer}"></th:block>
 </body>
 </html>
 
