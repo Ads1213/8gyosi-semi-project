@@ -6,61 +6,74 @@
 
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/board/boardWrite-style.css}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
 
-    <!-- JS -->
+    <!-- JS 라이브러리 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.js"></script>
 </head>
 <body>
 
+<!-- 헤더 공통 삽입 -->
 <th:block th:replace="~{common/header}"></th:block>
 
 <main class="container">
-    <form th:action="@{/editBoard/{boardId}/insert(boardId=${boardId})}" 
-          method="post" class="write-box" enctype="multipart/form-data">
 
-        <!-- 카테고리 -->
-        <div class="category-wrapper">
-            <select name="boardCategory" required>
-                <option th:each="c : ${categoryList}"
-                        th:if="${!c.adminOnly or loginMember.role.name() == 'ADMIN'}"
-                        th:value="${c.boardName}"
-                        th:text="${c.boardName}">
-                </option>
-            </select>
-        </div>
+<!-- 게시글 작성 폼 -->
+<form th:action="@{/board/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
+      method="post"
+      class="write-box"
+      enctype="multipart/form-data">
 
-        <!-- 제목 -->
-        <div class="title-wrapper">
-            <input type="text" name="boardTitle" placeholder="제목을 입력하세요" required>
-        </div>
+    <!-- 게시판 타입 선택 -->
+    <div class="category-wrapper">
+        <select name="boardTypeNo" required>
+            <option value="">게시판 선택</option>
+            <option th:each="type : ${boardTypeList}"
+                    th:value="${type.boardTypeNo}"
+                    th:text="${type.boardTypeName}"
+                    th:if="${!type.adminOnly or session.loginMember.role.name() == 'ADMIN'}">
+            </option>
+        </select>
+    </div>
 
-        <!-- 내용 -->
-        <div class="content-wrapper">
-            <textarea id="boardContent" name="boardContent"></textarea>
-        </div>
+    <!-- 제목 입력 -->
+    <div class="title-wrapper">
+        <input type="text"
+               name="boardTitle"
+               placeholder="제목을 입력하세요"
+               required>
+    </div>
 
-        <!-- 파일 업로드 -->
-        <div class="file-wrapper" id="fileContainer">
-            <div class="file-row">
-                <input type="file" name="images">
-                <button type="button" class="addFileBtn">+</button>
-            </div>
-        </div>
+    <!-- 내용 입력 (Summernote 적용) -->
+    <div class="content-wrapper">
+        <textarea id="boardContent" name="boardContent"></textarea>
+    </div>
 
-        <div class="bottom-area">
-            <button type="submit" class="submit-btn">작성 완료</button>
-        </div>
+    <!-- 이미지 업로드 -->
+    <div class="file-wrapper">
+        <input type="file" name="images" multiple accept="image/*">
+    </div>
 
-        <input type="hidden" id="deleteImageList" name="deleteImageList">
-        <input type="hidden" id="deleteFileList" name="deleteFileList">
-    </form>
+    <!-- 일반 파일 업로드 -->
+    <div class="file-wrapper">
+        <input type="file" name="files" multiple>
+    </div>
+
+    <!-- 작성 완료 버튼 -->
+    <div class="bottom-area">
+        <button type="submit" class="submit-btn">작성 완료</button>
+    </div>
+
+</form>
 </main>
 
+<!-- 푸터 공통 삽입 -->
 <th:block th:replace="~{common/footer}"></th:block>
+
+<!-- JS -->
 <script th:src="@{/js/board/boardWrite.js}"></script>
 </body>
 </html>
-
 

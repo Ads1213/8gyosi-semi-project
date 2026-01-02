@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    const uploadUrl = '/editBoard/uploadFile';
+    const uploadUrl = '/editBoard/uploadFile'; // 파일 업로드 요청 URL
 
-    // Summernote 초기화
+    // ===================== Summernote 초기화 =====================
     $('#boardContent').summernote({
         placeholder: '내용을 입력하세요',
         height: 400,
@@ -13,6 +13,7 @@ $(document).ready(function () {
             ['view',['fullscreen','codeview']]
         ],
         callbacks: {
+            // 이미지 업로드 시 호출
             onImageUpload: function(files) {
                 for(let file of files){
                     uploadFile(file, true);
@@ -21,7 +22,7 @@ $(document).ready(function () {
         }
     });
 
-    // 파일 업로드 AJAX
+    // ===================== 파일 업로드 AJAX =====================
     function uploadFile(file, isEditorImage=false){
         let formData = new FormData();
         formData.append("file", file);
@@ -33,9 +34,11 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function(url){
+                // 에디터 이미지이면 Summernote에 바로 삽입
                 if(isEditorImage || file.type.startsWith("image/")){
                     $('#boardContent').summernote('insertImage', url);
                 } else {
+                    // 일반 파일은 링크로 삽입
                     const linkHtml = `<a href="${url}" target="_blank">${file.name}</a><br>`;
                     $('#boardContent').summernote('pasteHTML', linkHtml);
                 }
@@ -46,32 +49,7 @@ $(document).ready(function () {
         });
     }
 
-    // + 버튼으로 파일 입력 추가
-    $('#fileContainer').on('click', '.addFileBtn', function(){
-        const row = `<div class="file-row">
-                        <input type="file" name="files">
-                        <button type="button" class="addFileBtn">+</button>
-                     </div>`;
-        $('#fileContainer').append(row);
-    });
-
-    // 기존 이미지 삭제 처리
-    $('.delete-image').on('click', function(){
-        const order = $(this).data('order');
-        let current = $('#deleteImageList').val();
-        $('#deleteImageList').val(current ? current + ',' + order : order);
-        $(this).closest('.boardImg').remove();
-    });
-
-    // 기존 파일 삭제 처리
-    $('.delete-file').on('click', function(){
-        const order = $(this).data('order');
-        let current = $('#deleteFileList').val();
-        $('#deleteFileList').val(current ? current + ',' + order : order);
-        $(this).closest('.boardFile').remove();
-    });
-
-    // 제출 전 필수 체크
+    // ===================== 폼 제출 전 체크 =====================
     $('form').on('submit', function(){
         const title = $('input[name="boardTitle"]').val().trim();
         const content = $('#boardContent').summernote('code').trim();
@@ -86,3 +64,4 @@ $(document).ready(function () {
         }
     });
 });
+

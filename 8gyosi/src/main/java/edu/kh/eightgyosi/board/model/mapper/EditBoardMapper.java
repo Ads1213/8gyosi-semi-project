@@ -4,43 +4,33 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-
-import edu.kh.eightgyosi.board.model.dto.Board;
-import edu.kh.eightgyosi.board.model.dto.BoardComment;
-import edu.kh.eightgyosi.board.model.dto.BoardFile;
-import edu.kh.eightgyosi.board.model.dto.BoardImage;
-import edu.kh.eightgyosi.board.model.dto.BoardLike;
+import edu.kh.eightgyosi.board.model.dto.*;
 
 @Mapper
 public interface EditBoardMapper {
+
+    // 게시글
     int insertBoard(Board board);
     int updateBoard(Board board);
-    int deleteBoard(Map<String,Integer> map);
-    Board selectOneBoard(int boardNo);
-    String selectBoardContent(int boardNo);
+    int deleteBoard(Map<String,Integer> map); // Map: boardId, memberNo
+    Board selectBoardDetail(Map<String,Integer> map); // Service에서 사용
+    String selectBoardContent(int boardId);
 
     // 이미지
     int insertBoardImage(BoardImage img);
-    BoardImage selectImageByOrder(Map<String,Integer> map);
-    int deleteBoardImage(int imgNo);
-    int selectMaxImgOrder(int boardNo);
-    List<BoardImage> selectBoardImages(int boardNo);
+    BoardImage selectImageByOrder(Map<String,Integer> map); // boardId, imgOrder
+    int deleteBoardImage(int imgId);
+    int selectMaxImgOrder(int boardId);
+    List<BoardImage> selectBoardImages(int boardId);
 
     // 파일
     int insertBoardFile(BoardFile file);
-    BoardFile selectBoardFile(int fileNo);
-    int deleteBoardFile(int fileNo);
-    List<BoardFile> selectBoardFiles(int boardNo);
+    BoardFile selectBoardFile(int fileId);
+    int deleteBoardFile(int fileId);
+    List<BoardFile> selectBoardFiles(int boardId);
 
-    // 댓글
-    int insertBoardComment(BoardComment comment);
-    BoardComment selectBoardComment(int commentId);
-    int deleteBoardComment(int commentId);
-    int deleteBoardComments(int boardNo);
-
-    // 좋아요/싫어요
-    BoardLike selectBoardLike(int boardNo, int memberNo);
+    // 좋아요
+    BoardLike selectBoardLike(Map<String,Integer> map); // boardId, memberNo
     int insertBoardLike(BoardLike bl);
-    int updateBoardLike(int likeNo, boolean likeFlg);
-    int deleteBoardLike(int likeNo);
+    int deleteBoardLike(int likeId);
 }
