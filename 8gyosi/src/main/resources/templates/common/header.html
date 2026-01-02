@@ -63,27 +63,28 @@
 		<div>
      	 <a href="#" id="login-window-close">닫기</a>
         </div>
-    <form action="/8gyosi/login" method="POST" id="login-btn">
+		<!-- id 속성 : login-fomr 으로 변경 -->
+    <form action="/8gyosi/login" method="POST" id="login-form">
       <fieldset id="login-area">
         <input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
         <input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
       </fieldset>
-      <label>
-        <input type="checkbox" name="saveId">
-        아이디저장
-      </label>
+	      <label>
+	        <input type="checkbox" name="saveId">
+	        아이디저장
+	      </label>
       <button>로그인하기</button>
     </form>
     <form action="/8gyosi/signup">
       <section>
-      <section id="login-window-upper">
+      	<section id="login-window-upper">
       </section>
-      <form action="/main/login" id="login-btn">
+      <!-- <form action="/main/login" id="login-btn">
 		<label>
 			<input type="checkbox" name="saveId">
 			아이디저장
 		</label>
-      </form>
+      </form> -->
 	<form action="/8gyosi/signup">
       <button id="signup" type="submit">회원가입</button>
     </form>
