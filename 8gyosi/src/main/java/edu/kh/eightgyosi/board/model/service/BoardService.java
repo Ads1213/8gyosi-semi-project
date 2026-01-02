@@ -17,4 +17,11 @@ public interface BoardService {
 	 */
 	Map<String, Object> selectBoardList(int boardTypeNo, int cp);
 
+	/** 검색 서비스( 게시판의 검색한 목록 조회)
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> searchList(Map<String, Object> paramMap, int cp);
+
 }

@@ -1,5 +1,6 @@
 package edu.kh.eightgyosi.board.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kh.eightgyosi.board.model.dto.Board;
 import edu.kh.eightgyosi.board.model.dto.pagination;
 import edu.kh.eightgyosi.board.model.mapper.BoardMapper;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-@Slf4j
+
 public class BoardSerivceImpl implements BoardService{
 	
 	@Autowired
@@ -45,7 +45,40 @@ public class BoardSerivceImpl implements BoardService{
 		
 		List<Board> boardList = mapper.selectBoardList(boardTypeNo, rowBounds);
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("boardList", boardList);
 		
-		return null;
+		// 5. map 반환
+		return map;
+		
+	}
+
+	@Override
+	public Map<String, Object> searchList(Map<String, Object> paramMap, int cp) {
+		
+		// 1. 지정된 게시판(boardCode)에서
+		//    검색조건에 맞으면서
+		// 	  삭제되지 않은 게시글 수를 조회
+		int listCount = mapper.getSearchCount(paramMap);
+		// 2. 1번의 결과 + cp 를 이용해서
+		// Pagination 객체 생성
+		pagination pagination = new pagination(cp, listCount);
+		
+		// 3. 특정 게시판의 지정된 페이지 목록 조회 (검색 포함)
+		int limit = pagination.getLimit(); // 10개
+		int offset = (cp - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Board> boardList = mapper.selectSearchList(paramMap, rowBounds);
+		
+		// 4. 검색 목록 조회 결과 + Pagination 객체를 Map으로 묶음
+		Map<String, Object> map = new HashMap<>();
+		map.put("pagination", pagination);
+		map.put("boardList", boardList);
+		
+		// 5. 결과반환
+		return map;
+
 	}
 }

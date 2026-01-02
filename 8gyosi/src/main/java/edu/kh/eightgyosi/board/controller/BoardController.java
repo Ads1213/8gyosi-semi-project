@@ -3,12 +3,13 @@ package edu.kh.eightgyosi.board.controller;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.qos.logback.core.model.Model;
+
 import edu.kh.eightgyosi.board.model.service.BoardService;
 
 @Controller
@@ -27,9 +28,10 @@ public class BoardController {
 		return "board/boardList";
 		
 	}
-	
-	/** 게시글 목록 조회
+
+	/** 게시글 목록 조회 BOARD CONTROLLER
 	 * @return
+	 * {boardCodeNo:[0-9]+}
 	 */
 	@GetMapping("{boardTypeNo:[0-9]+}")
 	public String selectBoardList(@PathVariable("boardTypeNo") int boardTypeNo,
@@ -45,16 +47,22 @@ public class BoardController {
 			map = service.selectBoardList(boardTypeNo, cp);
 			
 		} else { // 검색인 경우(검색한 게시글 목록 조회)
+			paramMap.put("boardTypeNo", boardTypeNo);
+			// -> paramMap은 {key=w, query=짱구, boardCode=1}
 			
+			// 검색(내가 검색하고 싶은 게시글 목록 조회) 서비스 호출
+			map = service.searchList(paramMap, cp);
 			
 		}
 		
-		
-		
+		// model에 결과 값 등록
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("boardList", map.get("boardList"));
 		
 		return "board/boardList";	
 	}
 	
+
 	
 
 	
