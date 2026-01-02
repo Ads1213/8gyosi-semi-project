@@ -19,6 +19,7 @@
 	<th:block th:replace="~{common/header}"></th:block>
   <section class="board-wrapper">
     <section class="board-list">
+      <!--
       <ul>
         <li><a href="#">자유 게시판</a></li>
         <li><a href="#">질문 게시판</a></li>
@@ -27,15 +28,15 @@
         <li><a href="#">문제풀이 게시판</a></li>
         <li><a href="#">공지사항</a></li>
       </ul>
-    </section>
-    <!-- cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
+      cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
+      -->
   		<th:block th:each="boardType : ${application.boardTypeList}">
-				<h1 class="board-name" 
-					th:if="${boardType.boardCode} == ${boardCode}" 
-					th:text="${boardType.boardName}">
-					게시판 이름</h1>
+        <h1 class="board-name" 
+        th:if="${boardType.boardTypeNo} == ${boardTypeNo}" 
+        th:text="${boardType.boardTypeName}">
+        게시판 이름</h1>
 			</th:block>
-    -->
+    </section>
 
     <div class="list-wrapper">
       <table>
@@ -151,7 +152,10 @@
   </section>
 
   
-  </section>
+ 	<script th:inline="javascript">
+		const boardTypeNo = /*[[${boardTypeNo}]]*/ "게시판 코드 번호";
+	</script>
+  
   <!-- footer -->
   <th:block th:replace="~{common/footer}"></th:block>  
 </main>

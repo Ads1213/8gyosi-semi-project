@@ -13,16 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Board {
-    private int boardNo;
-    private int boardId; // 게시판 종류
-    private int memberNo;
+    private int boardId; // 게시글 번호(board table의 PK)
     private String boardTitle;
     private String boardContent;
-    private LocalDateTime createDate;
-    private boolean boardIsDeleted;
     private int boardViewCount;
+    private boolean boardIsDeleted;
+    private String boardCreateDate;
+    private String boardUpdateDate;
+    
     private int boardCommentCount;
-
+    
+    private int memberNo;
+    
     private int boardTypeNo;
     private String boardTypeName;
 
