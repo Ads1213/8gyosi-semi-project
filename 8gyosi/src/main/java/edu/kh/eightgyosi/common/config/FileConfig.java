@@ -8,10 +8,11 @@ import lombok.Getter;
 @Configuration
 @Getter
 public class FileConfig {
-
+/*
     @Value("${file.upload-path}")
     private String uploadPath;
 
     @Value("${file.web-path}")
     private String webPath;
+    */
 }

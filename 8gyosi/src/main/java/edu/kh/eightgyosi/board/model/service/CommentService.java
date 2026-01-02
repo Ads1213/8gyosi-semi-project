@@ -1,8 +1,9 @@
 package edu.kh.eightgyosi.board.model.service;
 
 import java.util.List;
+
 import edu.kh.eightgyosi.board.model.dto.BoardComment;
-import edu.kh.eightgyosi.board.model.dto.Member;
+import edu.kh.eightgyosi.member.model.dto.Member;
 
 public interface CommentService {
 

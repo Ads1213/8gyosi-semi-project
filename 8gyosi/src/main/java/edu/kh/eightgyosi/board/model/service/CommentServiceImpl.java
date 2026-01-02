@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.eightgyosi.board.model.dto.BoardComment;
-import edu.kh.eightgyosi.board.model.dto.Member;
-import edu.kh.eightgyosi.board.model.mapper.EditBoardMapper;
+import edu.kh.eightgyosi.board.model.mapper.CommentMapper;
+import edu.kh.eightgyosi.member.model.dto.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommentServiceImpl implements CommentService {
 
-    private final EditBoardMapper mapper;
+    private final CommentMapper mapper;
 
     /** ===================== 댓글/대댓글 목록 조회 ===================== */
     @Override
@@ -29,7 +29,10 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException("댓글 목록 조회 중 예외 발생: " + e.getMessage(), e);
         }
     }
-
+	@Override
+	public int deleteComment(int commentId, Member loginMember) {
+		return 0;
+}
     /** ===================== 댓글/대댓글 작성 ===================== */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -43,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-    /** ===================== 댓글/대댓글 삭제 ===================== */
+     /*/ ===================== 댓글/대댓글 삭제 ===================== 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteComment(int commentId, Member loginMember) {
@@ -63,5 +66,5 @@ public class CommentServiceImpl implements CommentService {
             log.error("댓글 삭제 중 오류", e);
             throw new RuntimeException("댓글 삭제 중 예외 발생: " + e.getMessage(), e);
         }
-    }
+    }*/
 }

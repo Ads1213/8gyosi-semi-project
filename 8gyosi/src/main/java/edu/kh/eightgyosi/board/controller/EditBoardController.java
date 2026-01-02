@@ -1,26 +1,7 @@
 package edu.kh.eightgyosi.board.controller;
-
-import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import edu.kh.eightgyosi.board.model.dto.Board;
-import edu.kh.eightgyosi.board.model.dto.Member;
-import edu.kh.eightgyosi.board.model.service.EditBoardService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +15,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EditBoardController {
 
+	@GetMapping("detail")
+	public String detail() {
+		return "board/boardDetail";
+	}
+	
+	@GetMapping("update")
+	public String update() {
+		return "board/boardUpdate";
+	}
+	
+	@GetMapping("write")
+	public String write() {
+		return "board/boardWrite";
+	}
+}
+/*
     private final EditBoardService service;                // Service 주입
     private static final String REDIRECT_BOARD = "redirect:/editBoard/";
 
@@ -222,5 +219,5 @@ public class EditBoardController {
         }
         return null;
     }
-}
 
+*/

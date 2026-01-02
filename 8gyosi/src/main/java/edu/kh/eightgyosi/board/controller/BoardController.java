@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> e6955aaaee45b2c428d179a47efd47b585391a64
 package edu.kh.eightgyosi.board.controller;
 
 import java.util.Map;
@@ -49,7 +52,11 @@ public class BoardController {
 			
 		} else { // 검색인 경우(검색한 게시글 목록 조회)
 			paramMap.put("boardTypeNo", boardTypeNo);
+<<<<<<< HEAD
 
+=======
+			// -> paramMap은 {key=w, query=짱구, boardCode=1}
+>>>>>>> e6955aaaee45b2c428d179a47efd47b585391a64
 			
 			// 검색(내가 검색하고 싶은 게시글 목록 조회) 서비스 호출
 			map = service.searchList(paramMap, cp);
@@ -67,4 +74,8 @@ public class BoardController {
 	
 
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e6955aaaee45b2c428d179a47efd47b585391a64
