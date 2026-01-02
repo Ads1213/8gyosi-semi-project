@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +23,8 @@
                         </div>
                         <div>
                             <button id="calender-left-btn">left</button>
-                            <div id="calender-year">2026년</div>
-                            <div id="calender-month">1월</div>
+                            <div id="calender-year"></div> <!-- 현재 연도 출력 -->
+                            <div id="calender-month"></div> <!-- 현재 월 출력 -->
                             <button id="calender-right-btn">right</button>
                         </div>
                     </div>
@@ -40,60 +40,8 @@
                                 <th>sat</th>
                                 <th>sun</th>
                             </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr class="calender-table-body">
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+							<tbody class="calender-table-body">
+							</tbody>
                         </table>
                     </div>
 
@@ -307,8 +255,19 @@
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
                 
-                <section class="diary main-content"> <!-- 일기장-->
-                    <div>일기장 제목</div>
+                <section class="diary"> <!-- 일기장-->
+                    <div id="diary-name" class="diary-component">오늘은 무슨 일 있었나요?</div>
+                    <div id="diary-today" class="diary-component">날짜부분</div>
+                    <form action="/myPage/diary" method="POST" id="diary-form">
+                        <label>
+                            <input type="text" name="diary-title" placeholder="제목을 입력해주세요">
+                        </label>
+                        <label>
+                            <input type="text" name="diary-content" placeholder="내용을 입력해주세요">
+                        </label>
+                        <button type="submit">저장</button>
+                    </form>
+                    <a href="#">수정하기</a>
                 </section> <!-- 일기장 끝-->    
 
                 <section class="wrong-note main-content"> <!-- 오답노트-->
@@ -324,6 +283,18 @@
         </container>
 
     </container>
+	
+	
+	
+	<script th:inline="javascript">
+		
+		// Calender 관련
+		const calenderList = [[${calender}]];
+		console.log(calenderList);
+		
+	</script>
+	
+	<script src="/js/myPage/myPage-main.js"></script>
 </body>
 </html>
 
