@@ -1,33 +1,46 @@
 <head>
-<link rel="stylesheet" href="/css/common/header.css">
+  <link rel="stylesheet" href="/css/common/header.css">
 </head>
 
-  <header>
-    <section>
-      <!-- 클릭 시 메인 페인지로 이동하는 로고 -->
-      <a href="/">
-        <img src="/image/로고 수정3.png" alt="메인 로고" id="homeLogo">
-      </a>
-    </section>
+<header>
+  <section>
+    <!-- 클릭 시 메인 페인지로 이동하는 로고 -->
+    <a href="/">
+      <img src="/image/로고 수정3.png" alt="메인 로고" id="homeLogo">
+    </a>
+  </section>
 
-    <!-- 안 쓰는 섹션-->
-    <section></section>
+  <!-- 안 쓰는 섹션-->
+  <section></section>
 
-    <section id="drop-board">
-       <ul id="header_menu">
-        <li id="header_board"><a href="/board">게시판</a>
-          <ul class="sub_menu">
-            <li><a href="#">자유 게시판</a></li>
-            <li><a href="#">질문 게시판</a></li>
-            <li><a href="#">급식표 게시판</a></li>
-            <li><a href="#">입시정보 게시판</a></li>
-            <li><a href="#">문제풀이 게시판</a></li>
-            <li><a href="#">공지사항</a></li>
-          </ul>
-        </li>
-    </section>
+  <section id="drop-board">
+    <ul id="header_menu">
+      <li id="header_board"><a href="/board">게시판</a>
+        <ul class="sub_menu">
+          <li><a href="#">자유 게시판</a></li>
+          <li><a href="#">질문 게시판</a></li>
+          <li><a href="#">급식표 게시판</a></li>
+          <li><a href="#">입시정보 게시판</a></li>
+          <li><a href="#">문제풀이 게시판</a></li>
+          <li><a href="#">공지사항</a></li>
+        </ul>
+      </li>
+  </section>
+  <section>
+    <a href="#">채팅</a>
+  </section>
+
+  <!-- 로그인이 되어 있는 경우 -->
+  <th:block th:if="${session.loginMember != null}">
     <section>
-      <a href="#">채팅</a>
+      <a href="/8gyosi/logout" id="logout-link">로그아웃</a>
+    </section>
+  </th:block>
+
+  <!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
+  <th:block th:if="${session.loginMember == null}">
+    <section>
+      <a href="#" id="login-link">로그인</a>
     </section>
 	
 	<!-- 로그인이 되어 있는 경우 -->
@@ -55,9 +68,13 @@
         <input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
         <input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
       </fieldset>
+      <label>
+        <input type="checkbox" name="saveId">
+        아이디저장
+      </label>
       <button>로그인하기</button>
     </form>
-		<form action="/8gyosi/signup">
+    <form action="/8gyosi/signup">
       <section>
       <section id="login-window-upper">
       </section>
@@ -80,18 +97,18 @@
 	
 
 
-  <script src="/js/common/header.js"></script>
+        <script src="/js/common/header.js"></script>
 
-  <!-- daosl -->
-  <script src="/js/main.js"></script>
-  </header>
+        <!-- daosl -->
+        <script src="/js/main.js"></script>
+</header>
 
 
 
-  <!-- # 추후 common에서 조립하여 쓸 수 있도록 한다.-->
-  <!-- navigator -->
+<!-- # 추후 common에서 조립하여 쓸 수 있도록 한다.-->
+<!-- navigator -->
 
-  <!-- cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
+<!-- cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
   <th:block th:each=" boardType: ${application.boardTypeList}">
     <li>
       <a th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}" 
