@@ -1,20 +1,34 @@
 package edu.kh.eightgyosi.board.model.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardComment {
+
+    /** 댓글 PK */
     private int commentId;
-    private int boardNo;
+
+    /** 게시글 FK */
+    private int boardId;
+
+    /** 작성자 회원 번호 */
     private int memberNo;
-    private String memberName;
-    private String profileImage;
+
+    /** 작성자 닉네임 */
+    private String memberNickname;
+
+    /** 댓글 내용 */
     private String commentContent;
-    private LocalDateTime commentWriteDate;
-    private boolean commentDelFlg;
-    private Integer parentCommentId;
-    private List<BoardComment> replies;
+
+    /** 작성일 */
+    private LocalDateTime createDate;
+
+    /** 삭제 여부 (Y/N) */
+    private String commentDelFl;
+    
+    private int parentCommentNo;
 }

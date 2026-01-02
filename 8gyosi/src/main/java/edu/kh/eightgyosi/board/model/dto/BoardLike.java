@@ -4,9 +4,16 @@ import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardLike {
-    private int likeNo;
-    private int boardNo;
+
+    /** 좋아요 PK */
+    private int likeId;
+
+    /** 게시글 FK */
+    private int boardId;
+
+    /** 회원 번호 */
     private int memberNo;
-    private boolean likeFlg; // true = like, false = hate
 }
