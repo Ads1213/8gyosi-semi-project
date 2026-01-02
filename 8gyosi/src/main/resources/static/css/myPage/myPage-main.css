@@ -3,7 +3,6 @@
 #container{
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 .main-container{
     border:1px solid black;
@@ -215,7 +214,6 @@
 	height:500px;
 }
 
-
 /*------------ 구분선 ---------------*/
 /* 오른쪽 내 정보 부분 */
 
@@ -225,7 +223,41 @@
     width:15%;
     height: auto;
     border-radius: 15px;
+	display:flex;
+	flex-direction: column;
+	
 }
+
+.my-profile{
+	display: flex;
+	flex-direction: column;
+	height:25%;
+	margin:20px;
+	border: 1px solid grey;
+	padding:20px;
+}
+
+#picture-edit-area{
+	display:flex;
+	flex-direction:column;
+}
+
+.select-theme{
+	display: flex;
+	flex-direction: column;
+	padding:20px;
+	height:25%;
+	border: 1px solid grey;
+	margin:20px;
+}
+
+.select-theme > div{
+	border-radius: 30px;
+	width:25%;
+	height:5%;
+	background-color: aqua;
+}
+
 
 
 
