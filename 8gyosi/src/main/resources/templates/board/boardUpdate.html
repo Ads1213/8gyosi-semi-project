@@ -5,10 +5,11 @@
     <title>게시글 수정</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/board/boardWrite-style.css}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
+    <link rel="stylesheet" th:href="@{/css/board/boardUpdate-style.css}">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
 
-    <!-- JS -->
+    <!-- JS 라이브러리 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.js"></script>
 </head>
@@ -17,53 +18,83 @@
 <th:block th:replace="~{common/header}"></th:block>
 
 <main class="container">
-    <form th:action="@{/editBoard/{boardId}/{boardNo}/update(boardId=${board.boardId}, boardNo=${board.boardNo})}" 
-          method="post" class="write-box" enctype="multipart/form-data">
 
-        <!-- 카테고리 -->
-        <div class="category-wrapper">
-            <select name="boardCategory" required>
-                <option th:each="c : ${categoryList}"
-                        th:if="${!c.adminOnly or loginMember.role.name() == 'ADMIN'}"
-                        th:value="${c.boardName}"
-                        th:text="${c.boardName}"
-                        th:selected="${board.boardCategory == c.boardName}">
-                </option>
-            </select>
+<!-- 게시글 수정 폼 -->
+<form th:action="@{/board/{boardId}/update(boardId=${board.boardId})}"
+      method="post"
+      class="write-box"
+      enctype="multipart/form-data">
+
+    <!-- 게시판 타입 선택 -->
+    <div class="category-wrapper">
+        <select name="boardTypeNo" required>
+            <option th:each="type : ${boardTypeList}"
+                    th:value="${type.boardTypeNo}"
+                    th:text="${type.boardTypeName}"
+                    th:selected="${board.boardTypeNo == type.boardTypeNo}"
+                    th:if="${!type.adminOnly or session.loginMember.role.name() == 'ADMIN'}">
+            </option>
+        </select>
+    </div>
+
+    <!-- 제목 입력 -->
+    <div class="title-wrapper">
+        <input type="text"
+               name="boardTitle"
+               th:value="${board.boardTitle}"
+               required>
+    </div>
+
+    <!-- 내용 입력 (Summernote) -->
+    <div class="content-wrapper">
+        <textarea id="boardContent" name="boardContent"
+                  th:text="${board.boardContent}"></textarea>
+    </div>
+
+    <!-- 기존 이미지 -->
+    <div class="file-wrapper" id="imageContainer">
+        <div th:each="img : ${board.boardImages}" class="boardImg">
+            <img th:src="@{'/images/' + ${img.imgStoredName}}" class="preview">
+            <button type="button" class="delete-image" th:data-img-id="${img.imgId}">삭제</button>
         </div>
+    </div>
 
-        <!-- 제목 -->
-        <div class="title-wrapper">
-            <input type="text" name="boardTitle" th:value="${board.boardTitle}" required>
+    <!-- 새 이미지 추가 -->
+    <div class="file-row">
+        <input type="file" name="images" multiple>
+    </div>
+
+    <!-- 기존 파일 -->
+    <div class="file-wrapper" id="fileContainer">
+        <div th:each="file : ${board.boardFiles}" class="boardFile">
+            <a th:href="@{'/files/' + ${file.fileStoredName}}"
+               th:text="${file.fileOriginName}" target="_blank"></a>
+            <button type="button" class="delete-file" th:data-file-id="${file.fileId}">삭제</button>
         </div>
+    </div>
 
-        <!-- 내용 -->
-        <div class="content-wrapper">
-            <textarea id="boardContent" name="boardContent" th:text="${board.boardContent}"></textarea>
+    <!-- 새 파일 추가 -->
+    <div id="fileContainer">
+        <div class="file-row">
+            <input type="file" name="files">
         </div>
+    </div>
 
-        <!-- 기존 이미지/파일 표시 -->
-        <div class="file-wrapper" id="fileContainer">
-            <div th:each="img : ${boardImageList}" class="boardImg">
-                <img th:src="@{${img.filePath}}" class="preview">
-                <button type="button" class="delete-image" th:data-order="${img.fileNo}">삭제</button>
-            </div>
-            <div class="file-row">
-                <input type="file" name="images">
-                <button type="button" class="addFileBtn">+</button>
-            </div>
-        </div>
+    <!-- 제출 -->
+    <div class="bottom-area">
+        <button type="submit" class="submit-btn">수정 완료</button>
+    </div>
 
-        <div class="bottom-area">
-            <button type="submit" class="submit-btn">수정 완료</button>
-        </div>
+    <!-- 삭제용 hidden -->
+    <input type="hidden" name="deleteImageIds" id="deleteImageIds">
+    <input type="hidden" name="deleteFileIds" id="deleteFileIds">
 
-        <input type="hidden" id="deleteImageList" name="deleteImageList">
-        <input type="hidden" id="deleteFileList" name="deleteFileList">
-    </form>
+</form>
 </main>
 
 <th:block th:replace="~{common/footer}"></th:block>
 <script th:src="@{/js/board/boardUpdate.js}"></script>
+
 </body>
 </html>
+

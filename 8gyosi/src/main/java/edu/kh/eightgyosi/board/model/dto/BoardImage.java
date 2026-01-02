@@ -1,17 +1,25 @@
 package edu.kh.eightgyosi.board.model.dto;
 
-import java.time.LocalDateTime;
-
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardImage {
-    private int imgNo;
-    private int boardNo;
-    private String imgOriginName;
-    private String imgStoredName;
+
+    /** 이미지 PK */
+    private int imgId;
+
+    /** 게시글 FK */
+    private int boardId;
+
+    /** 이미지 순서 */
     private int imgOrder;
-    private LocalDateTime uploadDate;
+
+    /** 서버 저장 파일명 */
+    private String imgStoredName;
+
+    /** 이미지 경로 */
+    private String imgPath;
 }
