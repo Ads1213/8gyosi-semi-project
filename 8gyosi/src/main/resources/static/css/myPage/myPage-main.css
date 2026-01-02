@@ -9,7 +9,7 @@
     border:1px solid black;
     margin:20px;
     width:65%;
-    height: 800px;
+    height: auto;
     display: flex;
     flex-direction: column;
     border-radius: 15px;
@@ -45,13 +45,7 @@
     height:auto;
 }
 
-.sidebar{
-    border:1px solid red;
-    margin:20px;
-    width:15%;
-    height: 800px;
-    border-radius: 15px;
-}
+
 /*------------ 구분선 ---------------*/
 /* 시간표 부분 */
 .class-table{
@@ -200,15 +194,39 @@
     padding : 10px;
 }
 /*------------ 구분선 ---------------*/
-.lower{
-    display: flex;
-}
 
 /*------------ 구분선 ---------------*/
 /* 일기장 부분 */
-.diary
+.diary{
+	padding:10px;
+	width:50%;
+	border:1px solid hotpink;
+	display: flex;
+	flex-direction: column;
+}
 
+#diary-form{
+	display: flex;
+	flex-direction: column;
+}
+
+#diary-content{
+	width:80%;
+	height:500px;
+}
 
 
 /*------------ 구분선 ---------------*/
 /* 오른쪽 내 정보 부분 */
+
+.sidebar{
+    border:1px solid red;
+    margin:20px;
+    width:15%;
+    height: auto;
+    border-radius: 15px;
+}
+
+
+
+

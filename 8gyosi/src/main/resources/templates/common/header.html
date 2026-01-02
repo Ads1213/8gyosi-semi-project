@@ -30,78 +30,59 @@
     <a href="#">채팅</a>
   </section>
 
-  <!-- 로그인이 되어 있는 경우 -->
-  <th:block th:if="${session.loginMember != null}">
-    <section>
-      <a href="/8gyosi/logout" id="logout-link">로그아웃</a>
-    </section>
-  </th:block>
-
-  <!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
-  <th:block th:if="${session.loginMember == null}">
-    <section>
-      <a href="#" id="login-link">로그인</a>
-    </section>
+	<!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
+	<th:block th:if="${session.loginMember == null}">
+    	<section>
+			<a href="#" id="login-link">로그인</a>
+		</section>
+	</th:block>
 	
 	<!-- 로그인이 되어 있는 경우 -->
 	<th:block th:if="${session.loginMember != null}">
 		<section>
-	  	<a href="/8gyosi/logout" id="logout-link">로그아웃</a>
+			<a href="/8gyosi/logout" id="logout-link">로그아웃</a>
 		</section>
 	</th:block>
 	
-	<!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
-	<th:block th:if="${session.loginMember == null}">
-    	<section>
-	  	<a href="#" id="login-link">로그인</a>
-    	</section>
-	</th:block>
-	
     <!-- 로그인 창 부분 --> 
-    <div id="login-window" class="hidden">
+	<div id="login-window" class="hidden">
+		
 		<div>로고 들어갈 부분</div>
+		
 		<div>
-     	 <a href="#" id="login-window-close">닫기</a>
-        </div>
-		<!-- id 속성 : login-fomr 으로 변경 -->
-    <form action="/8gyosi/login" method="POST" id="login-form">
-      <fieldset id="login-area">
-        <input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
-        <input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
-      </fieldset>
-	      <label>
-	        <input type="checkbox" name="saveId">
-	        아이디저장
-	      </label>
-      <button>로그인하기</button>
-    </form>
-    <form action="/8gyosi/signup">
-      <section>
-      	<section id="login-window-upper">
-      </section>
-      <!-- <form action="/main/login" id="login-btn">
-		<label>
-			<input type="checkbox" name="saveId">
-			아이디저장
-		</label>
-      </form> -->
-	<form action="/8gyosi/signup">
-      <button id="signup" type="submit">회원가입</button>
-    </form>
-		  <div>
-        <button button id="findEmailPw">이메일/비밀번호 찾기</button>
-      </div>
-    </section>
+			<a href="#" id="login-window-close">닫기</a>
+		</div>
+		
+		<!-- id 속성 : login-form 으로 변경 -->
+		<form action="/8gyosi/login" method="POST" id="login-form">
+			<fieldset id="login-area">
+				<input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
+				<input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
+			</fieldset>
+			<label>
+				<input type="checkbox" name="saveId">
+				아이디저장
+			</label>
+			<button>로그인하기</button>
+		</form>
+		
+		<section>
+			
+			<form action="/8gyosi/signup">
+				<button id="signup" type="submit">회원가입</button>
+			</form>
+			
+			<div>
+				<button button id="findEmailPw">이메일/비밀번호 찾기</button>
+			</div>
+		
+		</section>
 	</div>
 
-	
-	
+    <script src="/js/common/header.js"></script>
 
-
-        <script src="/js/common/header.js"></script>
-
-        <!-- daosl -->
-        <script src="/js/main.js"></script>
+    <!-- daosl -->
+    <script src="/js/main.js"></script>
 </header>
 
 
