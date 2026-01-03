@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.kh.eightgyosi.mypage.model.mapper.MyPageMapper">
+	
+	<select id="selectCalender">
+		SELECT * FROM "CALENDER"
+		WHERE MEMBER_NO = #{memberNo}
+		ORDER BY CALENDER_ID
+	</select>
+	
+	<!-- 특정 멤버의 오답노트 테이블 전체를 조회 내림차순 조회하여
+		 제일 최신 행이 1행에 담기게 한다 -->
+	<select id="selectWrongNote">
+		SELECT * FROM "WRONG_NOTE"
+		ORDER BY "WRONG_NOTE_NO" DESC
+	</select>
+	
+</mapper>

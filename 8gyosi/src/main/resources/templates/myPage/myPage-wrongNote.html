@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오답노트</title>
+
+    <link rel="stylesheet" href="/css/myPage/myPage-wrongNote.css">
+    <th:block th:replace="~{common/common}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{common/header}"></th:block>
+    
+    <container id="container">
+        <section id="main-upper">
+            <div>오답노트</div>
+            <div id="upper-lower">
+                <button>왼쪽</button>
+                <fieldset id="wrong-note-search-area">
+                    <form action="" method="get">
+                        <input name="select-problem" type="text">
+                        <button type="submit">검색</button>
+                    </form>
+                </fieldset>
+                <button>오른쪽</button>
+            </div>
+        </section>
+
+        <!-- 오답노트 정보가 없을 때 -->
+        <th:block th:if="${#lists.isEmpty(wrongNoteDTOLists)}">
+        <section id="main-box">
+            <section id="left">
+                <div id="wrong-note-title" class="wrong-note-inner-content">문제 제목이 없습니다</div>
+                <div id="wrong-note-content" class="wrong-note-inner-content">문제 내용이 없습니다</div>
+                <div id="wrong-note-myanswer" class="wrong-note-inner-content">내 정답이 없습니다</div>
+            </section>
+            <section id="right">
+                <div id="wrong-note-explain" class="wrong-note-inner-content">풀이 내용이 없습니다</div>
+                <button id="addBtn">추가</button>
+            </section>
+        </section>
+        </th:block>
+
+        <!-- 오답노트 정보가 있 때 -->
+        <th:block th:unless="${#lists.isEmpty(wrongNoteDTOLists)}" th:object="${wrongNoteDTOLists[0]}">
+        <!-- 인덱스 0번(제일 최신) 객체만 불러와서 th:object에 담는다-->   
+        <section id="main-box">
+            <section id="left">
+                <div th:text="*{wrongNoteTitle}" id="wrong-note-title" class="wrong-note-inner-content">
+                    문제 제목이 없습니다</div>
+                <div th:text="*{wrongNoteContent}" id="wrong-note-content" class="wrong-note-inner-content">문제 내용이 없습니다</div>
+                <div th:text="*{wrongNoteMyanswer}" id="wrong-note-myanswer" class="wrong-note-inner-content">문제 정답이 없습니다</div>
+            </section>
+            <section id="right">
+                <div th:text="*{wrongNoteExplain}" id="wrong-note-explain" class="wrong-note-inner-content">풀이 내용이 없습니다</div>
+                <button id="addBtn">추가</button>
+            </section>
+        </section>
+        </th:block>
+        
+    </container>
+
+    <script src="/js/myPage/myPage-wrongNote.js"></script>
+    <th:block th:replace="~{common/footer}"></th:block>
+</body>
+</html>

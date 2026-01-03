@@ -1,5 +1,6 @@
 package edu.kh.eightgyosi.mypage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
+import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 import edu.kh.eightgyosi.mypage.model.service.CalenderService;
+import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
 @SessionAttributes({"calender"})
@@ -23,18 +26,21 @@ public class MyPageController {
 	
 	@Autowired
 	private CalenderService calService; // 캘린더 서비스 필드 선언
+
+	@Autowired
+	private WrongNoteService wroService; // 오답노트 서비스 필드 선언
 	
 	/**
-	 * @param member : 로그인된 멤버의 멤버 객체(session 에 담김)
+	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
 	 * @return
 	 */
 	@GetMapping("")
-	public String mainPage(@SessionAttribute("loginMember") Member member,
+	public String mainPage(@SessionAttribute("loginMember") Member loginMember,
 						   Model model) {
 		
 		// 1. 회원의 캘린더 정보 뿌려주기
 		
-		int memberNo = member.getMemberNo();
+		int memberNo = loginMember.getMemberNo();
 		
 		// 회원의 캘린더 정보 list로 얻어오기
 		List<CalenderDTO> calender = calService.selectCalender(memberNo);
@@ -44,7 +50,27 @@ public class MyPageController {
 		
 		log.debug("결과 : " + calender);
 		
-		return "myPage/myPage-main"; // forward
+		return "myPage/myPage-main"; // forward	
+	}
+	
+	/** 오답노트 서비스
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("myPage-wrongNote")
+	public String wrongNote(@SessionAttribute("loginMember") Member loginMember,
+							Model model) {
+		
+		// 1. 오답노트 테이블 조회하기 위해 service 불러오기
+		int memberNo = loginMember.getMemberNo();
+		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo); 
+		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
+		
+		// test: log.debug(wrongNote.get(0).getWrongNoteExplain());
+		
+		
+		return "myPage/myPage-wrongNote";
 	}
 }
 
