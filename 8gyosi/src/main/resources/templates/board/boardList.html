@@ -83,7 +83,7 @@
               </td>
 
               <!-- 댓글 수-->
-              <td th:text="|[*{boardCommentCount}]|">0</td>
+              <td th:text="*{boardCommentCount}">0</td>
 
               <!-- 추천 수-->
               <td th:text="*{boardLikeCount}">0</td>

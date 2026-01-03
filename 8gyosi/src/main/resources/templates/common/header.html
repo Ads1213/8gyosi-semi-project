@@ -15,28 +15,30 @@
 
 	<section id="drop-board">
 		<ul id="header_menu">
-			<li id="header_board"><a href="/board/1">게시판</a>
-			<ul class="sub_menu">
-				<li><a href="/board/1">자유 게시판</a></li>
-				<li><a href="/board/2">질문 게시판</a></li>
-				<li><a href="/board/3">급식표 게시판</a></li>
-				<li><a href="/board/4">입시정보 게시판</a></li>
-				<li><a href="/board/5">문제풀이 게시판</a></li>
-				<li><a href="/board/6">공지사항</a></li>
-			</ul>
+			<li id="header_board"><a href="board/1">게시판</a>
+				<ul class="sub_menu">
+					<li><a href="/board/1">자유 게시판</a></li>
+					<li><a href="/board/2">질문 게시판</a></li>
+					<li><a href="/board/3">급식표 게시판</a></li>
+					<li><a href="/board/4">입시정보 게시판</a></li>
+					<li><a href="/board/5">문제풀이 게시판</a></li>
+					<li><a href="/board/6">공지사항</a></li>
+				</ul>
 			</li>
 	</section>
 	<section>
-		<a href="#">채팅</a>
+		<a href="/chatting">채팅</a>
 	</section>
 
 	<!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
-	<th:block th:if="${session.loginMember == null}">
-		<section>
-			<a href="#" id="login-link">로그인</a>
-		</section>
-	</th:block>
-
+	<section>
+		<th:block th:if="${session.loginMember == null}">
+			<section>
+				<a href="#" id="login-link">로그인</a>
+			</section>
+		</th:block>
+	</section>
+	
 	<!-- 로그인이 되어 있는 경우 -->
 	<th:block th:if="${session.loginMember != null}">
 		<section>
