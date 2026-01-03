@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
@@ -117,5 +119,30 @@ public class MemberController {
 		return service.checkEmail(memberEmail);
 	}
 	
+	/** 닉네임 중복 검사
+	 * @param nickname
+	 * @return
+	 */
+	@GetMapping("checkNickname")
+	public String checkNickname(@RequestParam String nickname) {
+		return service.checkNickname(nickname);
+	}
+		
+	/** 프로필 이미지
+	 * @param profileImg
+	 * @param ra
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("profile")
+	public String profile(@RequestParam("profileImg") MultipartFile profileImg,
+							RedirectAttributes ra) throws Exception {
+						
+		// 서비스 호출
+		int result = service.profile(profileImg);
+		
+		return ""; // 리다이렉트 - /myPage/profile GET 요청
+		
+	}
 
 }

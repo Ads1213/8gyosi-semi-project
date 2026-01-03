@@ -15,7 +15,10 @@
 
 <body>
 
-  <!-- 헤더 시작 -->
+  <!-- 공통 header -->
+  <th:block th:replace="~{common/header}"></th:block>
+
+  <!-- 헤더 시작 
   <header class="navbar">
     <div class="logo">8gyosi</div>
     <nav>
@@ -24,108 +27,155 @@
       <a href="#" class="login-btn">LOGIN</a>
     </nav>
   </header>
+  -->
 
-  <!-- 회원가입 시작 -->
+
+  <!-- 회원가입 헤더 -->
   <main class="container">
     <section class="signup-card">
       <div class="card-header">회원가입</div>
 
-      <div class="card-body">
+      <!-- <div class="card-body">
         <div class="profile-section">
           <div class="profile-circle">
             <div class="camera-icon">
               <i class="fa-solid fa-camera"></i>
             </div>
-            <!-- <div class="delete-icon">X</div> -->
+            <div class="delete-icon">X</div>
           </div>
-        </div>
+        </div> -->
 
-        <!-- 이메일 -->
+      <!-- 프로필 이미지 -->
+      <form action="/8gyosi/profile" method="POST" name="myPageFrm" id="profile" 
+      enctype="multipart/form-data">
+
+        <div class="profile-image-area">
+          <img th:with="user=#{user.default.image}" id="profileImg" />
+
+            <!-- th:src="${session.loginMember.profileImg ?: user}" -->
+
+        </div>
+        <span id="deleteImage">x</span>
+
+        <div class="profile-btn-area">
+          <label for="imageInput">이미지 선택</label>
+
+          <input type="file" name="profileImg" id="imageInput" accept="image/*" />
+
+          <button>변경하기</button>
+        </div>
+      </form>
+
+      <!-- 회원가입 시작 -->
+      <form action="/8gyosi/signup" method="POST" name="signUpForm" id="signUpForm">
+
+        <!-- 이메일 입력 -->
         <label for="memberEmail">
-          <span class="required">*</span>
+          <span class="required">*</span> 아이디(이메일)
         </label>
 
-        <form action="/member/signup" method="POST" id="signupForm">
-          <div class="signUp-input-group">
-            <label for="memberEmail">이메일</label>
-            <input type="email" id="memberEmail" placeholder="이메일을 입력하세요">
-            <button type="button" id="sendAuthKeyBtn" class="btn-action">인증하기</button>
-            <span class="signUp-message" id="emailMessage">메일을 받을 수 있는 메일을 입력해 주세요</span>
-          </div>
+        <div class="signUp-input-area">
+          <input type="text" name="memberEmail" id="memberEmail" placeholder="아이디(이메일)" maxlength="30"
+            autocomplete="off">
 
-          <!-- 이메일 인증 -->
-          <label for="authKey">
-            <span class="required">*</span>
-          </label>
+          <button id="sendAuthKeyBtn" type="button">인증번호 받기</button>
+        </div>
 
-          <div class="signUp-input-group">
-            <label for="authKey">인증번호</label>
-            <input type="text" id="authKey">
-            <button type="button" id="checkAuthKeyBtn" class="btn-action">인증확인</button>
+        <span class="signUp-message" id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
 
-            <span class="msg success" id="authKeyMessage">인증이 완료되었습니다.</span>
-          </div>
+        <!-- 인증번호 입력 -->
+        <label for="emailCheck">
+          <span class="required">*</span> 인증번호
+        </label>
 
-          <!-- 비밀번호 -->
-          <label for="memberPw">
-            <span class="required">*</span>
-          </label>
+        <div class="signUp-input-area">
+          <input type="text" name="authKey" id="authKey" placeholder="인증번호 입력" maxlength="6" autocomplete="off">
 
-          <div class="signUp-input-group">
-            <label for="memberPw">비밀번호</label>
-            <input type="password" id="memberPw" placeholder="특수문자 포함한 8 - 16자 입력">
-          </div>
+          <button id="checkAuthKeyBtn" type="button">인증하기</button>
+        </div>
 
-          <!-- 비밀번호 확인 -->
-          <div class="signUp-input-group">
-            <label for="memberPwCheck">비밀번호 확인</label>
-            <input type="password" id="memberPwCheck">
+        <span class="signUp-message" id="authKeyMessage"></span>
 
-            <!-- 비밀번호 확인 msg -->
-            <span class="msg success">올바른 비밀번호입니다.</span>
-          </div>
+        <!-- 비밀번호/비밀번호 확인 입력 -->
+        <label for="memberPw">
+          <span class="required">*</span> 비밀번호
+        </label>
 
-          <!-- 별명 -->
-          <label for="memberNickName">
-            <span class="required">*</span>
-          </label>
+        <div class="signUp-input-area">
+          <input type="password" name="memberPw" id="memberPw" placeholder="비밀번호" maxlength="20">
+        </div>
 
-          <div class="signUp-input-group">
-            <label for="memberNickName">별명</label>
-            <input type="text" id="memberNickName">
-            <button type="button" class="btn-action">중복검사</button>
+        <div class="signUp-input-area">
+          <input type="password" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인" maxlength="20">
+        </div>
 
-            <span class="msg error">중복된 별명입니다. 다른 별명을 입력하세요.</span>
-          </div>
+        <!-- 정규 표현식 -->
+        <span class="signUp-message" id="pwMessage">영어,숫자,특수문자(!,@,#,-,_) 6~20글자 사이로 입력해주세요.</span>
 
-          <!-- 생년월일 -->
-          <div class="signUp-input-group">
-            <label for="userBirth">생년월일</label>
-            <input id="userBirth">
-          </div>
+        <!-- 닉네임 입력 -->
+        <label for="memberNickname">
+          <span class="required">*</span> 닉네임
+        </label>
 
-          <!-- 주소 -->
-          <div class="signUp-input-group">
-            <label for="memberAddress">주소</label>
-            <input type="text" id="userAddress">
-            <button type="button" class="btn-action">주소찾기</button>
+        <div class="signUp-input-area">
+          <input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임 입력" maxlength="10">
+        </div>
 
-            <div class="signUp-input-group">
-              <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
-            </div>
+        <span class="signUp-message" id="nickMessage">한글,영어,숫자로만 2~10글자</span>
 
-            <div class="signUp-input-group">
-              <input type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
-            </div>
-          </div>
 
-          <button type="button">가입하기</button>
-        </form>
+        <!-- 전화번호 입력 -->
+        <label for="memberTel">
+          <span class="required">*</span> 전화번호
+        </label>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberTel" id="memberTel" placeholder="(- 없이 숫자만 입력)" maxlength="11">
+        </div>
+
+        <span class="signUp-message" id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
+
+        <!-- 학교 입력 -->
+        <label for="memberSchool">
+          <span class="required">*</span> 학교
+        </label>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberSchool" id="memberSchool" placeholder="학교명 입력" maxlength="40">
+        </div>
+
+        <span class="signUp-message" id="schoolMessage">한글, 영어, 숫자, ·, 띄어쓰기 2~40자 사이로 입력해 주세요</span>
+
+        <!-- 생년월일 입력 -->
+        <label for="memberBirth">생년월일</label>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberBirth" id="memberBirth" placeholder="ex)20001213" maxlength="8">
+        </div>
+
+        <!-- 주소 입력 -->
+        <label for="memberAddress">주소</label>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberAddress" placeholder="우편번호" maxlength="6" id="postcode">
+          <button type="button" id="searchAddress">검색</button>
+        </div>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
+        </div>
+
+        <div class="signUp-input-area">
+          <input type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
+        </div>
+
+        <button id="signUpBtn">가입하기</button>
+      </form>
       </div>
     </section>
   </main>
 
-  <!-- footer 시작 -->
+  <!-- footer 시작 
   <footer class="footer">
     <div class="footer-links">
       <a href="#">개인정보처리방침</a>
@@ -137,9 +187,16 @@
     </div>
     <div class="scroll-top">↑</div>
   </footer>
-  
-  
-	<script src="/js/member/signup.js"></script>
+  -->
+
+  <!-- 공통 footer -->
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <!-- 회원 가입 js 추가 -->
+  <script src="/js/member/signup.js"></script>
+
+  <!-- 다음 API js 추가 -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 
 </html>

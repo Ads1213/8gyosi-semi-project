@@ -1,205 +1,275 @@
-/* 기본 초기화 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* 1. 전체 레이아웃 설정 */
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-}
-
-/* 필수 작성 */
-.required{
-  color: red;
-  padding: 0 5px;
-}
-
-/* 메세지 색상 지정 */
-.confirm{ color : green; }
-.error{ color : red; }
-
-/* 입력 관련 메세지 */
-.signUp-message{
-  font-size: 14px;
-  letter-spacing: -1px;
-}
-
-/* 헤더 */
-.navbar {
-  background-color: #5c7cfa;
-  color: white;
-  padding: 15px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-family: 'Pixelify Sans', sans-serif; /* 픽셀 폰트 적용 */
-  font-size: 32px;
-  font-weight: 700; /* 굵게 */
-  letter-spacing: 2px; /* 글자 간격 살짝 넓게 */
-} 
-
-.navbar nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-}
-
-.navbar .login-btn {
-  font-family: 'Pixelify Sans', sans-serif; /* 픽셀 폰트 적용 */
-  font-weight: 700;
-  font-size: 20px;
-  color: #ffe600;
-}
-
-/* 메인 카드 */
-.container {
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.signup-card {
-  width: 600px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.card-header {
-  background-color: #5c7cfa;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-/* 프로필 이미지 */
-.profile-section {
-  display: flex;
-  justify-content: center;
-  padding: 30px 0;
-}
-
-.profile-circle {
-  width: 150px;
-  height: 150px;
-  background-color: #e0e0e0;
-  border-radius: 50%;
-  position: relative;
-}
-
-.camera-icon {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background: #5c7cfa;
-  color: white;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid white;
-  cursor: pointer;
-}
-
-/* 폼 스타일 */
-.card-body {
-  padding: 20px 40px;
-}
-
-/* 1. 부모 박스: 자식들을 한 줄로 세우고 절대 줄바꿈 하지 않음 */
-.signUp-input-group {
     display: flex;
-    align-items: stretch; /* 라벨, 인풋, 버튼 높이 통일 */
-    flex-wrap: wrap;    /* 자리가 모자라면 다음 줄로 넘어가게 허용! */
+    flex-direction: column;
+    min-height: 100vh;
+    /* 화면 전체 높이를 꽉 채우도록 설정 */
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+/* 2. 헤더 스타일 (혹시 모르니 여백 확보) */
+header {
     width: 100%;
-    margin-bottom: 15px;
+    /* 기존 헤더 스타일 유지 */
 }
 
-/* 메시지(span) 설정 */
-.msg {
-    width: 100%;        /* [핵심] 100%를 줘서 혼자 한 줄을 다 차지하게 함 */
-    margin-left: 120px;
-    font-size: 12px;
-    margin-top: 5px;
-    padding-left: 110px;
-}
-
-/* 2. 라벨: 가로 너비를 칼같이 고정 */
-.signUp-input-group label {
-    width: 120px;         /* 모든 라벨 너비 통일 (원하는 만큼 숫자 조절 가능) */
-    flex-shrink: 0;       /* 화면이 좁아져도 너비 사수 */
-    background-color: #4c6ef5;
-    color: white;
+/* 3. 본문 영역 (핵심!) */
+main.container {
+    flex: 1;
+    /* 헤더와 푸터를 제외한 나머지 공간을 전부 차지 */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 13px;
-    border-radius: 5px 0 0 5px;
+    /* 회원가입 카드를 수직 중앙 정렬 */
+    padding: 60px 20px;
+    /* 상하 여백을 줘서 헤더/푸터와 거리 두기 */
+    box-sizing: border-box;
 }
 
-/* 3. 인풋창: 남는 모든 공간을 혼자 다 차지함 */
-.input-group input {
-    flex: 1;              /* 라벨과 버튼 사이의 남는 공간을 꽉 채움 */
-    min-width: 0;         /* flex 안에서 인풋창이 삐져나가는 버그 방지 */
-    padding: 10px;
+/* 4. 푸터 스타일 */
+footer {
+    width: 100%;
+    /* 기존 푸터 스타일 유지 */
+}
+
+/* 회원가입 카드 스타일 */
+.signup-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+/* 프로필 이미지 섹션 */
+.profile-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.profile-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #dee2e6;
+}
+
+.camera-icon {
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+
+/* 라벨 및 입력 영역 */
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.required {
+    color: #e74c3c;
+    margin-right: 4px;
+}
+
+.signUp-input-area {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+input {
+    flex: 1;
+    padding: 12px 15px;
     border: 1px solid #ced4da;
-    border-left: none;    /* 라벨과 붙어 보이게 왼쪽 테두리 제거 (선택사항) */
+    border-radius: 6px;
+    font-size: 1rem;
     outline: none;
+    transition: border-color 0.2s;
 }
 
-/* 4. 버튼: 버튼도 너비가 줄어들지 않게 고정 */
-.btn-action {
-    flex-shrink: 0;       /* 글자가 찌그러지지 않게 고정 */
-    padding: 0 15px;
-    background-color: #495057;
+input:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* 버튼 스타일 (인증번호 받기, 주소 검색 등) */
+button[type="button"] {
+    background-color: #6c757d;
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 6px;
+    padding: 0 15px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 
-.success {
-  color: #40c057;
+button[type="button"]:hover {
+    background-color: #5a6268;
 }
 
+/* 안내 메시지 (정규식 안내 등) */
+.signUp-message {
+    font-size: 0.8rem;
+    color: #868e96;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* 유효성 검사 결과에 따른 클래스(JS 작업 시 활용) */
+.confirm {
+    color: #2ecc71;
+}
+
+/* 성공 시 */
 .error {
-  color: #fa5252;
+    color: #e74c3c;
 }
 
-/* 푸터 */
-.footer {
-  background-color: #dbe4ff;
-  padding: 20px 50px;
-  font-size: 12px;
-  color: #666;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 50px;
+/* 실패 시 */
+
+/* 가입하기 버튼 */
+#signUpBtn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 30px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.footer-links a {
-  color: black;
-  margin-right: 15px;
-  text-decoration: none;
+#signUpBtn:hover {
+    background-color: #357ABD;
 }
 
-.scroll-top {
-  font-size: 24px;
-  color: #4a71e8;
-  cursor: pointer;
-  font-weight: bold;
+/* 주소 입력창 추가 간격 */
+#address,
+#detailAddress {
+    margin-top: 8px;
+    width: 100%;
+}
+
+/* 프로필 이미지 전체 컨테이너 */
+#profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* 이미지 테두리 영역 */
+.profile-image-area {
+    width: 150px; /* 크기를 기존보다 키웠어! */
+    height: 150px;
+    border-radius: 50%; /* 원형으로 만들기 */
+    border: 3px solid #dee2e6;
+    overflow: hidden; /* 영역 밖으로 나가는 이미지 숨김 */
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 실제 이미지 스타일 */
+#profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율 유지하며 꽉 채우기 */
+}
+
+/* 삭제 버튼 (x) */
+#deleteImage {
+    position: absolute;
+    top: 5px;
+    right: calc(50% - 75px); /* 이미지 오른쪽 상단에 배치 */
+    width: 25px;
+    height: 25px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 버튼 영역 */
+.profile-btn-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* 이미지 선택 라벨 (실제 버튼처럼 보이게) */
+.profile-btn-area label {
+    display: block;
+    background-color: #6c757d;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0; /* 라벨 기본 마진 제거 */
+    transition: background-color 0.2s;
+}
+
+.profile-btn-area label:hover {
+    background-color: #5a6268;
+}
+
+/* 실제 파일 input은 숨기기 */
+#imageInput {
+    display: none;
+}
+
+/* 변경하기 버튼 */
+.profile-btn-area button {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.profile-btn-area button:hover {
+    background-color: #357ABD;
 }

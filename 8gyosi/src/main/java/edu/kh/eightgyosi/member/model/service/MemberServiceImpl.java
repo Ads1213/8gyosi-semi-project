@@ -3,7 +3,9 @@ package edu.kh.eightgyosi.member.model.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import edu.kh.eightgyosi.common.util.Utility;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.member.model.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +58,36 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int checkEmail(String memberEmail) {
 		return mapper.checkEmail(memberEmail);
+	}
+	
+	// 닉네임 중복 검사 서비스
+	@Override
+	public String checkNickname(String nickname) {
+		return mapper.checkNickname(nickname);
+	}
+	
+	// 프로필 이미지 변경 서비스
+	@Override
+	public int profile(MultipartFile profileImg) throws Exception {
+		
+		// 프로필 이미지 경로 (수정할 경로)
+		String updatePath = null;
+		
+		// 변경명 저장
+		String rename = null;
+		
+		// 업로드한 이미지가 있을 경우
+		if( !profileImg.isEmpty()) {
+			// updatePath 경로 조합
+			
+			// 1. 파일명 변경
+			rename = Utility.fileRename(profileImg.getOriginalFilename());
+			
+			// 2. /myPage/profile/변경된 파일명
+			
+		}
+		
+		return 0;
 	}
 	
 	
