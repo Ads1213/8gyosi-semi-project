@@ -1,3 +1,5 @@
+package edu.kh.eightgyosi.board.model.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -5,10 +7,10 @@ import lombok.NoArgsConstructor;
 /**
  * 게시판 타입 DTO
  * - board_type 테이블과 매핑
- * - 게시판 분류(자유, 공지 등) 관리용
+ * - 자유게시판, 공지사항 등 카테고리 관리용
  */
 @Data
-@NoArgsConstructor   // MyBatis 기본 생성자
+@NoArgsConstructor
 @AllArgsConstructor
 public class BoardType {
 
@@ -18,6 +20,6 @@ public class BoardType {
     /** 게시판 타입 이름 */
     private String boardTypeName;
 
-    /** 게시글 번호 (FK) */
+    /** 게시글 번호 (FK, 필요시) */
     private int boardId;
 }

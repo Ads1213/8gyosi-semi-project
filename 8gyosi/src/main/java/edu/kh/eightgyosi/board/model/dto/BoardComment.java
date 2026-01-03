@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 게시글 댓글 DTO
- * - board_comment 테이블과 1:1 매핑
- * - 부모 댓글 번호를 통해 대댓글 구조 표현
+ * - board_comment 테이블과 매핑
+ * - 부모 댓글 번호로 대댓글 구조 표현
  */
 @Data
-@NoArgsConstructor   // MyBatis 기본 생성자
+@NoArgsConstructor
 @AllArgsConstructor
 public class BoardComment {
 
@@ -34,6 +34,7 @@ public class BoardComment {
     /** 작성자 회원 번호 (FK) */
     private int memberNo;
 
-    /** 부모 댓글 번호 (대댓글용, 없으면 0 또는 null) */
-    private int parrentCommentNo;
+    /** 부모 댓글 번호 (대댓글용, 없으면 0) */
+    private int parentCommentNo;
 }
+
