@@ -1,34 +1,39 @@
 package edu.kh.eightgyosi.board.model.dto;
 
 import java.time.LocalDateTime;
-import lombok.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * 게시글 댓글 DTO
+ * - board_comment 테이블과 1:1 매핑
+ * - 부모 댓글 번호를 통해 대댓글 구조 표현
+ */
 @Data
-@Builder
-@NoArgsConstructor
+@NoArgsConstructor   // MyBatis 기본 생성자
 @AllArgsConstructor
 public class BoardComment {
 
-    /** 댓글 PK */
-    private int commentId;
-
-    /** 게시글 FK */
-    private int boardId;
-
-    /** 작성자 회원 번호 */
-    private int memberNo;
-
-    /** 작성자 닉네임 */
-    private String memberNickname;
+    /** 댓글 번호 (PK) */
+    private int commentNo;
 
     /** 댓글 내용 */
     private String commentContent;
 
-    /** 작성일 */
-    private LocalDateTime createDate;
+    /** 댓글 작성일 */
+    private LocalDateTime commentWriteDate;
 
-    /** 삭제 여부 (Y/N) */
+    /** 댓글 삭제 여부 (Y/N) */
     private String commentDelFl;
-    
-    private int parentCommentNo;
+
+    /** 게시글 번호 (FK) */
+    private int boardId;
+
+    /** 작성자 회원 번호 (FK) */
+    private int memberNo;
+
+    /** 부모 댓글 번호 (대댓글용, 없으면 0 또는 null) */
+    private int parrentCommentNo;
 }
