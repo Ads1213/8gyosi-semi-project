@@ -8,4 +8,6 @@ public interface WrongNoteService {
 
 	List<WrongNoteDTO> selectWrongNote(int memberNo);
 
+	int insertWrongNote(WrongNoteDTO wrongNote);
+
 }

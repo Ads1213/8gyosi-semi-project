@@ -23,6 +23,12 @@ public interface MyPageMapper {
 	 */
 	List<WrongNoteDTO> selectWrongNote(int memberNo);
 
+	/** 오답노트 등록 서비스
+	 * @param wrongNote
+	 * @return
+	 */
+	int insertWrongNote(WrongNoteDTO wrongNote);
+
 	
 	
 }

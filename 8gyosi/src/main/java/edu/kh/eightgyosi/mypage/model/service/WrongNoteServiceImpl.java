@@ -23,4 +23,27 @@ public class WrongNoteServiceImpl implements WrongNoteService{
 		return wroMapper.selectWrongNote(memberNo);
 	}
 	
+	/**
+	 * 오답노트 등록 서비스
+	 */
+	@Override
+	public int insertWrongNote(WrongNoteDTO wrongNote) {
+		
+		// 
+		int result = wroMapper.insertWrongNote(wrongNote);
+		
+		// 등록 성공 시
+		if (result > 0) {
+			
+			return result;
+			
+		// 등록 실패 시
+		}else {
+			
+			return 0;
+			
+		}
+		
+	}
+	
 }

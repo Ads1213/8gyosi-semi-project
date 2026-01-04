@@ -15,4 +15,25 @@
 		ORDER BY "WRONG_NOTE_NO" DESC
 	</select>
 	
+	<!-- 오답노트 정보 등록 -->
+	<!-- controller 에서 wrongNoteNo를 URL 에 뿌려주기 위해 selectKey 활용 -->
+	<insert id="insertWrongNote" useGeneratedKeys="true" parameterType="WrongNoteDTO">
+	
+		<selectKey order="BEFORE" resultType="_int" keyProperty="wrongNoteNo">
+			SELECT SEQ_WRONG_NOTE_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO "WRONG_NOTE" VALUES(
+			#{wrongNoteNo},
+			#{wrongNoteTitle},
+			#{wrongNoteContent},
+			#{wrongNoteMyanswer},
+			#{wrongNoteExplain},
+			#{wrongNoteType},
+			DEFAULT,
+			#{memberNo},
+			#{wrongNoteUnderstood}
+		)
+	</insert>
+	
 </mapper>

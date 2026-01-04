@@ -52,3 +52,79 @@
     border:1px solid skyblue;
     margin:20px;
 }
+
+
+/* 오답노트 등록 창 */
+#wrongNote-add-window{
+    flex-direction: column;
+    width:600px;
+    height:auto;
+    top:15%;
+    left:35%;
+    display: hidden;
+    border: 2px solid black;
+    padding:20px;
+    position:absolute;
+    background-color: white;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#wrongNote-add-window > section:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+}
+
+.w-hidden{
+    display:none;
+}
+
+.w-show{
+    display:block;
+}
+
+#login-window > section{
+    display: flex;
+    flex-direction: column;
+}
+
+#wrongNote-input-area{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #d6d7dd;
+}
+
+.wInput{
+    width:80%;
+    margin:20px;
+
+}
+
+#insert-wrongNoteContent{
+    height:300px;
+}
+
+#insert-wrongNoteMyanswer{
+    height:200px;
+}
+
+#insert-wrongNoteExplain{
+    height:300px;
+}
+
+#wrongNote-add-window::-webkit-scrollbar {
+    width: 8px;
+}
+#wrongNote-add-window::-webkit-scrollbar-thumb {
+    background-color: #553cdf;
+    border-radius: 10px;
+}
+#wrongNote-add-window::-webkit-scrollbar-track {
+    background-color: #d3d6e9;
+}
+
+/* ------------------------------------------------- */
