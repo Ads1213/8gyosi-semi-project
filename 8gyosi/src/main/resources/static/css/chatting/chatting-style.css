@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Malgun Gothic', sans-serif;
+}
+
+/* 전체 컨테이너 */
+#chat-container {
+    width: 1000px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden; /* 라운드 처리를 위해 내부 요소 넘침 방지 */
+}
+
+/* 1. 상단 파란색 헤더 영역 (버튼을 감싸는 div) */
+#chat-container > div:first-child {
+    background-color: #5882FA; /* 이미지의 파란색 배경 */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* '체팅친구 추가' 버튼 스타일 - 흰색 알약 모양 */
+#addTarget {
+    background-color: white;
+    color: #5882FA;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 20px; /* 알약 모양 라운드 */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 아이콘 크기 조절 */
+#addTarget i {
+    font-size: 14px;
+}
+
+/* 2. 채팅 메인 영역 */
+.chatting-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    border-top: 1px solid black;
+}
+
+/* 3. 왼쪽 채팅 목록 (300px 고정) */
+.chatting-list {
+    width: 300px;
+    border-right: 1px solid black;
+    list-style: none;
+    background-color: white;
+}
+
+/* 유저일 항목 - 상단 회색 배경 */
+.chatting-item {
+    display: flex;
+    padding: 12px 10px;
+    background-color: #e2e2e2; /* 이미지의 유저 영역 회색 */
+    border-bottom: 1px solid black;
+    align-items: center;
+}
+
+.list-profile {
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: white;
+}
+
+.item-body {
+    flex: 1;
+}
+
+.item-body p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.target-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.recent-send-time {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 4. 오른쪽 채팅창 및 입력창 영역 */
+.chatting-content, .prev-message {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 대화내용창 (흰색 배경) */
+.display-chatting {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    list-style: none;
+    position: relative;
+}
+
+/* 이미지의 '대화내용창' 텍스트 재현 */
+.display-chatting::before {
+    content: "대화내용창";
+    color: #aaa;
+    font-size: 16px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* 하단 입력 영역 */
+.input-area {
+    display: flex;
+    height: 150px;
+    border-top: 1px solid black;
+}
+
+#inputChatting {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 16px;
+}
+
+/* 보내기 버튼 영역 (회색 박스) */
+#send {
+    width: 150px;
+    background-color: #e2e2e2;
+    border: none;
+    border-left: 1px solid black;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+#send:hover {
+    background-color: #d5d5d5;
+}
+
+/* 안내 문구 영역 (채팅방 선택 전) */
+.prev-message {
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: #ccc;
+}
+
+/* 팝업 및 숨김 처리 */
+.display-none { display: none !important; }
+.popup-layer-close { display: none; }

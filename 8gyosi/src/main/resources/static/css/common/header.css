@@ -1,12 +1,13 @@
 /*========================== header ================================*/
 header {
-    background-color: #5C81D3; 
+    background-color: #5c86e0;
+    height: 60px; /* 적절한 높이 */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 5%;
-    height: 400px;
     color: white;
+    position: relative;
 }
 
 header > section:first-child{
@@ -26,46 +27,63 @@ header > section:nth-child(5){
     flex-basis: 7%;
 }
 
-/*슬라이드 메뉴 구현*/
-#header_menu {
-  list-style: none;
+/* 게시판 메뉴가 포함된 섹션 */
+#drop-board {
+    height: 30px; 
+    display: flex;
+    align-items: center;
 }
+
+#header_menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#header_board {
+    position: relative; 
+    padding: 15px 0; 
+}
+
+
 
 .sub_menu {
-  opacity: 0;
-  position: absolute;
-  top: 67px;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  transition: all .3s;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  list-style: none;
+    
+    display: flex; 
+    position: absolute;
+    height: 50px;
+    top: 100%; 
+    right: -400px;
+    min-width:1000px; 
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    border-radius: 4px;
+    
 }
+
 
 .sub_menu.active {
-  opacity: 1;
-  height: 60px;
-}
-
-.sub_menu ul {
-  margin: 0 auto;
+    display: block;
 }
 
 .sub_menu li a {
-  display: block;
-  font-weight: normal;
-  padding: 21px 12px;
-  color: #5A82E5 !important; 
-  opacity: 50%;
-  font-size: 18px;
-  transition: all .3s;
+    color: #5a82e5;
+    padding: 10px 20px;
+    display: block;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.8;
 }
 
 .sub_menu li a:hover {
-  opacity: 1;
+    opacity: 1;
+    background-color: #5c86e0;
+    color: white;
+    border-radius: 15px;
 }
 /*---------------------------------------------------*/
 
@@ -93,43 +111,7 @@ header section a:hover {
     font-size: 20px;
 }
 
-#drop-board-list{
-    display: flex;
-    list-style: none;
-    gap: 25px;
-}
 
-/* nav {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-    height: 50px;          
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; 
-    padding-right: 5%;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #5C81D3;
-    font-size: 15px;
-    font-weight: 500;
-}
-
-nav ul li a:hover {
-    color: var(--hover-blue);
-    text-decoration: underline;
-} */
-
-header {
-    background-color: #5c86e0; /* var(--main-blue) 대신 직접 지정 또는 변수 확인 */
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5%;
-    color: white;
-}
 
 /* 게시판, 채팅, 로그인 메뉴들을 감싸는 영역 */
 header section:last-of-type {
