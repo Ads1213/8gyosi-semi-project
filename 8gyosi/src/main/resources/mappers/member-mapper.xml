@@ -23,10 +23,20 @@
    		AND MEMBER_EMAIL = #{memberEmail}
    </select>
    
-   <select id="checkNickname">
-  	SELECT MEMBER_NICKNAME
+   <!-- 닉네임 중복 검사 -->
+   <select id="checkNickname" resultType="_int">
+  	SELECT COUNT(*)
   	FROM MEMBER
-  	WHERE MEMBER_NICKNAME = #{nickname}
+  	WHERE MEMBER_DEL_FL = 'N'
+  	AND MEMBER_NICKNAME = #{memberNickname}
   </select>
+  
+  <!-- 회원가입 -->
+  <insert id="signup">
+  	INSERT INTO MEMBER 
+  	VALUES(SEQ_MEMBER_NO.NEXTVAL, #{memberEmail}, #{memberPw}, 
+  	#{memberNickname}, NULL, DEFAULT, DEFAULT, #{memberBirth}, 
+  	#{memberTel}, #{memberAddress}, DEFAULT, DEFAULT, #{memberSchool})
+  </insert>
    
 </mapper>

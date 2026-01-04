@@ -62,33 +62,74 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 닉네임 중복 검사 서비스
 	@Override
-	public String checkNickname(String nickname) {
+	public int checkNickname(String nickname) {
 		return mapper.checkNickname(nickname);
 	}
-	
-	// 프로필 이미지 변경 서비스
+
 	@Override
-	public int profile(MultipartFile profileImg) throws Exception {
+	public int signup(Member member, String[] memberAddress) {
 		
-		// 프로필 이미지 경로 (수정할 경로)
-		String updatePath = null;
+		// 1. 주소 배열 -> 하나의 문자열로 가공
+		// 주소가 입력되지 않으면
+		// member.getMemberAddress() -> ",,"
+		// memberAddress -> [,,]
 		
-		// 변경명 저장
-		String rename = null;
-		
-		// 업로드한 이미지가 있을 경우
-		if( !profileImg.isEmpty()) {
-			// updatePath 경로 조합
+		// 주소가 입력된 경우
+		if(!member.getMemberAddress().equals(",,")) {
+			// String.join("구분자", 배열)
+			// -> 배열의 모든 요소 사이에 "구분자"를 추가하여
+			//	  하나의 문자열로 만들어 반환하는 메서드
 			
-			// 1. 파일명 변경
-			rename = Utility.fileRename(profileImg.getOriginalFilename());
+			String address = String.join("^^^", memberAddress);
+			// "12345^^^서울시중구^^^3층,302호"
 			
-			// 2. /myPage/profile/변경된 파일명
+			// member의 주소값을 위에서 만든 주소로 세팅
+			member.setMemberAddress(address);
+			
+		} else {
+			// 주소가 입력되지 않은 경우
+			member.setMemberAddress(null); // null 저장
 			
 		}
 		
-		return 0;
+		// 주소가 입력되지 않은 경우
+		
+		
+		// 2. 비밀번호 암호화
+		// member 안의 memberPw -> 평문
+		// 비밀번호를 암호화하여 member 에 세팅
+		String encPw = bcrypt.encode(member.getMemberPw());
+		member.setMemberPw(encPw);
+		
+		// 회원가입 메퍼 메서드 호출
+		return mapper.signup(member);
 	}
+
+	
+	
+	// 프로필 이미지 변경 서비스
+//	@Override
+//	public int profile(MultipartFile profileImg) throws Exception {
+//		
+//		// 프로필 이미지 경로 (수정할 경로)
+//		String updatePath = null;
+//		
+//		// 변경명 저장
+//		String rename = null;
+//		
+//		// 업로드한 이미지가 있을 경우
+//		if( !profileImg.isEmpty()) {
+//			// updatePath 경로 조합
+//			
+//			// 1. 파일명 변경
+//			rename = Utility.fileRename(profileImg.getOriginalFilename());
+//			
+//			// 2. /myPage/profile/변경된 파일명
+//			
+//		}
+//		
+//		return 0;
+//	}
 	
 	
 }

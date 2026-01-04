@@ -25,12 +25,20 @@ public interface MemberService {
 	 * @param nickname
 	 * @return
 	 */
-	String checkNickname(String nickname);
+	int checkNickname(String nickname);
+
+
+	/** 회원가입 서비스
+	 * @param member
+	 * @param memberAddress
+	 * @return
+	 */
+	int signup(Member member, String[] memberAddress);
 
 	/** 프로필 이미지 변경 서비스
 	 * @param profileImg
 	 * @return 
 	 */
-	int profile(MultipartFile profileImg) throws Exception;
+//	int profile(MultipartFile profileImg) throws Exception;
 
 }
