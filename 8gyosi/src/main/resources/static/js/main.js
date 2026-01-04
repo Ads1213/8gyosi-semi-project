@@ -1,4 +1,4 @@
-// 쿠키에 저장된 이메일 input 창에 뿌려놓기
+// js 쿠키 완료 ( dasol )
 
 // 쿠키에서 매개변수로 전달받은 key가 일치하는 value 얻어오는 함수
 const getCookie = (key) => {
