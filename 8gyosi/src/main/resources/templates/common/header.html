@@ -15,7 +15,8 @@
 
 	<section id="drop-board">
 		<ul id="header_menu">
-			<li id="header_board"><a href="board/1">게시판</a>
+			<li id="header_board">
+				<a href="board/1">게시판</a>
 				<ul class="sub_menu">
 					<li><a href="/board/1">자유 게시판</a></li>
 					<li><a href="/board/2">질문 게시판</a></li>
@@ -25,6 +26,7 @@
 					<li><a href="/board/6">공지사항</a></li>
 				</ul>
 			</li>
+		</ul>	
 	</section>
 	<section>
 		<a href="/chatting">채팅</a>
@@ -87,16 +89,3 @@
 	<script src="/js/main.js"></script>
 </header>
 
-
-
-<!-- # 추후 common에서 조립하여 쓸 수 있도록 한다.-->
-<!-- navigator -->
-
-<!-- cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
-  <th:block th:each=" boardType: ${application.boardTypeList}">
-    <li>
-      <a th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}" 
-      th:text="${boardType.boardName}">게시판이름</a>
-    </li>
-  </th:block> 
-  -->

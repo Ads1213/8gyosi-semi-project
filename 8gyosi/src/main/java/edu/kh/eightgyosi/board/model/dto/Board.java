@@ -46,12 +46,5 @@ public class Board {
     /** 좋아요 수 */
    private int boardLikeCount;
 
-    /** 이미지 목록 */
-    private List<BoardImage> boardImages;
 
-    /** 파일 목록 */
-    private List<BoardFile> boardFiles;
-
-    /** 댓글 목록 */
-    private List<BoardComment> boardComments;
 }
