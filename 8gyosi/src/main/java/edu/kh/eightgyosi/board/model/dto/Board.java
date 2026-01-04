@@ -33,10 +33,11 @@ public class Board {
     private String boardIsDeleted;
 
     /** 게시글 작성일 */
-    private LocalDateTime boardCreate;
+    private String boardCreateDate
+    ;
 
     /** 게시글 수정일 */
-    private LocalDateTime boardUpdated;
+    private String boardUpdateDate;
 
     /** 게시판 타입 번호 */
     private int boardTypeNo;

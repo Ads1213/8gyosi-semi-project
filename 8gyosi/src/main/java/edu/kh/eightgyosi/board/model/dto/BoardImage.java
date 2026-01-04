@@ -33,4 +33,6 @@ public class BoardImage {
 
     /** 이미지 파일 크기 */
     private long imgSize;
+    
+    
 }

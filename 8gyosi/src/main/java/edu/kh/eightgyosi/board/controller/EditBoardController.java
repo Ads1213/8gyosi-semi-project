@@ -1,6 +1,5 @@
 package edu.kh.eightgyosi.board.controller;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class EditBoardController {
     private final EditBoardService service;
     private static final String REDIRECT_BOARD = "redirect:/editBoard/";
 
-    /** 게시글 작성 화면 */
+    /** ==================== 게시글 작성 화면 ==================== */
     @GetMapping("/{boardTypeNo:[1-6]}/insert")
     public String insertForm(@PathVariable int boardTypeNo, Model model) {
         model.addAttribute("boardTypeNo", boardTypeNo);
@@ -32,7 +31,7 @@ public class EditBoardController {
         return "board/boardWrite";
     }
 
-    /** 게시글 작성 처리 */
+    /** ==================== 게시글 작성 처리 ==================== */
     @PostMapping("/{boardTypeNo:[1-6]}/insert")
     public String insertBoard(@PathVariable int boardTypeNo,
                               @ModelAttribute Board board,
@@ -41,10 +40,12 @@ public class EditBoardController {
                               @RequestParam(value="files", required=false) List<org.springframework.web.multipart.MultipartFile> files,
                               RedirectAttributes ra) throws Exception {
 
+        // 작성자 번호, 게시판 타입 세팅
         board.setBoardTypeNo(boardTypeNo);
         board.setMemberNo(loginMember.getMemberNo());
 
-        if(service.isAdminOnlyCategory(boardTypeNo) && loginMember.getRole() != Member.Role.ADMIN) {
+        // 관리자 전용 게시판이면 일반회원 접근 차단
+        if(service.isAdminOnlyCategory(boardTypeNo) && loginMember.getRole() != Member.Role.ADMIN){
             ra.addFlashAttribute("message", "공지사항은 관리자만 작성 가능합니다.");
             return REDIRECT_BOARD + boardTypeNo;
         }
@@ -54,7 +55,7 @@ public class EditBoardController {
         return REDIRECT_BOARD + (boardId > 0 ? boardTypeNo + "/" + boardId : boardTypeNo + "/insert");
     }
 
-    /** 게시글 수정 화면 */
+    /** ==================== 게시글 수정 화면 ==================== */
     @GetMapping("/{boardTypeNo:[1-6]}/{boardId:[0-9]+}/update")
     public String updateForm(@PathVariable int boardTypeNo,
                              @PathVariable int boardId,
@@ -68,6 +69,7 @@ public class EditBoardController {
             return REDIRECT_BOARD + boardTypeNo;
         }
 
+        // 작성자 또는 ADMIN 권한 체크
         if(!hasPermission(board, loginMember)){
             ra.addFlashAttribute("message", "수정 권한이 없습니다.");
             return REDIRECT_BOARD + boardTypeNo + "/" + boardId;
@@ -81,7 +83,7 @@ public class EditBoardController {
         return "board/boardUpdate";
     }
 
-    /** 게시글 수정 처리 */
+    /** ==================== 게시글 수정 처리 ==================== */
     @PostMapping("/{boardTypeNo:[1-6]}/{boardId:[0-9]+}/update")
     public String updateBoard(@PathVariable int boardTypeNo,
                               @PathVariable int boardId,
@@ -93,10 +95,12 @@ public class EditBoardController {
                               @SessionAttribute("loginMember") Member loginMember,
                               RedirectAttributes ra) throws Exception {
 
+        // 게시글 ID, 작성자, 게시판 타입 세팅
         board.setBoardId(boardId);
         board.setBoardTypeNo(boardTypeNo);
         board.setMemberNo(loginMember.getMemberNo());
 
+        // 삭제할 이미지/파일 리스트 변환
         List<Integer> deleteImageList = parseIds(deleteImageStr);
         List<Integer> deleteFileList = parseIds(deleteFileStr);
 
@@ -105,7 +109,7 @@ public class EditBoardController {
         return REDIRECT_BOARD + (result > 0 ? boardTypeNo + "/" + boardId : boardTypeNo + "/" + boardId + "/update");
     }
 
-    /** 게시글 삭제 */
+    /** ==================== 게시글 삭제 ==================== */
     @PostMapping("/{boardTypeNo:[1-6]}/{boardId:[0-9]+}/delete")
     public String deleteBoard(@PathVariable int boardTypeNo,
                               @PathVariable int boardId,
@@ -113,6 +117,8 @@ public class EditBoardController {
                               RedirectAttributes ra) throws Exception {
 
         Board board = service.selectBoard(boardId);
+
+        // 권한 없는 경우
         if(board == null || !hasPermission(board, loginMember)){
             ra.addFlashAttribute("message", "삭제 권한이 없습니다.");
             return REDIRECT_BOARD + boardTypeNo + "/" + boardId;
@@ -123,21 +129,24 @@ public class EditBoardController {
         return REDIRECT_BOARD + (result > 0 ? boardTypeNo : boardTypeNo + "/" + boardId);
     }
 
-    /** Summernote 파일 업로드 */
+    /** ==================== Summernote 파일 업로드 ==================== */
     @PostMapping("/uploadFile")
     @ResponseBody
     public String uploadFile(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) throws Exception {
         return service.uploadFile(file);
     }
 
-    // ================= 유틸 =================
+    /** ==================== 권한 체크 유틸 ==================== */
     private boolean hasPermission(Board board, Member member){
+        // 관리자 전용 게시판이면 일반회원 접근 차단
         if(service.isAdminOnlyCategory(board.getBoardTypeNo()) && member.getRole() != Member.Role.ADMIN){
             return false;
         }
+        // 작성자 또는 ADMIN만 권한 있음
         return board.getMemberNo() == member.getMemberNo() || member.getRole() == Member.Role.ADMIN;
     }
 
+    /** ==================== 문자열 -> 정수 리스트 변환 ==================== */
     private List<Integer> parseIds(String str){
         if(str == null || str.isEmpty()) return null;
         return Arrays.stream(str.split(",")).map(Integer::parseInt).toList();

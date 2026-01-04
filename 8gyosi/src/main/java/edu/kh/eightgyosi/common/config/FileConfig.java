@@ -105,3 +105,5 @@ public class FileConfig implements WebMvcConfigurer {
         return maxFileSize;
     }
 }
+
+//boardPrjoect에 양식에서 getter추가함
