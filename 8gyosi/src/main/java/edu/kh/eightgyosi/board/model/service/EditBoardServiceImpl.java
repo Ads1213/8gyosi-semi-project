@@ -247,9 +247,4 @@
 //
 //        String origin = file.getOriginalFilename();
 //        String rename = UUID.randomUUID().toString() + origin.substring(origin.lastIndexOf("."));
-//        file.transferTo(new File(dirPath + rename));
-//
-//        return (dirPath.equals(fileConfig.getUploadImagePath())? "/editor/" : "/files/") + rename;
-//    }
-//}
-//*/*/
+/*S*/

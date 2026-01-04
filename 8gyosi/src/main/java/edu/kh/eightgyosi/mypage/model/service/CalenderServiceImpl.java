@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
-import edu.kh.eightgyosi.mypage.model.mapper.CalenderMapper;
+import edu.kh.eightgyosi.mypage.model.mapper.MyPageMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CalenderServiceImpl implements CalenderService{
 	
 	@Autowired
-	private CalenderMapper calMapper;
+	private MyPageMapper calMapper;
 	
 	@Override
 	public List<CalenderDTO> selectCalender(int memberNo) {
