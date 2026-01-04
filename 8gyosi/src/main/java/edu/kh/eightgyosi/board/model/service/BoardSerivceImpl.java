@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
-import edu.kh.eightgyosi.board.model.dto.pagination;
+import edu.kh.eightgyosi.board.model.dto.Pagination;
 import edu.kh.eightgyosi.board.model.mapper.BoardMapper;
 
 @Service
@@ -36,7 +36,7 @@ public class BoardSerivceImpl implements BoardService{
 
 		int listCount = mapper.getListCount(boardTypeNo);
 		
-		pagination pagination = new pagination(cp, listCount);
+		Pagination pagination = new Pagination(cp, listCount);
 		
 		
 		int limit = pagination.getLimit(); // 10개
@@ -63,7 +63,7 @@ public class BoardSerivceImpl implements BoardService{
 		int listCount = mapper.getSearchCount(paramMap);
 		// 2. 1번의 결과 + cp 를 이용해서
 		// Pagination 객체 생성
-		pagination pagination = new pagination(cp, listCount);
+		Pagination pagination = new Pagination(cp, listCount);
 		
 		// 3. 특정 게시판의 지정된 페이지 목록 조회 (검색 포함)
 		int limit = pagination.getLimit(); // 10개

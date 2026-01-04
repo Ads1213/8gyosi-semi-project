@@ -14,7 +14,7 @@ public class Member {
 	private int memberNo;		// 회원 번호
 	private String memberEmail;	// 회원 이메일(회원 ID)
 	private String memberPw;	// 회원 비밀번호
-	private String memberNickName;	// 회원 별명(활동명)
+	private String memberNickname;	// 회원 별명(활동명)
 	private String memberTel;		// 회원 전화번호
 	private String memberSchool;	// 회원 학교
 	private String memberBirth;		// 회원 생년월일
