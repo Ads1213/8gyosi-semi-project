@@ -1,0 +1,129 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    EditBoardMapper.xml
+    - 게시글 CRUD, 이미지/파일 관리, 좋아요 관리
+    - Service/DTO 구조와 100% 호환
+-->
+<mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
+
+    <!-- ================= 게시글 ================= -->
+    <!-- 게시글 등록 -->
+    <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="boardId">
+        INSERT INTO BOARD
+        (BOARD_ID, BOARD_TYPE_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO)
+        VALUES
+        (SEQ_BOARD_ID.NEXTVAL, #{boardTypeNo}, #{boardTitle}, #{boardContent}, #{memberNo})
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard" parameterType="Board">
+        UPDATE BOARD
+        SET
+            BOARD_TITLE = #{boardTitle},
+            BOARD_CONTENT = #{boardContent}
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteBoard" parameterType="map">
+        DELETE FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+          AND MEMBER_NO = #{memberNo} <!-- 권한 체크 포함 -->
+    </delete>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="selectBoardDetail" parameterType="map" resultType="Board">
+        SELECT
+            B.BOARD_ID,
+            B.BOARD_TYPE_NO,
+            B.BOARD_TITLE,
+            B.BOARD_CONTENT,
+            B.MEMBER_NO,
+            M.MEMBER_NICKNAME,
+            B.CREATE_DATE,
+            B.BOARD_VIEW_COUNT,
+            B.BOARD_DEL_FLG
+        FROM BOARD B
+        JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO
+        WHERE B.BOARD_ID = #{boardId}
+    </select>
+
+    <!-- ================= 이미지 ================= -->
+    <!-- 이미지 등록 -->
+    <insert id="insertBoardImage" parameterType="BoardImage">
+        INSERT INTO BOARD_IMAGE
+        (IMG_NO, BOARD_ID, IMG_ORDER, IMG_ORIGIN_NAME, IMG_STORED_NAME, IMG_PATH)
+        VALUES
+        (SEQ_IMG_NO.NEXTVAL, #{boardId}, #{imgOrder}, #{imgOriginName}, #{imgStoredName}, #{imgPath})
+    </insert>
+
+    <!-- 게시글 이미지 조회 -->
+    <select id="selectBoardImages" parameterType="int" resultType="BoardImage">
+        SELECT *
+        FROM BOARD_IMAGE
+        WHERE BOARD_ID = #{boardId}
+        ORDER BY IMG_ORDER
+    </select>
+
+    <!-- 이미지 삭제 -->
+    <delete id="deleteBoardImage" parameterType="int">
+        DELETE FROM BOARD_IMAGE
+        WHERE IMG_NO = #{imgId}
+    </delete>
+
+    <!-- 이미지 순서 최대값 조회 -->
+    <select id="selectMaxImgOrder" parameterType="int" resultType="int">
+        SELECT NVL(MAX(IMG_ORDER), 0)
+        FROM BOARD_IMAGE
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <!-- ================= 파일 ================= -->
+    <insert id="insertBoardFile" parameterType="BoardFile">
+        INSERT INTO BOARD_FILE
+        (FILE_NO, BOARD_ID, FILE_ORIGIN_NAME, FILE_STORED_NAME, FILE_SIZE, UPLOAD_DATE)
+        VALUES
+        (SEQ_FILE_NO.NEXTVAL, #{boardId}, #{fileOriginName}, #{fileStoredName}, #{fileSize}, #{uploadDate})
+    </insert>
+
+    <select id="selectBoardFiles" parameterType="int" resultType="BoardFile">
+        SELECT *
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <delete id="deleteBoardFile" parameterType="int">
+        DELETE FROM BOARD_FILE
+        WHERE FILE_NO = #{fileId}
+    </delete>
+
+    <!-- ================= 좋아요 ================= -->
+    <select id="selectBoardLike" parameterType="map" resultType="BoardLike">
+        SELECT *
+        FROM BOARD_LIKE
+        WHERE BOARD_ID = #{boardId}
+          AND MEMBER_NO = #{memberNo}
+    </select>
+
+    <insert id="insertBoardLike" parameterType="BoardLike">
+        INSERT INTO BOARD_LIKE
+        (LIKE_NO, BOARD_ID, MEMBER_NO)
+        VALUES
+        (SEQ_LIKE_NO.NEXTVAL, #{boardId}, #{memberNo})
+    </insert>
+
+    <delete id="deleteBoardLike" parameterType="int">
+        DELETE FROM BOARD_LIKE
+        WHERE LIKE_NO = #{likeId}
+    </delete>
+
+    <select id="selectBoardLikeCount" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD_LIKE
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
+</mapper>

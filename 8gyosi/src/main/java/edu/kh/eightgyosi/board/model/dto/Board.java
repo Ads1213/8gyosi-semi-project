@@ -2,31 +2,49 @@ package edu.kh.eightgyosi.board.model.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Board {
-    private int boardNo;
-    private int boardId; // 게시판 종류
-    private int memberNo;
-    private String boardTitle;
-    private String boardContent;
-    private LocalDateTime createDate;
-    private boolean boardIsDeleted;
-    private int boardViewCount;
-    private int boardCommentCount;
 
+    /** 게시글 PK */
+    private int boardId;
+
+    /** 게시판 종류 번호 */
     private int boardTypeNo;
+
+    /** 게시판 종류 이름 */
     private String boardTypeName;
 
-    private List<BoardImage> boardImages;
-    private List<BoardFile> boardFiles;
-    private List<BoardComment> boardComments;
+    /** 작성자 회원 번호 */
+    private int memberNo;
+
+    /** 작성자 닉네임 */
+    private String memberNickname;
+
+    /** 제목 */
+    private String boardTitle;
+
+    /** 내용 */
+    private String boardContent;
+
+    /** 작성일 */
+    private String boardCreateDate;
+
+    /** 삭제 여부 (Y/N) */
+    private String boardIsDeleted;
+
+    /** 조회수 */
+    private int boardViewCount;
+    
+    /** 댓글 수 */
+    private int boardCommentCount;
+
+    /** 좋아요 수 */
+   private int boardLikeCount;
+
+
 }

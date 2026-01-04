@@ -28,7 +28,7 @@ main {
 .board-list {
     width: 100%;
     margin: 0px;
-    background-color: white;
+    background-color:5c86e0;
     
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     overflow: hidden;
@@ -37,6 +37,19 @@ main {
     flex-direction: column; 
 }
 
+.board-name {    
+    display: flex;
+    list-style: none;
+    background: #5c86e0;
+    height: 60px;
+    align-items: center;
+    margin:0px;
+    border-top-left-radius: 12px;
+    border-top-left-radius: 12px;
+    color: white;
+    padding-left: 20px;
+
+}
 
 .board-list > ul {
     display: flex;
@@ -309,7 +322,3 @@ footer > div section:last-child pre {
     border-radius: 50%;
     background-color: white;
 } 
-
-
-
-

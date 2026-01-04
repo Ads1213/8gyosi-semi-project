@@ -117,20 +117,25 @@ function calenderSchedule(){
 	for(let i = 0; i < allTdList.length; i++){
 		
 		// 모든 td 돌면서 공백인 td 는 지나치기
-		if(allTdList[i] == undefined) continue;
+		if(allTdList[i].innerText == 0) continue;
 		
 		let tdDay = Number(allTdList[i].innerText);
+		// console.log("tdday :" , tdDay);
 		let compareDate = new Date(year, month, tdDay);
+		
+		console.log(calenderList);
 		
 		// 서버에서 넘어온 calenderList 돌기
 		for(const schedule of calenderList){
 			let startDate = new Date(schedule.startYear, schedule.startMonth - 1, schedule.startDay);
+			// console.log(startDate);
 			let endDate = new Date(schedule.endYear, schedule.endMonth - 1, schedule.endDay);
 			
-			colsole.log(startDate);
-			conlole.log(endDate);
+			// console.log(startDate);
 			
-			if(startDate.getFullYear() == year && startDate.getMonth() + 1 == month && tdDay == today.getDate()){
+			if(startDate.getFullYear() == year && startDate.getMonth() + 1 == month && startDate.getDate() == tdDay){
+				
+				console.log(startDate.getDate());
 				const div = document.createElement("div")
 				allTdList[i].append(div);
 				div.classList.add("calender-td-content");
@@ -142,9 +147,11 @@ function calenderSchedule(){
 	
 }
 
+// --------------------------------------------
+// 2. diary 관련 ------------------------------
 
-
-
+// 오늘 날짜 출력
+document.querySelector("#diary-today").innerText = year + '년 ' + month + '월 ' + today.getDate() + '일';
 
 
 
