@@ -226,6 +226,7 @@ CREATE TABLE "BOARD" (
 	"BOARD_UPDATE_DATE"	DATE	DEFAULT SYSDATE NOT NULL, -- 수정일자 DEFAULT 값 SYSDATE 로 추가, NOT NULL 로 변경
 	"BOARD_TYPE_NO"	NUMBER	NOT NULL, -- FK
 	"MEMBER_NO"	NUMBER	NOT NULL -- FK
+	""
 );
 
 -- PK 지정
@@ -316,7 +317,9 @@ CREATE TABLE "BOARD_IMG" (
 	"IMG_ORIGINAL_NAME"	NVARCHAR2(50)	NOT NULL,	-- '이미지 원본명',
 	"IMG_RENAME"	NVARCHAR2(50)	NOT NULL,
 	"IMG_ORDER"	NUMBER	NULL,
-	"BOARD_ID"	NUMBER	NOT NULL -- FK
+	"BOARD_ID"	NUMBER	NOT NULL, -- FK
+	"IMG_SIZE" NUMBER NULL                          -- 추가: 이미지 파일 크기(Byte) 지철구
+	
 );
 
 -- PK 생성
@@ -398,6 +401,37 @@ FOREIGN KEY ("BOARD_ID")
 REFERENCES "BOARD" ("BOARD_ID");
 
 COMMIT;
+
+-----------------------------------------------
+------------------ BOARD_FILE -----------------
+-----------------------------------------------
+
+CREATE TABLE "BOARD_FILE" (
+    "UPLOADFILE_NO" NUMBER NOT NULL,                -- 파일 번호(PK)
+    "UPLOADFILE_ORIGIN" VARCHAR2(150) NOT NULL,    -- 원본 파일명
+    "UPLOADFILE_PATH" VARCHAR2(1000) NOT NULL,     -- 서버 저장 경로
+    "UPLOADFILE_STRG" VARCHAR2(150) NOT NULL,      -- 서버 저장명
+    "UPLOADFILE_SIZE" NUMBER NOT NULL,             -- 파일 크기(Byte)
+    "UPLOADFILE_DATE" DATE DEFAULT SYSDATE NOT NULL,-- 업로드 날짜
+    "BOARD_ID" NUMBER NOT NULL                      -- 게시글 번호(FK)
+);
+
+-- PK 생성
+ALTER TABLE "BOARD_FILE"
+ADD CONSTRAINT "PK_BOARD_FILE"
+PRIMARY KEY ("UPLOADFILE_NO");
+
+-- 시퀀스 생성
+CREATE SEQUENCE "SEQ_UPLOADFILE_NO"
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+-- FK 지정
+ALTER TABLE "BOARD_FILE"
+ADD CONSTRAINT "FK_BOARD_FILE_BOARD"
+FOREIGN KEY ("BOARD_ID")
+REFERENCES "BOARD" ("BOARD_ID");
 
 
 

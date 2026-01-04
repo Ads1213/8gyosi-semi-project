@@ -25,5 +25,15 @@ public class Member {
 	private int authority;			// 권한( 1: 일반 2: 관리자 )
 	private String memberBg;		// 회원 테마
 	// 다솔
-
+	 /** 관리자 여부 enum */
+    public enum Role {
+        USER,
+        ADMIN
+    }
+    
+    public Role getRole() {
+		return this.authority == 2 ? Role.ADMIN : Role.USER;
+	}
+	
+	
 }
