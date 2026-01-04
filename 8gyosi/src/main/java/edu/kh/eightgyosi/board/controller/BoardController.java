@@ -2,6 +2,7 @@ package edu.kh.eightgyosi.board.controller;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import edu.kh.eightgyosi.board.model.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequestMapping("board")
 public class BoardController {
 
+	@Autowired
 	private BoardService service;
 	
 	@GetMapping("detail")
@@ -23,11 +27,11 @@ public class BoardController {
 		return "board/BoardDetail";
 	}
 	
-	@GetMapping("")
-	public String BoardList() {
-		return "board/boardList";
-		
-	}
+//	@GetMapping("")
+//	public String BoardList() {
+//		return "board/boardList";
+//		
+//	}
 
 	/** 게시글 목록 조회 BOARD CONTROLLER
 	 * @return
@@ -58,6 +62,8 @@ public class BoardController {
 		// model에 결과 값 등록
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("boardList", map.get("boardList"));
+		
+		log.debug("pagination :: {}", map.get("pagination"));
 		
 		return "board/boardList";	
 	}

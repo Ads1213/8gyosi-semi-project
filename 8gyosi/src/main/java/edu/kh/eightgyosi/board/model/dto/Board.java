@@ -32,26 +32,19 @@ public class Board {
     private String boardContent;
 
     /** 작성일 */
-    private LocalDateTime createDate;
+    private String boardCreateDate;
 
     /** 삭제 여부 (Y/N) */
-    private String boardDelFl;
+    private String boardIsDeleted;
 
     /** 조회수 */
     private int boardViewCount;
-
+    
     /** 댓글 수 */
     private int boardCommentCount;
 
     /** 좋아요 수 */
-    private int boardLikeCount;
+   private int boardLikeCount;
 
-    /** 이미지 목록 */
-    private List<BoardImage> boardImages;
 
-    /** 파일 목록 */
-    private List<BoardFile> boardFiles;
-
-    /** 댓글 목록 */
-    private List<BoardComment> boardComments;
 }

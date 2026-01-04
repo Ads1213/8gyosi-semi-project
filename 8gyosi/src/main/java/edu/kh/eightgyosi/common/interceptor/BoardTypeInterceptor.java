@@ -11,8 +11,9 @@ import edu.kh.eightgyosi.board.model.service.BoardService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 public class BoardTypeInterceptor implements HandlerInterceptor{
 	
 	@Autowired
@@ -30,7 +31,8 @@ public class BoardTypeInterceptor implements HandlerInterceptor{
 			
 
 			List<Map<String, Object>> boardTypeList = service.selectBoardTypeList();
-
+			
+			log.debug("boardTypeList:: {}", boardTypeList);
 			
 			application.setAttribute("boardTypeList", boardTypeList);
 			
