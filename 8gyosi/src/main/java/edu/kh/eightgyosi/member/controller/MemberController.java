@@ -168,6 +168,8 @@ public class MemberController {
 	}
 	
 	
+	
+	
 		
 //	/** 프로필 이미지
 //   * @author : dasol ( 보류 )
