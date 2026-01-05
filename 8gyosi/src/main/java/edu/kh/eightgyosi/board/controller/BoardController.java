@@ -136,6 +136,8 @@ public class BoardController {
 		
 		Board board = service.selectOne(map);
 		
+		log.debug("현재 board :: {}", board);
+		
 		String path = null;
 		
 		if(board == null) {
@@ -152,7 +154,7 @@ public class BoardController {
 				
 				for(Cookie temp : cookies) {
 					
-					// 쿠키 중에 "readBoardNo" 가 존재할 때
+					// 쿠키 중에 "readBoardId" 가 존재할 때
 					if(temp.getName().equals("readBoardId")) {
 						c = temp;
 						break;

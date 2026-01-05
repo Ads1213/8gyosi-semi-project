@@ -13,19 +13,14 @@ loginwindowclose.addEventListener("click", (e) => {
 	loginwindow.classList.remove("show");
 });
 
-const loginbtn = document.querySelector("login-btn")
-loginbtn.addEventListener("click", (e) => {
-    location.href = `/8gyosi/login`;
-});
 
 // 상단 게시판 목록 마우스 HOVER 시 띄우기 
 const mainMenu = document.querySelector("#header_board");
 const subMenu = document.querySelector('.sub_menu');
 
- mainMenu.addEventListener('mouseenster', () => {
-   subMenu.classList.add('active');
- });
- mainMenu.addEventListener('mouseleave', () => {
-   subMenu.classList.remove('active');
-   
+mainMenu.addEventListener('mouseover', () => {
+  subMenu.classList.add('active');
+});
+mainMenu.addEventListener('mouseleave', () => {
+  subMenu.classList.remove('active');        
  });

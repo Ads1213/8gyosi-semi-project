@@ -81,7 +81,12 @@ header > section:nth-child(5){
 }
 
 .sub_menu.active {
-    display: block;
+    opacity: 1;
+    height: 60px;
+}
+
+.sub_menu ul {
+  margin: 0 auto;
 }
 
 .sub_menu li a {
@@ -91,6 +96,7 @@ header > section:nth-child(5){
     text-decoration: none;
     font-size: 16px;
     opacity: 0.8;
+    transition: all .3s;
 }
 
 .sub_menu li a:hover {

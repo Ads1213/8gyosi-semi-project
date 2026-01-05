@@ -56,4 +56,5 @@ public class Board {
 	private int boardLikeCount; // 좋아요 수
 	private List<BoardComment> boardComments;
 	private String boardTypeName;
+	private String memberNickname;
 }

@@ -27,7 +27,7 @@ $(function() {
     // ===================== 댓글 목록 =====================
     function loadComments() {
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments`,
+            url: `/editBoard/comment/${boardId}`,
             type: 'GET',
             success: function(comments) {
                 const $list = $('#commentList');
@@ -58,11 +58,13 @@ $(function() {
         const content = $('#commentContent').val().trim();
         if(!content) return alert('댓글 내용을 입력하세요');
 
+        const obj = { "commentContent" : content };
+
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments`,
+            url: `/editBoard/comment/${boardId}`,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ content }),
+            data: JSON.stringify(obj),
             success: function(res) {
                 $('#commentContent').val('');
                 loadComments();

@@ -28,10 +28,18 @@
 
     <!-- 댓글/대댓글 등록 -->
     <insert id="insertComment" parameterType="BoardComment">
-        INSERT INTO BOARD_COMMENT
-        (COMMENT_ID, BOARD_ID, MEMBER_NO, COMMENT_CONTENT, PARENT_COMMENT_NO)
-        VALUES
-        (SEQ_COMMENT_ID.NEXTVAL, #{boardId}, #{memberNo}, #{commentContent}, #{parentCommentNo})
+        INSERT INTO "COMMENT"
+        VALUES(SEQ_COMMENT_NO.NEXTVAL, #{commentContent}, DEFAULT, DEFAULT, #{boardId}, #{memberNo}, 
+        <!-- 자식 댓글(답글) -->
+		<if test="parentCommentNo != 0">
+			#{parentCommentNo}
+		</if>
+		
+		<!-- 부모 댓글(1레벨) -->
+		<if test="parentCommentNo == 0">
+			NULL
+		</if>
+        )
     </insert>
 
     <!-- 단일 댓글 조회 -->
