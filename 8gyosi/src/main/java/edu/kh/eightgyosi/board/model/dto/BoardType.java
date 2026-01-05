@@ -20,6 +20,5 @@ public class BoardType {
     /** 게시판 타입 이름 */
     private String boardTypeName;
 
-    /** 게시글 번호 (FK, 필요시) */
-    private int boardId;
+   
 }
