@@ -79,6 +79,9 @@ public class MyPageController {
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo); 
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
 		
+		// 2. 주소창에서 얻어온 wrongNoteNo 도 따로 model 로 전달
+		model.addAttribute("wrongNoteNo", wrongNoteNo);
+		
 		// test: log.debug(wrongNote.get(0).getWrongNoteExplain());
 		
 		return "myPage/myPage-wrongNote";

@@ -9,6 +9,14 @@
 		FROM "BOARD_TYPE"
 		ORDER BY BOARD_TYPE_NO
 	</select>
+	
+	<!-- 게시판 종류 조회 : seongjong-->
+	<select id="selectBoardType">
+		SELECT BOARD_TYPE_NO "boardTypeNo",
+		BOARD_TYPE_NAME "boardTypeName"
+		FROM "BOARD_TYPE"
+		ORDER BY BOARD_TYPE_NO
+	</select>
 
 	<!-- 게시글 수 조회 -->
 	<select id="getListCount">
@@ -284,5 +292,26 @@
 		SELECT CAST(IMG_RENAME AS VARCHAR2(300)) "rename"
 		FROM "BOARD_IMG"
 	</select>
+	
+	<!-- 게시판별 인기글 탑5 조회 sql : seongjong -->
+	<!-- 쿼리 설명 sql 안에 있음 -->
+	<select id="selectBoardTop5List" resultType="board">
+		<![CDATA[
+		SELECT * FROM (
+			SELECT B.*,
+	    		ROW_NUMBER() OVER ( 
+	      		PARTITION BY BOARD_TYPE_NO 
+	      		ORDER BY BOARD_VIEW_COUNT DESC, BOARD_ID DESC
+	   	 	) AS RN
+	  		FROM "BOARD" B
+			WHERE BOARD_IS_DELETED = 'N'
+			AND BOARD_CREATE_DATE >= SYSDATE - 7 
+		)
+		WHERE RN <= 5      
+		ORDER BY BOARD_TYPE_NO, RN
+		]]>
+	</select>
+	
+	
   	
 </mapper>

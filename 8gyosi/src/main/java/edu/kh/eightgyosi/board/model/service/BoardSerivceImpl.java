@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 import edu.kh.eightgyosi.board.model.dto.Pagination;
 import edu.kh.eightgyosi.board.model.mapper.BoardMapper;
 
@@ -124,4 +125,23 @@ public class BoardSerivceImpl implements BoardService{
 			
 			return -1;
 		}
+		
+		/**
+		 * 메인 화면에 boardType 뿌려주기 위한 서비스
+		 * - seongjong
+		 */
+		@Override
+		public List<BoardType> selectBoardType() {
+			return mapper.selectBoardType();
+		}
+		
+		
+		/**
+		 * 메인 화면에 게시판별 top5 게시글 뿌려주기 위한 서비스
+		 */
+		@Override
+		public List<Board> selectBoardTop5List() {
+			return mapper.selectBoardTop5List();
+		}
+		
 }
