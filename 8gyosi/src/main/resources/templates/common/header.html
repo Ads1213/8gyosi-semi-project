@@ -16,7 +16,7 @@
 	<section id="drop-board">
 		<ul id="header_menu">
 			<li id="header_board">
-				<a href="board/1">게시판</a>
+				<a href="#">게시판</a>
 				<ul class="sub_menu">
 					<li><a href="/board/1">자유 게시판</a></li>
 					<li><a href="/board/2">질문 게시판</a></li>
@@ -28,6 +28,7 @@
 			</li>
 		</ul>	
 	</section>
+	
 	<section>
 		<a href="/chatting">채팅</a>
 	</section>
@@ -43,6 +44,11 @@
 	
 	<!-- 로그인이 되어 있는 경우 -->
 	<th:block th:if="${session.loginMember != null}">
+		<div class="profile-img-circle">
+			<a href="/myPage">
+		    <img src="#" alt="프로필 이미지">
+			</a>
+		</div>
 		<section>
 			<a href="/8gyosi/logout" id="logout-link">로그아웃</a>
 		</section>
@@ -50,21 +56,22 @@
 
 	<!-- 로그인 창 부분 -->
 	<div id="login-window" class="hidden">
-
-		<div>로고 들어갈 부분</div>
-
+		
 		<div>
-			<a href="#" id="login-window-close">닫기</a>
+			<div>8교시</div>
+			<button id="login-window-close">&times;</button>
 		</div>
 
 		<!-- id 속성 : login-form 으로 변경 -->
 		<form action="/8gyosi/login" method="POST" id="login-form">
 			<fieldset id="login-area">
+				이메일
 				<input type="text" name="memberEmail" placeholder="이메일을 입력해주세요.">
+				비밀번호
 				<input type="password" name="memberPw" placeholder="비밀번호를 입력해주세요.">
 			</fieldset>
 			<label>
-				<input type="checkbox" name="saveId">
+				<input type="checkbox" name="saveId" id="saveId">
 				아이디저장
 			</label>
 			<button>로그인하기</button>

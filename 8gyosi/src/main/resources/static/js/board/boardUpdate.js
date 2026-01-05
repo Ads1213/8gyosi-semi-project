@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    const uploadUrl = '/editBoard/uploadFile'; // 파일 업로드 URL
+    const uploadUrl = '/editBoard/uploadFile';
 
-    // ===================== Summernote 초기화 =====================
+    // Summernote 초기화
     $('#boardContent').summernote({
         placeholder: '내용을 입력하세요',
         height: 400,
@@ -21,7 +21,7 @@ $(document).ready(function () {
         }
     });
 
-    // ===================== 파일 업로드 AJAX =====================
+    // 파일 업로드 함수
     function uploadFile(file, isEditorImage=false){
         let formData = new FormData();
         formData.append("file", file);
@@ -36,42 +36,30 @@ $(document).ready(function () {
                 if(isEditorImage || file.type.startsWith("image/")){
                     $('#boardContent').summernote('insertImage', url);
                 } else {
-                    const linkHtml = `<a href="${url}" target="_blank">${file.name}</a><br>`;
-                    $('#boardContent').summernote('pasteHTML', linkHtml);
+                    $('#boardContent').summernote('pasteHTML', `<a href="${url}" target="_blank">${file.name}</a><br>`);
                 }
             },
-            error: function(){
-                alert('파일 업로드 실패');
-            }
+            error: function(){ alert('파일 업로드 실패'); }
         });
     }
 
-    // ===================== 기존 이미지 삭제 =====================
+    // 기존 이미지 삭제
     $('.delete-image').on('click', function(){
-        const imgId = $(this).data('img-id');
+        const imgNo = $(this).data('img-id'); 
         let current = $('#deleteImageIds').val();
-        $('#deleteImageIds').val(current ? current + ',' + imgId : imgId);
+        $('#deleteImageIds').val(current ? current + ',' + imgNo : imgNo);
         $(this).closest('.boardImg').remove();
     });
 
-    // ===================== 기존 파일 삭제 =====================
+    // 기존 파일 삭제
     $('.delete-file').on('click', function(){
-        const fileId = $(this).data('file-id');
+        const fileNo = $(this).data('file-id'); 
         let current = $('#deleteFileIds').val();
-        $('#deleteFileIds').val(current ? current + ',' + fileId : fileId);
+        $('#deleteFileIds').val(current ? current + ',' + fileNo : fileNo);
         $(this).closest('.boardFile').remove();
     });
 
-    // ===================== 새 파일 추가 =====================
-    $('#fileContainer').on('click', '.addFileBtn', function(){
-        const row = `<div class="file-row">
-                        <input type="file" name="files">
-                        <button type="button" class="addFileBtn">+</button>
-                     </div>`;
-        $('#fileContainer').append(row);
-    });
-
-    // ===================== 제출 전 필수 체크 =====================
+    // 폼 제출 전 유효성 체크
     $('form').on('submit', function(){
         const title = $('input[name="boardTitle"]').val().trim();
         const content = $('#boardContent').summernote('code').trim();

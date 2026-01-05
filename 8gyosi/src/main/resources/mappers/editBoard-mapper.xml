@@ -1,129 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--
-    EditBoardMapper.xml
-    - 게시글 CRUD, 이미지/파일 관리, 좋아요 관리
-    - Service/DTO 구조와 100% 호환
--->
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
 
-    <!-- ================= 게시글 ================= -->
-    <!-- 게시글 등록 -->
-    <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="boardId">
-        INSERT INTO BOARD
-        (BOARD_ID, BOARD_TYPE_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO)
-        VALUES
-        (SEQ_BOARD_ID.NEXTVAL, #{boardTypeNo}, #{boardTitle}, #{boardContent}, #{memberNo})
+    <!-- 게시글 작성 -->
+    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
+        INSERT INTO board (board_title, board_content, board_view_count, board_is_deleted,
+                           board_create, board_updated, board_type_no, member_no)
+        VALUES (#{boardTitle}, #{boardContent}, 0, 'N', NOW(), NOW(), #{boardTypeNo}, #{memberNo})
     </insert>
 
     <!-- 게시글 수정 -->
-    <update id="updateBoard" parameterType="Board">
-        UPDATE BOARD
-        SET
-            BOARD_TITLE = #{boardTitle},
-            BOARD_CONTENT = #{boardContent}
-        WHERE BOARD_ID = #{boardId}
+    <update id="updateBoard">
+        UPDATE board
+        SET board_title = #{boardTitle},
+            board_content = #{boardContent},
+            board_updated = NOW()
+        WHERE board_id = #{boardId}
     </update>
 
     <!-- 게시글 삭제 -->
-    <delete id="deleteBoard" parameterType="map">
-        DELETE FROM BOARD
-        WHERE BOARD_ID = #{boardId}
-          AND MEMBER_NO = #{memberNo} <!-- 권한 체크 포함 -->
+    <delete id="deleteBoard">
+        DELETE FROM board
+        WHERE board_id = #{boardId} AND member_no = #{memberNo}
     </delete>
 
-    <!-- 게시글 상세 조회 -->
-    <select id="selectBoardDetail" parameterType="map" resultType="Board">
-        SELECT
-            B.BOARD_ID,
-            B.BOARD_TYPE_NO,
-            B.BOARD_TITLE,
-            B.BOARD_CONTENT,
-            B.MEMBER_NO,
-            M.MEMBER_NICKNAME,
-            B.CREATE_DATE,
-            B.BOARD_VIEW_COUNT,
-            B.BOARD_DEL_FLG
-        FROM BOARD B
-        JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO
-        WHERE B.BOARD_ID = #{boardId}
+    <!-- 게시글 단일 조회 -->
+    <select id="selectBoardDetail" resultType="edu.kh.eightgyosi.board.model.dto.Board">
+        SELECT *
+        FROM board
+        WHERE board_id = #{boardId}
     </select>
 
-    <!-- ================= 이미지 ================= -->
-    <!-- 이미지 등록 -->
-    <insert id="insertBoardImage" parameterType="BoardImage">
-        INSERT INTO BOARD_IMAGE
-        (IMG_NO, BOARD_ID, IMG_ORDER, IMG_ORIGIN_NAME, IMG_STORED_NAME, IMG_PATH)
-        VALUES
-        (SEQ_IMG_NO.NEXTVAL, #{boardId}, #{imgOrder}, #{imgOriginName}, #{imgStoredName}, #{imgPath})
+    <!-- ===================== 이미지 ===================== -->
+
+    <insert id="insertBoardImage">
+        INSERT INTO board_image (img_path, img_original_name, img_rename, img_order, board_id, img_size)
+        VALUES (#{imgPath}, #{imgOriginalName}, #{imgRename}, #{imgOrder}, #{boardId}, #{imgSize})
     </insert>
 
-    <!-- 게시글 이미지 조회 -->
-    <select id="selectBoardImages" parameterType="int" resultType="BoardImage">
-        SELECT *
-        FROM BOARD_IMAGE
-        WHERE BOARD_ID = #{boardId}
-        ORDER BY IMG_ORDER
+    <select id="selectBoardImageById" resultType="edu.kh.eightgyosi.board.model.dto.BoardImage">
+        SELECT * FROM board_image WHERE img_no = #{imgNo}
     </select>
 
-    <!-- 이미지 삭제 -->
-    <delete id="deleteBoardImage" parameterType="int">
-        DELETE FROM BOARD_IMAGE
-        WHERE IMG_NO = #{imgId}
+    <delete id="deleteBoardImage">
+        DELETE FROM board_image WHERE img_no = #{imgNo}
     </delete>
 
-    <!-- 이미지 순서 최대값 조회 -->
-    <select id="selectMaxImgOrder" parameterType="int" resultType="int">
-        SELECT NVL(MAX(IMG_ORDER), 0)
-        FROM BOARD_IMAGE
-        WHERE BOARD_ID = #{boardId}
+    <select id="selectMaxImgOrder" resultType="int">
+        SELECT IFNULL(MAX(img_order), 0) FROM board_image WHERE board_id = #{boardId}
     </select>
 
-    <!-- ================= 파일 ================= -->
-    <insert id="insertBoardFile" parameterType="BoardFile">
-        INSERT INTO BOARD_FILE
-        (FILE_NO, BOARD_ID, FILE_ORIGIN_NAME, FILE_STORED_NAME, FILE_SIZE, UPLOAD_DATE)
-        VALUES
-        (SEQ_FILE_NO.NEXTVAL, #{boardId}, #{fileOriginName}, #{fileStoredName}, #{fileSize}, #{uploadDate})
+    <select id="selectBoardImages" resultType="edu.kh.eightgyosi.board.model.dto.BoardImage">
+        SELECT * FROM board_image WHERE board_id = #{boardId} ORDER BY img_order ASC
+    </select>
+
+    <!-- ===================== 파일 ===================== -->
+
+    <insert id="insertBoardFile">
+        INSERT INTO board_file (uploadfile_origin, uploadfile_path, uploadfile_strg, uploadfile_size, uploadfile_date, board_id)
+        VALUES (#{uploadfileOrigin}, #{uploadfilePath}, #{uploadfileStrg}, #{uploadfileSize}, #{uploadfileDate}, #{boardId})
     </insert>
 
-    <select id="selectBoardFiles" parameterType="int" resultType="BoardFile">
-        SELECT *
-        FROM BOARD_FILE
-        WHERE BOARD_ID = #{boardId}
+    <select id="selectBoardFile" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
+        SELECT * FROM board_file WHERE uploadfile_no = #{uploadfileNo}
     </select>
 
-    <delete id="deleteBoardFile" parameterType="int">
-        DELETE FROM BOARD_FILE
-        WHERE FILE_NO = #{fileId}
+    <delete id="deleteBoardFile">
+        DELETE FROM board_file WHERE uploadfile_no = #{uploadfileNo}
     </delete>
 
-    <!-- ================= 좋아요 ================= -->
-    <select id="selectBoardLike" parameterType="map" resultType="BoardLike">
-        SELECT *
-        FROM BOARD_LIKE
-        WHERE BOARD_ID = #{boardId}
-          AND MEMBER_NO = #{memberNo}
+    <select id="selectBoardFiles" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
+        SELECT * FROM board_file WHERE board_id = #{boardId}
     </select>
 
-    <insert id="insertBoardLike" parameterType="BoardLike">
-        INSERT INTO BOARD_LIKE
-        (LIKE_NO, BOARD_ID, MEMBER_NO)
-        VALUES
-        (SEQ_LIKE_NO.NEXTVAL, #{boardId}, #{memberNo})
-    </insert>
-
-    <delete id="deleteBoardLike" parameterType="int">
-        DELETE FROM BOARD_LIKE
-        WHERE LIKE_NO = #{likeId}
-    </delete>
-
-    <select id="selectBoardLikeCount" parameterType="int" resultType="int">
-        SELECT COUNT(*)
-        FROM BOARD_LIKE
-        WHERE BOARD_ID = #{boardId}
+    <!-- ===================== 카테고리 ===================== -->
+    <select id="selectCategoryList" resultType="edu.kh.eightgyosi.board.model.dto.Board">
+        SELECT *
+        FROM board_type
+        ORDER BY boardTypeNo ASC
     </select>
 
 </mapper>

@@ -1,35 +1,47 @@
 package edu.kh.eightgyosi.board.model.service;
 
 import java.util.List;
-import org.springframework.web.multipart.MultipartFile;
-import edu.kh.eightgyosi.board.model.dto.Board;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardFile;
+import edu.kh.eightgyosi.board.model.dto.BoardImage;
+import edu.kh.eightgyosi.member.model.dto.Member;
+
+/**
+ * EditBoardService
+ * - 게시글 CRUD 및 이미지/파일 업로드 처리
+ * - Controller와 Mapper 간의 중간 역할
+ */
 public interface EditBoardService {
 
     /** 게시글 작성 */
-    int boardInsert(Board board, List<MultipartFile> images) throws Exception;
+    int boardInsert(Board board, List<MultipartFile> images, List<MultipartFile> files) throws Exception;
 
     /** 게시글 수정 */
-    int boardUpdate(Board board, List<MultipartFile> images, List<Integer> deleteImageList) throws Exception;
+    int boardUpdate(Board board, List<MultipartFile> images, List<MultipartFile> files,
+                    List<Integer> deleteImageList, List<Integer> deleteFileList) throws Exception;
 
     /** 게시글 삭제 */
-    int boardDelete(int boardId, int memberNo) throws Exception;
+    int boardDelete(int boardId, Member loginMember) throws Exception;
 
-    /** 게시글 상세조회 */
+    /** 단일 게시글 조회 */
     Board selectBoard(int boardId);
 
-    /** 좋아요 토글 및 최신 좋아요 수 반환 */
-    LikeResponse toggleBoardLikeWithCount(int boardId, int memberNo);
+    /** 게시글 이미지 리스트 조회 */
+    List<BoardImage> selectBoardImages(int boardId);
 
-    /** 조회수 1 증가 후 최신 조회수 반환 */
-    int updateReadCount(int boardId);
+    /** 게시글 파일 리스트 조회 */
+    List<BoardFile> selectBoardFiles(int boardId);
 
-    /** 카테고리 리스트 조회 */
-    List<String> getCategoryList();
 
-    /** 관리자 전용 게시판 여부 확인 */
+    /** 파일 업로드 처리 */
+    String uploadFile(MultipartFile file) throws Exception;
+
+    /** 관리자 전용 카테고리 체크 */
     boolean isAdminOnlyCategory(int boardTypeNo);
 
-    /** 좋아요 응답 DTO */
-    record LikeResponse(boolean liked, int likeCount, int boardTypeNo) {}
+    /** 게시판 카테고리 조회 */
+    List<Board> getCategoryList();
 }

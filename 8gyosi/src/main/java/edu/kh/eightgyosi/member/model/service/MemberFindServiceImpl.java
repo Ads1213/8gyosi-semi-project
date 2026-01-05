@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
-public class MemberFindServiceImpl {
+public class MemberFindServiceImpl implements MemberFindService {
 	
 	private final MemberFindMapper mapper;
 	

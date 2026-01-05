@@ -1,6 +1,5 @@
 package edu.kh.eightgyosi.mypage.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ import edu.kh.eightgyosi.mypage.model.service.CalenderService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ */
 @SessionAttributes({"calender"})
 @Controller
 @RequestMapping("myPage")
@@ -69,7 +71,8 @@ public class MyPageController {
 	 */
 	@GetMapping("myPage-wrongNote/{wrongNoteNo:[0-9]+}")
 	public String wrongNote(@SessionAttribute("loginMember") Member loginMember,
-							Model model) {
+							Model model,
+							@PathVariable("wrongNoteNo") int wrongNoteNo) {
 		
 		// 1. 오답노트 테이블 조회하기 위해 service 불러오기
 		int memberNo = loginMember.getMemberNo();
@@ -116,6 +119,15 @@ public class MyPageController {
 		}
 		
 		return path;
+	}
+	
+	/** 마이페이지 프로필 수정 화면
+	 * @return
+	 */
+	@GetMapping("myPage-profile")
+	public String myPageProfile() {
+		
+		return "myPage/myPage-profile";
 	}
 	
 }
