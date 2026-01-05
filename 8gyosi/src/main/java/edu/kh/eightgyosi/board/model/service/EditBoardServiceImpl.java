@@ -13,16 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.kh.eightgyosi.board.model.dto.Board;
 import edu.kh.eightgyosi.board.model.dto.BoardFile;
 import edu.kh.eightgyosi.board.model.dto.BoardImage;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 import edu.kh.eightgyosi.board.model.mapper.EditBoardMapper;
 import edu.kh.eightgyosi.common.config.FileConfig;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import lombok.RequiredArgsConstructor;
 
-/**
- * EditBoardServiceImpl
- * - 게시글 CRUD, 이미지/파일 업로드 처리
- * - Controller와 Mapper 연결
- */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -31,7 +27,7 @@ public class EditBoardServiceImpl implements EditBoardService {
     private final EditBoardMapper mapper;
     private final FileConfig fileConfig;
 
-    // ===================== 게시글 작성 =====================
+    /** 게시글 작성 */
     @Override
     public int boardInsert(Board board, List<MultipartFile> images, List<MultipartFile> files) throws Exception {
         mapper.insertBoard(board);
@@ -43,7 +39,7 @@ public class EditBoardServiceImpl implements EditBoardService {
         return boardId;
     }
 
-    // ===================== 게시글 수정 =====================
+    /** 게시글 수정 */
     @Override
     public int boardUpdate(Board board, List<MultipartFile> images, List<MultipartFile> files,
                            List<Integer> deleteImageList, List<Integer> deleteFileList) throws Exception {
@@ -82,13 +78,13 @@ public class EditBoardServiceImpl implements EditBoardService {
         return result;
     }
 
-    // ===================== 게시글 삭제 =====================
+    /** 게시글 삭제 */
     @Override
     public int boardDelete(int boardId, Member loginMember) throws Exception {
         Board board = mapper.selectBoardDetail(Map.of("boardId", boardId));
         if(board == null) return 0;
 
-        if(board.getMemberNo() != loginMember.getMemberNo() && loginMember.getAuthority() != 2) return 0;
+        if(board.getMemberNo() != loginMember.getMemberNo() && loginMember.getRole() != Member.Role.ADMIN) return 0;
 
         // 이미지 삭제
         List<BoardImage> images = mapper.selectBoardImages(boardId);
@@ -107,25 +103,25 @@ public class EditBoardServiceImpl implements EditBoardService {
         return mapper.deleteBoard(Map.of("boardId", boardId, "memberNo", loginMember.getMemberNo()));
     }
 
-    // ===================== 단일 게시글 조회 =====================
+    /** 단일 게시글 조회 */
     @Override
     public Board selectBoard(int boardId){
         return mapper.selectBoardDetail(Map.of("boardId", boardId));
     }
 
-    // ===================== 이미지/파일 조회 =====================
+    /** 게시글 이미지 조회 */
     @Override
     public List<BoardImage> selectBoardImages(int boardId){
         return mapper.selectBoardImages(boardId);
     }
 
+    /** 게시글 파일 조회 */
     @Override
     public List<BoardFile> selectBoardFiles(int boardId){
         return mapper.selectBoardFiles(boardId);
     }
 
-
-    // ===================== 파일 업로드 =====================
+    /** 파일 업로드 */
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
         String dirPath = file.getContentType().startsWith("image") ? fileConfig.getBoardResourceLocation() : fileConfig.getBoardResourceLocation();
@@ -139,19 +135,18 @@ public class EditBoardServiceImpl implements EditBoardService {
         return (dirPath.equals(fileConfig.getBoardResourceLocation()) ? "/images/board/" : "/files/") + rename;
     }
 
-    // ===================== 관리자 전용 체크 =====================
+    /** 관리자 전용 카테고리 체크 */
     @Override
     public boolean isAdminOnlyCategory(int boardTypeNo){
         return boardTypeNo == 6; // 예: 공지사항
     }
 
-    // ===================== 게시판 카테고리 조회 =====================
+    /** 게시판 카테고리 조회 */
     @Override
-    public List<Board> getCategoryList(){
+    public List<BoardType> getCategoryList(){
         return mapper.selectCategoryList();
     }
-
-    // ===================== 내부 유틸 =====================
+    /** ================== 내부 유틸 ================== */
     private void saveBoardImages(int boardId, List<MultipartFile> images) throws Exception {
         int order = mapper.selectMaxImgOrder(boardId) + 1;
         for(MultipartFile file : images){
