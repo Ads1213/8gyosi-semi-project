@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,4 +67,28 @@ public class CommentController {
                         "commentList", commentList
                 ));
     }
+    
+	@GetMapping("")
+	public List<BoardComment> select(@RequestParam("boardId") int boardId) {
+		return service.select(boardId);
+	}
+	
+	
+	@PostMapping("")
+	public int insert(@RequestBody BoardComment comment) {
+		return service.insert(comment);
+	}
+	
+
+	@DeleteMapping("")
+	public int delete(@RequestBody int commentNo) {
+		return service.delete(commentNo);
+	}
+	
+
+	@PutMapping("")
+	public int update(@RequestBody BoardComment comment) {
+		return service.update(comment);
+	}
+	
 }

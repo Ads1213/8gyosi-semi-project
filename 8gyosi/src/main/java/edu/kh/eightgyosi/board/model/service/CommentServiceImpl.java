@@ -45,6 +45,30 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException("댓글 작성 중 예외 발생: " + e.getMessage(), e);
         }
     }
+    
+	@Override
+	public List<BoardComment> select(int boardId) {
+		// TODO Auto-generated method stub
+		return mapper.select(boardId);
+	}
+
+	@Override
+	public int insert(BoardComment comment) {
+		// TODO Auto-generated method stub
+		return mapper.insert(comment);
+	}
+
+	@Override
+	public int delete(int commentNo) {
+		// TODO Auto-generated method stub
+		return mapper.delete(commentNo);
+	}
+
+	@Override
+	public int update(BoardComment comment) {
+		// TODO Auto-generated method stub
+		return mapper.update(comment);
+	}
 
      /*/ ===================== 댓글/대댓글 삭제 ===================== 
     @Override

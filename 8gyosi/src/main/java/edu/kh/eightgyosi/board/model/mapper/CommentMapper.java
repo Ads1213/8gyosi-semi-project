@@ -12,4 +12,9 @@ public interface CommentMapper {
     int insertComment(BoardComment comment);
     int deleteComment(int commentId);
     BoardComment selectComment(int commentId);
+    
+	List<BoardComment> select(int boardId);
+	int insert(BoardComment comment);
+	int delete(int commentNo);
+	int update(BoardComment comment);
 }

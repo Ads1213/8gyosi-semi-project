@@ -69,7 +69,8 @@ public class MyPageController {
 	 */
 	@GetMapping("myPage-wrongNote/{wrongNoteNo:[0-9]+}")
 	public String wrongNote(@SessionAttribute("loginMember") Member loginMember,
-							Model model) {
+							Model model,
+							@PathVariable("wrongNoteNo") int wrongNoteNo) {
 		
 		// 1. 오답노트 테이블 조회하기 위해 service 불러오기
 		int memberNo = loginMember.getMemberNo();

@@ -50,4 +50,10 @@ public class Board {
 
     /** 첨부 파일 리스트 */
     private List<BoardFile> boardFiles;
+    
+    
+	private int boardCommentCount; // 댓글 수
+	private int boardLikeCount; // 좋아요 수
+	private List<BoardComment> boardComments;
+	private String boardTypeName;
 }
