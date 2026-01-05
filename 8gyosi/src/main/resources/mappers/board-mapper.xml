@@ -294,21 +294,39 @@
 	</select>
 	
 	<!-- 게시판별 인기글 탑5 조회 sql : seongjong -->
-	<!-- 쿼리 설명 sql 안에 있음 -->
+	<!-- 쿼리 설명 sql 안에 있음(설명 보충 필요)-->
 	<select id="selectBoardTop5List" resultType="board">
 		<![CDATA[
 		SELECT * FROM (
-			SELECT B.*,
-	    		ROW_NUMBER() OVER ( 
-	      		PARTITION BY BOARD_TYPE_NO 
-	      		ORDER BY BOARD_VIEW_COUNT DESC, BOARD_ID DESC
-	   	 	) AS RN
-	  		FROM "BOARD" B
-			WHERE BOARD_IS_DELETED = 'N'
-			AND BOARD_CREATE_DATE >= SYSDATE - 7 
+		    SELECT 
+		    
+		        B.*,
+		        CASE 
+		            WHEN (SYSDATE - B.BOARD_CREATE_DATE) <= 1 THEN 1
+		            ELSE 2
+		        END AS IS_NEW,
+		        
+		        (SELECT COUNT(*) 
+		         FROM "COMMENT" C
+		         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+		         
+		         ROW_NUMBER() OVER ( 
+		            PARTITION BY B.BOARD_TYPE_NO 
+		            ORDER BY B.BOARD_ID DESC
+		        ) AS MAIN_CP,
+		
+		        ROW_NUMBER() OVER ( 
+		            PARTITION BY B.BOARD_TYPE_NO 
+		            ORDER BY B.BOARD_VIEW_COUNT DESC, B.BOARD_ID DESC
+		        ) AS RANK 
+		        
+		    FROM "BOARD" B
+		    WHERE B.BOARD_IS_DELETED = 'N'
+		    AND B.BOARD_CREATE_DATE >= SYSDATE - 7
 		)
-		WHERE RN <= 5      
-		ORDER BY BOARD_TYPE_NO, RN
+		WHERE RANK <= 5
+		AND ROWNUM <= 30
+		ORDER BY BOARD_TYPE_NO, RANK
 		]]>
 	</select>
 	
