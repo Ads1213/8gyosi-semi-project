@@ -6,7 +6,7 @@
     <title>마이페이지 메인</title>
 
     <link rel="stylesheet" href="/css/myPage/myPage-main.css">
-	<th:block th:replace="~{common/common}"></th:block>
+	<th:block th:replace="~{common/common}"></th:block> 
 </head>
 <body>
 	<th:block th:replace="~{common/header}"></th:block>
@@ -330,7 +330,7 @@
 				</div>
 				<div id="picture-edit-area">
 					<div id="my-profile-picture"></div>
-					<a href="/myPage/myPage-profile">수정</a>
+					<a href="myPage/info">수정</a>
 				</div>
 			</section>
 			<section class="select-theme">
@@ -355,7 +355,7 @@
 	<script th:inline="javascript">
 		
 		// Calender 관련
-		const calenderList = [[${calender}]];
+		// const calenderList = [[${calender}]];
 		console.log(calenderList);
 		
 	</script>
