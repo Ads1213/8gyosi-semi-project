@@ -23,7 +23,7 @@
         <!-- 게시글 정보 -->
         <div class="board-info">
             <span th:text="${board.memberNo}"></span>
-            <span th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+            <span th:text="${board.boardCreateDate}"></span>
             <span>조회수 <span th:text="${board.boardViewCount}"></span></span>
         </div>
 
@@ -35,14 +35,14 @@
         <!-- 첨부 이미지 -->
         <div class="file-wrapper">
             <div th:each="img : ${board.boardImages}">
-                <img th:src="@{'/images/' + ${img.imgStoredName}}" class="preview">
+                <img th:src="@{'/images/' + ${img.imgRename}}" class="preview">
             </div>
         </div>
 
         <!-- 첨부 파일 -->
         <div class="file-wrapper">
             <div th:each="file : ${board.boardFiles}">
-                <a th:href="@{'/files/' + ${file.fileStoredName}}"
+                <a th:href="@{'/files/' + ${file.fileRename}}"
                    th:text="${file.fileOriginName}" target="_blank"></a>
             </div>
         </div>
@@ -59,8 +59,8 @@
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
         <div class="toolbar"
              th:if="${session.loginMember != null
-             and (session.loginMember.memberNo == board.memberNo
-             or session.loginMember.role.name() == 'ADMIN')}">
+             and (session.loginMember.memberNo == board.memberNo)}">
+             <!-- or session.loginMember.role.name() == 'ADMIN')}"> -->
 
             <a th:href="@{/board/{id}/edit(id=${board.boardId})}">수정</a>
             <button id="deleteBoardBtn">삭제</button>

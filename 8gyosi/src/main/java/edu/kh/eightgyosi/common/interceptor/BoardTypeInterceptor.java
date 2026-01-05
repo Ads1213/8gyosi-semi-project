@@ -1,62 +1,69 @@
 package edu.kh.eightgyosi.common.interceptor;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import edu.kh.eightgyosi.board.model.service.BoardService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-public class BoardTypeInterceptor implements HandlerInterceptor{
-	
-	@Autowired
-	private BoardService service;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		
+import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.service.EditBoardService;
+import edu.kh.eightgyosi.member.model.dto.Member;
 
-		ServletContext application = request.getServletContext();
-		
+/**
+ * BoardTypeInterceptor
+ * - Application Scope에 게시판 리스트 캐싱
+ * - 관리자 전용 게시판 접근 차단
+ */
+public class BoardTypeInterceptor implements HandlerInterceptor {
 
-		if(application.getAttribute("boardTypeList") == null) {
-			
+    private final EditBoardService service;
 
-			List<Map<String, Object>> boardTypeList = service.selectBoardTypeList();
-			
-			log.debug("boardTypeList:: {}", boardTypeList);
-			
-			application.setAttribute("boardTypeList", boardTypeList);
-			
-		}
-		
-		return HandlerInterceptor.super.preHandle(request, response, handler);
-	}
-	
+    // 생성자 주입
+    public BoardTypeInterceptor(EditBoardService service) {
+        this.service = service;
+    }
 
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-	}
-	
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
 
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		// TODO Auto-generated method stub
-		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
-	}
-	
-	
+        ServletContext application = request.getServletContext();
 
+        // 1️⃣ 게시판 리스트 캐싱
+        if(application.getAttribute("boardTypeList") == null) {
+            List<Board> boardList = service.getCategoryList();
+            application.setAttribute("boardTypeList", boardList);
+        }
+
+        // 2️⃣ 관리자 전용 접근 체크
+        Object loginObj = request.getSession().getAttribute("loginMember");
+        if(loginObj instanceof Member member) {
+            String uri = request.getRequestURI(); // 예: /editBoard/6/insert
+
+            @SuppressWarnings("unchecked")
+            List<Board> boardList = (List<Board>) application.getAttribute("boardTypeList");
+
+            try {
+                String[] parts = uri.split("/");
+                if(parts.length > 2){
+                    int boardTypeNo = Integer.parseInt(parts[2]);
+
+                    // 관리자 전용 게시판인지 확인
+                    if(service.isAdminOnlyCategory(boardTypeNo) && member.getRole() != Member.Role.ADMIN){
+                        // 일반 회원이면 접근 차단
+                        response.sendRedirect(request.getContextPath() + "/editBoard/" + boardTypeNo);
+                        return false;
+                    }
+                }
+            } catch(NumberFormatException e){
+                // URI 숫자 변환 실패 시 무시
+            }
+        }
+
+        return true; // 권한 체크 통과 시 컨트롤러 실행
+    }
 }

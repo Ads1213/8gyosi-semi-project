@@ -81,4 +81,47 @@ public class BoardSerivceImpl implements BoardService{
 		return map;
 
 	}
+	
+	// 게시글 상세 조회
+		@Override
+		public Board selectOne(Map<String, Integer> map) {
+			return mapper.selectOne(map);
+		}
+
+		// 조회수 1증가
+		@Override
+		public int updateReadCount(int boardId) {
+			
+			int result = mapper.updateReadCount(boardId);
+
+			if(result > 0) {
+				return mapper.selectReadCount(boardId);
+			}
+					
+			return -1;
+		}
+
+		@Override
+		public int boardLike(Map<String, Integer> map) {
+			
+			int result = 0;
+			
+			// 1. 좋아요가 체크된 상태인 경우(likeCheck == 1)
+			if( map.get("likeCheck") == 1 ) {
+				
+				result = mapper.deleteBoardLike(map);
+				
+			} else {			
+			// 2. 좋아요가 해제된 상태인 경우(likeCheck == 0)
+				result = mapper.insertBoardLike(map);
+				
+			}
+			
+			// 3. INSERT/DELETE 성공했다면 해당 게시글의 좋아요갯수 조회해서 반환
+			if(result > 0) {
+				return mapper.selectLikeCount(map.get("boardId"));
+			}
+			
+			return -1;
+		}
 }

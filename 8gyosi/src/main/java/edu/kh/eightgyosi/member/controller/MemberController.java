@@ -3,12 +3,15 @@ package edu.kh.eightgyosi.member.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
@@ -85,7 +88,6 @@ public class MemberController {
 	}
 	
 	/** 로그아웃
-	 * @author dasol
 	 * @param SessionStatus : @SessionAttributes로 지정된 특정 속성을
 	 * 						 세션에서 제거할 수 있는 기능을 제공하는 객체
 	 */
@@ -99,7 +101,6 @@ public class MemberController {
 	}
 	
 	/** 회원가입 페이지로 이동
-	 * @author : daosl
 	 * 
 	 */
 	@GetMapping("signup")
@@ -107,15 +108,83 @@ public class MemberController {
 		return "member/signup";
 	}
 	
-	/** 이메일 중복 검사 (비동기 요청)
-	 * @author dasol
+	/** 이메일 중복 검사
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping("checkEmail") // GET 방식 /member/checkEmail 요청 매핑
+	@GetMapping("checkEmail")
 	public int checkEmail(@RequestParam("memberEmail") String memberEmail) {
 		return service.checkEmail(memberEmail);
 	}
 	
+	/** 닉네임 중복 검사
+	 * @param nickname
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("checkNickname")
+	public int checkNickname(@RequestParam("memberNickname") String nickname) {
+		return service.checkNickname(nickname);
+	}
+	
+	/** 회원가입
+	 * @author dasol
+	 * @param member
+	 * @param memberAddress : 입력한 주소 input 3개의 값을 배열로 전달
+	 * 						[ 우편번호, 도로명/지번주소, 상세주소]
+	 * @param ra : RedirectAttributes 로 리다이렉트 시 1회성으로 
+	 * 			   req -> session -> req로 전달되는 객체
+	 * @return
+	 */
+	@PostMapping("signup")
+	public String signup(@ModelAttribute Member member,
+						@RequestParam("memberAddress") String[] memberAddress,
+						RedirectAttributes ra
+						) {
+		
+		// 회원가입 서비스 호출
+		int result = service.signup(member, memberAddress);
+		
+		String path = null;
+		String message = null;
+		
+		// 회원가입 성공 여부 조건
+		if(result > 0) {
+			message = member.getMemberNickname() 
+					+ "님의 가입을 환영합니다!";
+			
+			path = "/";
+			
+		} else {
+			message = "회원 가입 실패";
+			path = "signup";
+			
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		// redirect 는 Get 방식
+		return "redirect:" + path;
+	}
+	
+	
+		
+//	/** 프로필 이미지
+//   * @author : dasol ( 보류 )
+//	 * @param profileImg
+//	 * @param ra
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@PostMapping("profile")
+//	public String profile(@RequestParam("profileImg") MultipartFile profileImg,
+//							RedirectAttributes ra) throws Exception {
+//						
+//		// 서비스 호출
+//		int result = service.profile(profileImg);
+//		
+//		return ""; // 리다이렉트 - /myPage/profile GET 요청
+//		
+//	}
 
 }

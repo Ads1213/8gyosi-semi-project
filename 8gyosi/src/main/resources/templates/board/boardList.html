@@ -186,10 +186,11 @@
 
     <!-- ====================페이지 네이션(이 위까지)============== -->
 
-    <div class="btn-area">
-      <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
-      <button id="insertBtn">글쓰기</button>
-    </div>
+	<div class="btn-area" th:if="${loginMember != null}">
+	  <a th:href="@{'/' + ${boardTypeNo} + '/insert'}" class="btn">글쓰기</a>
+	</div>
+	
+	<!--butoon이 경로지정안되어있어 변경하였고 로그인되었을때 보이게 만들었어요 //철구-->
 
 
     <!-- 검색창 -->

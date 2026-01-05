@@ -1,25 +1,135 @@
-/* 기본 초기화 */
+/* 기본 설정 */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f0f2f5;
+  background-color: #f4f7f6;
+  font-family: 'Pretendard', sans-serif; /* 깔끔한 폰트 추천 */
   color: #333;
 }
 
-/* 필수 작성 */
-.required{
-  color: red;
-  padding: 0 5px;
+.required {
+  color: #e74c3c;
 }
 
 /* 메세지 색상 지정 */
 .confirm{ color : green; }
 .error{ color : red; }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
+/* 회원가입 카드 */
+.signup-card {
+  background-color: #fff;
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  font-family: 'Pixelify Sans', sans-serif; /* 너가 고른 픽셀 폰트! */
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2d3436;
+}
+
+/* 프로필 이미지 영역 */
+#profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.profile-image-area {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #eee;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 프로필 이미지 삭제 버튼(X) */
+#deleteImage {
+  position: absolute;
+  top: 5px;
+  right: 170px; /* 위치 조정 필요시 변경 */
+  cursor: pointer;
+  background: #ff7675;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.profile-btn-area {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+/* 파일 입력창은 숨기고 label로 꾸미기 */
+#imageInput {
+  display: none;
+}
+
+.profile-btn-area label, 
+#profile button {
+  padding: 8px 15px;
+  background-color: #636e72;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  transition: 0.3s;
+}
+
+.profile-btn-area label:hover, 
+#profile button:hover {
+  background-color: #2d3436;
+}
+
+/* 입력 폼 공통 */
+#signUpForm {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  display: block;
+}
 
 /* 입력 관련 메세지 */
 .signUp-message{
@@ -27,179 +137,58 @@ body {
   letter-spacing: -1px;
 }
 
-/* 헤더 */
-.navbar {
-  background-color: #5c7cfa;
-  color: white;
-  padding: 15px 50px;
+.signUp-input-area {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
 }
 
-.logo {
-  font-family: 'Pixelify Sans', sans-serif; /* 픽셀 폰트 적용 */
-  font-size: 32px;
-  font-weight: 700; /* 굵게 */
-  letter-spacing: 2px; /* 글자 간격 살짝 넓게 */
-} 
-
-.navbar nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
+input[type="text"],
+input[type="password"] {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-.navbar .login-btn {
-  font-family: 'Pixelify Sans', sans-serif; /* 픽셀 폰트 적용 */
-  font-weight: 700;
-  font-size: 20px;
-  color: #ffe600;
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #0984e3;
 }
 
-/* 메인 카드 */
-.container {
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.signup-card {
-  width: 600px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.card-header {
-  background-color: #5c7cfa;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-/* 프로필 이미지 */
-.profile-section {
-  display: flex;
-  justify-content: center;
-  padding: 30px 0;
-}
-
-.profile-circle {
-  width: 150px;
-  height: 150px;
-  background-color: #e0e0e0;
-  border-radius: 50%;
-  position: relative;
-}
-
-.camera-icon {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background: #5c7cfa;
-  color: white;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid white;
+/* 버튼 스타일 */
+button {
   cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
-/* 폼 스타일 */
-.card-body {
-  padding: 20px 40px;
+/* 인증번호 받기/검색 등 사이드 버튼 */
+.signUp-input-area button {
+  padding: 0 15px;
+  background-color: #0984e3;
+  color: white;
+  white-space: nowrap;
 }
 
-/* 1. 부모 박스: 자식들을 한 줄로 세우고 절대 줄바꿈 하지 않음 */
-.signUp-input-group {
-    display: flex;
-    align-items: stretch; /* 라벨, 인풋, 버튼 높이 통일 */
-    flex-wrap: wrap;    /* 자리가 모자라면 다음 줄로 넘어가게 허용! */
-    width: 100%;
-    margin-bottom: 15px;
+.signUp-input-area button:hover {
+  background-color: #74b9ff;
 }
 
-/* 메시지(span) 설정 */
-.msg {
-    width: 100%;        /* [핵심] 100%를 줘서 혼자 한 줄을 다 차지하게 함 */
-    margin-left: 120px;
-    font-size: 12px;
-    margin-top: 5px;
-    padding-left: 110px;
-}
-
-/* 2. 라벨: 가로 너비를 칼같이 고정 */
-.signUp-input-group label {
-    width: 120px;         /* 모든 라벨 너비 통일 (원하는 만큼 숫자 조절 가능) */
-    flex-shrink: 0;       /* 화면이 좁아져도 너비 사수 */
-    background-color: #4c6ef5;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 13px;
-    border-radius: 5px 0 0 5px;
-}
-
-/* 3. 인풋창: 남는 모든 공간을 혼자 다 차지함 */
-.input-group input {
-    flex: 1;              /* 라벨과 버튼 사이의 남는 공간을 꽉 채움 */
-    min-width: 0;         /* flex 안에서 인풋창이 삐져나가는 버그 방지 */
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-left: none;    /* 라벨과 붙어 보이게 왼쪽 테두리 제거 (선택사항) */
-    outline: none;
-}
-
-/* 4. 버튼: 버튼도 너비가 줄어들지 않게 고정 */
-.btn-action {
-    flex-shrink: 0;       /* 글자가 찌그러지지 않게 고정 */
-    padding: 0 15px;
-    background-color: #495057;
-    color: white;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.success {
-  color: #40c057;
-}
-
-.error {
-  color: #fa5252;
-}
-
-/* 푸터 */
-.footer {
-  background-color: #dbe4ff;
-  padding: 20px 50px;
-  font-size: 12px;
-  color: #666;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 50px;
-}
-
-.footer-links a {
-  color: black;
-  margin-right: 15px;
-  text-decoration: none;
-}
-
-.scroll-top {
-  font-size: 24px;
-  color: #4a71e8;
-  cursor: pointer;
+/* 가입하기 메인 버튼 */
+#signUpBtn {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #00b894;
+  color: white;
+  font-size: 18px;
   font-weight: bold;
+  border-radius: 8px;
+}
+
+#signUpBtn:hover {
+  background-color: #55efc4;
 }

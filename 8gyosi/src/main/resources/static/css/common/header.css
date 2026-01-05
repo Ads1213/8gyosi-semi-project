@@ -11,21 +11,37 @@ header {
 }
 
 header > section:first-child{
-    flex-basis: 10%;
+    flex-basis: 5%;
 }
 
 header > section:nth-child(2){
-    flex-basis: 69%;
+    flex-basis: 65%;
 }
 header > section:nth-child(3){
-    flex-basis: 7%;
+    flex-basis: 10%;
 }
 header > section:nth-child(4){
-    flex-basis: 7%;
+    flex-basis: 10%;
 }
 header > section:nth-child(5){
-    flex-basis: 7%;
+    flex-basis: 10%;
 }
+
+.profile-img-circle {
+    width: 30px;        
+    height: 30px;        
+    border-radius: 50%;  
+    overflow: hidden;     
+    border: 2px solid rgb(255, 255, 255); 
+}
+
+.profile-img-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   
+    object-position: center; 
+}
+
 
 /* 게시판 메뉴가 포함된 섹션 */
 #drop-board {
@@ -48,7 +64,6 @@ header > section:nth-child(5){
 
 
 .sub_menu {
-    
     display: flex; 
     position: absolute;
     height: 50px;
@@ -64,7 +79,6 @@ header > section:nth-child(5){
     border-radius: 4px;
     
 }
-
 
 .sub_menu.active {
     display: block;
@@ -124,22 +138,22 @@ header section a {
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
-    margin-left: 25px; /* 메뉴 간 간격 */
+    margin-left: 40px; /* 메뉴 간 간격 */
     opacity: 0.9;
 }
 
 /* 로그인 창 */
 #login-window{
     flex-direction: column;
-    width:300px;
-    height:400px;
-    top:50%;
-    left:50%;
+    width:350px;
+    height:420px;
+    top:20%;
+    left:40%;
     display: hidden;
-    border: 2px solid black;
-    padding:10px;
+    border: 1px solid rgb(227, 230, 232);
     position:fixed;
-    background-color: rgba(79, 116, 236, 0.7);
+    background-color: white;
+	border-radius:15px;
 }
 
 .hidden{
@@ -154,3 +168,62 @@ header section a {
     display: flex;
     flex-direction: column;
 }
+
+#login-window > div:first-child{
+	background-color: #5c86e0;
+	text-align: center;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	font-weight: bold;
+	padding:10px;
+	display:flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#login-window > div:first-child > div{
+	width:90%;
+	margin-top:5px;
+	font-size: 28px;
+}
+
+#login-window-close{
+	width:10%;
+	height:40px;
+	font-size: 28px;
+	cursor:pointer;
+	color: white;
+	padding:0px;
+	background-color: transparent;
+	border:none;
+	outline:none;
+}
+
+#login-form{
+	width:92%;
+	height:50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#login-form > label{
+	color:rgb(105, 103, 107)
+}
+
+#login-area{
+	width:95%;
+	border:none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color:rgb(105, 103, 107);
+}
+
+#loing-area > input{
+	width:100%;
+	margin:5px;
+	color:rgb(105, 103, 107);
+}
+
