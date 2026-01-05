@@ -59,7 +59,7 @@ public class CommentController {
 
         int result = service.deleteComment(commentId, loginMember);
         List<BoardComment> commentList = service.selectCommentList(boardId); // 삭제 후 댓글 목록 반환
-
+        
         return ResponseEntity.status(result > 0 ? HttpStatus.OK : HttpStatus.FORBIDDEN)
                 .body(Map.of(
                         "success", result > 0,
@@ -73,12 +73,10 @@ public class CommentController {
 		return service.select(boardId);
 	}
 	
-	
 	@PostMapping("")
 	public int insert(@RequestBody BoardComment comment) {
 		return service.insert(comment);
 	}
-	
 
 	@DeleteMapping("")
 	public int delete(@RequestBody int commentNo) {
