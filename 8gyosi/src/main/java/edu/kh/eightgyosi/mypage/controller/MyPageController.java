@@ -1,6 +1,5 @@
 package edu.kh.eightgyosi.mypage.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ import edu.kh.eightgyosi.mypage.model.service.CalenderService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ */
 @SessionAttributes({"calender"})
 @Controller
 @RequestMapping("myPage")
@@ -117,6 +119,15 @@ public class MyPageController {
 		}
 		
 		return path;
+	}
+	
+	/** 마이페이지 프로필 수정 화면
+	 * @return
+	 */
+	@GetMapping("myPage-profile")
+	public String myPageProfile() {
+		
+		return "myPage/myPage-profile";
 	}
 	
 }
