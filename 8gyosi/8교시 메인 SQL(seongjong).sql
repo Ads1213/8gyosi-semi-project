@@ -125,7 +125,6 @@ INSERT INTO "CALENDER" VALUES(
 
 COMMIT;
 
-
 -----------------------------------------------
 -------------------TIME_TABLE-----------------------
 -----------------------------------------------
@@ -266,12 +265,45 @@ FOREIGN KEY ("MEMBER_NO")
 REFERENCES "MEMBER" ("MEMBER_NO"); 
 
 SELECT * FROM "BOARD";
+SELECT * FROM "BOARD_TYPE";
 
 COMMIT;
 
 
+BEGIN
+	FOR I IN 1..100 LOOP
+		
+		INSERT INTO "BOARD"
+		VALUES(SEQ_BOARD_ID.NEXTVAL,
+					 SEQ_BOARD_ID.CURRVAL || '번째 게시글 제목 테스트',
+					 SEQ_BOARD_ID.CURRVAL || '번째 게시글 내용 테스트',
+					 DEFAULT, 
+					 DEFAULT, 
+					 DEFAULT, 
+					 DEFAULT,
+					 CEIL(DBMS_RANDOM.VALUE(0,6)), -- 0.0 이상 3.0 미만 난수발생시켜 BOARD_TYPE 랜덤 지정
+					 10 -- 회원번호
+		);
 
+	END LOOP;
+END;
 
+---------게시판별 5개씩 조회수 탑5 게시글 조회---------------------------
+SELECT * FROM (
+	SELECT 
+		B.*,
+    ROW_NUMBER() OVER ( 
+      PARTITION BY BOARD_TYPE_NO 
+      ORDER BY BOARD_VIEW_COUNT DESC, BOARD_ID DESC
+    ) AS RN
+  FROM "BOARD" B
+  WHERE BOARD_IS_DELETED = 'N'
+  AND BOARD_CREATE_DATE >= SYSDATE - 7 -- 생성일이 일주일 이내
+)
+WHERE RN <= 5      -- 각 타입별로 상위 5개씩만
+AND ROWNUM <= 30 -- 전체 결과가 30개를 넘지 않도록 제한
+ORDER BY BOARD_TYPE_NO, RN;
+-------------------------------------------------------------------------
 
 -----------------------------------------------
 -------------------COMMENT-----------------------
