@@ -236,7 +236,7 @@
 		FROM "BOARD"
 		WHERE BOARD_ID = #{boardId}
 	</select>
-	
+
 		<!-- 좋아요 해제 SQL(DELETE)  -->
 	<delete id="deleteBoardLike">
 		DELETE FROM "BOARD_LIKE"

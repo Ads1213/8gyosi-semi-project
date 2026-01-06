@@ -5,24 +5,24 @@ $(function() {
     const boardTypeNo = /*[[${board.boardTypeNo}]]*/ 1; // Thymeleaf 바인딩
 
     // ===================== 좋아요 토글 =====================
-    function updateLikeUI(liked, likeCount) {
-        $('#likeBtn').text(liked ? '👍 좋아요 취소' : '👍 좋아요');
-        $('#likeCount').text(likeCount);
-    }
+    // function updateLikeUI(liked, likeCount) {
+    //     $('#likeBtn').text(liked ? '👍 좋아요 취소' : '👍 좋아요');
+    //     $('#likeCount').text(likeCount);
+    // }
 
-    $('#likeBtn').click(function() {
-        $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/like`,
-            type: 'POST',
-            success: function(res) {
-                updateLikeUI(res.liked, res.likeCount);
-            },
-            error: function(err) {
-                alert('좋아요 처리 중 오류 발생');
-                console.error(err);
-            }
-        });
-    });
+    // $('#likeBtn').click(function() {
+    //     $.ajax({
+    //         url: `/board/${boardTypeNo}/${boardId}/like`,
+    //         type: 'POST',
+    //         success: function(res) {
+    //             updateLikeUI(res.liked, res.likeCount);
+    //         },
+    //         error: function(err) {
+    //             alert('좋아요 처리 중 오류 발생');
+    //             console.error(err);
+    //         }
+    //     });
+    // });
 
     // ===================== 댓글 목록 =====================
     function loadComments() {
@@ -66,7 +66,7 @@ $(function() {
             try {
                 if (typeof parentCommentNo !== 'undefined') {
                     pNo = parentCommentNo;
-                 }
+                }
             } catch (e) {
                 pNo = 0;
             }
@@ -307,4 +307,3 @@ $(function() {
     });
 
 });
-

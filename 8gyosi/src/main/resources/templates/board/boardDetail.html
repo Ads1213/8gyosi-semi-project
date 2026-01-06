@@ -54,6 +54,10 @@
                 th:data-comment-no="${board.boardId}" 
                 class="fa-regular fa-heart">
             </button>
+            <span th:text="*{likeCount}">0</span>
+          </span>
+
+            
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
@@ -133,4 +137,3 @@
 <script th:src="@{/js/board/boardDetail.js}"></script>
 </body>
 </html>
-
