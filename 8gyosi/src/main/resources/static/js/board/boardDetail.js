@@ -34,11 +34,11 @@ $(function() {
                 $list.empty();
                 comments.forEach(c => {
                     const canDelete = c.memberNo === sessionMemberNo || sessionRole === 'ADMIN';
-                    let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentId}">삭제</button>` : '';
+                    let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentNo}">삭제</button>` : '';
                     $list.append(`
-                        <div class="comment" id="comment-${c.commentId}">
-                            <p><strong>${c.memberName}</strong> (${c.createDate})</p>
-                            <p>${c.content}</p>
+                        <div class="comment" id="comment-${c.commentNo}">
+                            <p><strong>${c.memberName}</strong> (${c.commentWriteDate})</p>
+                            <p>${c.commentContent}</p>
                             ${deleteBtn}
                         </div>
                     `);
@@ -77,22 +77,24 @@ $(function() {
     });
 
     // ===================== 댓글 삭제 =====================
-    $('#commentList').on('click', '.deleteCommentBtn', function() {
-        const commentId = $(this).data('id');
-        if(!confirm('정말 삭제하시겠습니까?')) return;
+   window.deleteComment = function(commentNo) {
+        if (!confirm("정말 삭제하시겠습니까?")) return;
+
+        const obj = { "commentNo": commentNo };
 
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments/${commentId}`,
+            url: `/board/${boardTypeNo}/${boardId}/comments/${commentNo}`,
             type: 'DELETE',
+            data: JSON.stringify(obj),
             success: function(res) {
-                $(`#comment-${commentId}`).remove();
+                $(`#comment-${commentNo}`).remove();
             },
             error: function(err) {
                 alert('댓글 삭제 실패');
                 console.error(err);
             }
         });
-    });
+    };
 
     // ===================== 게시글 삭제 =====================
     $('#deleteBoardBtn').click(function() {
