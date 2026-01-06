@@ -6,11 +6,13 @@
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
 
     <!-- 게시글 작성 -->
+    <!--  
     <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
         INSERT INTO board (board_title, board_content, board_view_count, board_is_deleted,
                            board_create, board_updated, board_type_no, member_no)
         VALUES (#{boardTitle}, #{boardContent}, 0, 'N', NOW(), NOW(), #{boardTypeNo}, #{memberNo})
     </insert>
+    -->
 
     <!-- 게시글 수정 -->
     <update id="updateBoard">
@@ -80,7 +82,7 @@
     <select id="selectCategoryList" resultType="edu.kh.eightgyosi.board.model.dto.Board">
         SELECT *
         FROM board_type
-        ORDER BY boardTypeNo ASC
+        ORDER BY BOARD_TYPE_NO ASC
     </select>
 
 </mapper>

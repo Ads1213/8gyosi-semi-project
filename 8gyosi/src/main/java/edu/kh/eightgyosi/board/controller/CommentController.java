@@ -20,9 +20,11 @@ import edu.kh.eightgyosi.board.model.dto.BoardComment;
 import edu.kh.eightgyosi.board.model.service.CommentService;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/editBoard/comment")
+@Slf4j
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -30,19 +32,21 @@ public class CommentController {
 
     /** ===================== 댓글/대댓글 목록 조회 ===================== */
     @GetMapping("/{boardId}")
-    public ResponseEntity<List<BoardComment>> getCommentList(@PathVariable int boardId) {
+    public ResponseEntity<List<BoardComment>> getCommentList(@PathVariable("boardId") int boardId) {
         List<BoardComment> commentList = service.selectCommentList(boardId);
         return ResponseEntity.ok(commentList);
     }
 
     /** ===================== 댓글/대댓글 작성 ===================== */
     @PostMapping("/{boardId}")
-    public ResponseEntity<Map<String,Object>> insertComment(@PathVariable int boardId,
+    public ResponseEntity<Map<String,Object>> insertComment(@PathVariable("boardId") int boardId,
                                                             @RequestBody BoardComment comment,
                                                             @SessionAttribute("loginMember") Member loginMember) {
         // 로그인한 회원 정보 세팅
         comment.setMemberNo(loginMember.getMemberNo());
         comment.setBoardId(boardId);
+        
+        log.debug("BoardComment :: {}", comment);
 
         int result = service.insertComment(comment);
         return ResponseEntity.ok(
@@ -53,13 +57,13 @@ public class CommentController {
 
     /** ===================== 댓글/대댓글 삭제 ===================== */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Map<String,Object>> deleteComment(@PathVariable int commentId,
+    public ResponseEntity<Map<String,Object>> deleteComment(@PathVariable("commentId") int commentId,
                                                             @RequestParam int boardId,
                                                             @SessionAttribute("loginMember") Member loginMember) {
 
         int result = service.deleteComment(commentId, loginMember);
         List<BoardComment> commentList = service.selectCommentList(boardId); // 삭제 후 댓글 목록 반환
-        
+
         return ResponseEntity.status(result > 0 ? HttpStatus.OK : HttpStatus.FORBIDDEN)
                 .body(Map.of(
                         "success", result > 0,
@@ -73,10 +77,12 @@ public class CommentController {
 		return service.select(boardId);
 	}
 	
+	
 	@PostMapping("")
 	public int insert(@RequestBody BoardComment comment) {
 		return service.insert(comment);
 	}
+	
 
 	@DeleteMapping("")
 	public int delete(@RequestBody int commentNo) {

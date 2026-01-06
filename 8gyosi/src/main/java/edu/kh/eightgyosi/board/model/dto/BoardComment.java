@@ -36,5 +36,11 @@ public class BoardComment {
 
     /** 부모 댓글 번호 (대댓글용, 없으면 0) */
     private int parentCommentNo;
+    
+    /** 회원 프로필 */
+    private String profileImg;
+    
+    // 
+    private String memberNickname;
 }
 

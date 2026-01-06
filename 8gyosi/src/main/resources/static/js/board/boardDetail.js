@@ -27,18 +27,18 @@ $(function() {
     // ===================== 댓글 목록 =====================
     function loadComments() {
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments`,
+            url: `/editBoard/comment/${boardId}`,
             type: 'GET',
             success: function(comments) {
                 const $list = $('#commentList');
                 $list.empty();
                 comments.forEach(c => {
                     const canDelete = c.memberNo === sessionMemberNo || sessionRole === 'ADMIN';
-                    let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentId}">삭제</button>` : '';
+                    let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentNo}">삭제</button>` : '';
                     $list.append(`
-                        <div class="comment" id="comment-${c.commentId}">
-                            <p><strong>${c.memberName}</strong> (${c.createDate})</p>
-                            <p>${c.content}</p>
+                        <div class="comment" id="comment-${c.commentNo}">
+                            <p><strong>${c.memberNickname}</strong> (${c.commentWriteDate})</p>
+                            <p>${c.commentContent}</p>
                             ${deleteBtn}
                         </div>
                     `);
@@ -58,11 +58,15 @@ $(function() {
         const content = $('#commentContent').val().trim();
         if(!content) return alert('댓글 내용을 입력하세요');
 
+        const obj = { "commentContent" : content,
+					  "boardId" : boardId // 추가 : seongjong
+		 };
+
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments`,
+            url: `/editBoard/comment/${boardId}`,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ content }),
+            data: JSON.stringify(obj),
             success: function(res) {
                 $('#commentContent').val('');
                 loadComments();

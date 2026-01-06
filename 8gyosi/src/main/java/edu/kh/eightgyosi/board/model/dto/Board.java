@@ -51,6 +51,19 @@ public class Board {
     /** 첨부 파일 리스트 */
     private List<BoardFile> boardFiles;
     
+
+    /** 게시글 작성자 프로필 이미지*/
+    private String profileImg;
+
+    /** 게시글의 썸네일 이미지 */
+    private String thumbnail;
+
+    /** 임시) 게시글 좋아요 여부 확인 */
+    private int likeCheck;
+    
+    // 멤버 닉네임
+    private String memberNickname;
+    
     
 	private int boardCommentCount; // 댓글 수
 	private int boardLikeCount; // 좋아요 수
