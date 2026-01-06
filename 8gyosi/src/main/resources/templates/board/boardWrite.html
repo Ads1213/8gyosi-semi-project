@@ -5,7 +5,7 @@
     <title>게시글 작성</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/board/boardWrite-style.css}">
+    <link rel="stylesheet" href="/css/board/boardWrite-style.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
 
@@ -17,26 +17,48 @@
 <th:block th:replace="~{common/header}"></th:block>
 
 <main class="container">
-	<form th:action="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
-	      method="post" enctype="multipart/form-data">
+    <form th:action="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
+          method="post" enctype="multipart/form-data" class="write-box">
 
-	    <select name="boardTypeNo" required>
-	        <option value="">게시판 선택</option>
-	        <option th:each="type : ${categoryList}"
-	                th:value="${type.boardTypeNo}"
-	                th:text="${type.boardTypeName}"
-	                th:if="${!type.adminOnly or session.loginMember.role == T(edu.kh.eightgyosi.member.model.dto.Member.Role).ADMIN}">
-	        </option>
-	    </select>
+        <div class="title-wrapper">
+            <select name="boardTypeNo" class="category-select" required>
+                <option value="">게시판 선택</option>
+                <option th:each="type : ${categoryList}"
+                        th:value="${type.boardTypeNo}"
+                        th:text="${type.boardTypeName}"
+                        th:selected="${type.boardTypeNo == boardTypeNo}">
+                </option>
+            </select>
 
-	    <input type="text" name="boardTitle" placeholder="제목 입력" required>
-	    <textarea id="boardContent" name="boardContent"></textarea>
+            <input type="text" name="boardTitle" class="title-input" 
+                   placeholder="제목 입력" style="flex:1" required>
+        </div>
 
-	    <input type="file" name="images" multiple accept="image/*">
-	    <input type="file" name="files" multiple>
+        <div class="content-wrapper">
+            <div class="textarea-wrapper">
+                <textarea id="boardContent" name="boardContent" class="content-input"></textarea>
+            </div>
+        </div>
 
-	    <button type="submit">작성 완료</button>
-	</form>
+        <div class="boardImg">
+            <label for="img-input">
+                <span class="submit-btn" style="background-color: #eee; color: #333;">이미지 선택</span>
+                <input type="file" id="img-input" name="images" multiple accept="image/*">
+            </label>
+            <div id="image-preview-area"></div>
+        </div>
+
+        <div class="boardFile">
+            <label for="file-input">
+                <span class="submit-btn" style="background-color: #eee; color: #333;">파일 첨부</span>
+                <input type="file" id="file-input" name="files" multiple>
+            </label>
+        </div>
+
+        <div class="bottom-area">
+            <button type="submit" class="submit-btn">작성 완료</button>
+        </div>
+    </form>
 </main>
 
 <th:block th:replace="~{common/footer}"></th:block>

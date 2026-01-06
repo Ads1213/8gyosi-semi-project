@@ -25,7 +25,7 @@ public class EditBoardController {
 
     /** ==================== 게시글 작성 화면 ==================== */
     @GetMapping("/{boardTypeNo:[1-6]}/insert")
-    public String insertForm(@PathVariable int boardTypeNo, Model model) {
+    public String insertForm(@PathVariable("boardTypeNo") int boardTypeNo, Model model) {
         model.addAttribute("boardTypeNo", boardTypeNo);
         model.addAttribute("categoryList", service.getCategoryList());
         return "board/boardWrite";
@@ -33,7 +33,7 @@ public class EditBoardController {
 
     /** ==================== 게시글 작성 처리 ==================== */
     @PostMapping("/{boardTypeNo:[1-6]}/insert")
-    public String insertBoard(@PathVariable int boardTypeNo,
+    public String insertBoard(@PathVariable("boardTypeNo") int boardTypeNo,
                               @ModelAttribute Board board,
                               @SessionAttribute("loginMember") Member loginMember,
                               @RequestParam(value="images", required=false) List<org.springframework.web.multipart.MultipartFile> images,
