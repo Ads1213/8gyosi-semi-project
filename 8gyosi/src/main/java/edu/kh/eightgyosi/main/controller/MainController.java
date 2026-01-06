@@ -22,11 +22,11 @@ public class MainController {
 	@RequestMapping("/")
 	public String mainPage(Model model){
 		
-		//List<BoardType> boardTypeList = service.selectBoardType();
-		//List<Board> boardTop5List = service.selectBoardTop5List();
+		List<BoardType> boardTypeList = service.selectBoardType();
+		List<Board> boardTop5List = service.selectBoardTop5List();
 		
-		//model.addAttribute("boardTypeList", boardTypeList);
-		//model.addAttribute("boardTop5List", boardTop5List);
+		model.addAttribute("boardTypeList", boardTypeList);
+		model.addAttribute("boardTop5List", boardTop5List);
 		
 		return "common/main"; // forward
 		
