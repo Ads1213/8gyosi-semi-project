@@ -33,7 +33,7 @@
 	
 	
 	<!-- 일기장 작성일 중복 확인 -->
-	<select id="checkWhiteDate">
+	<select id="checkWriteDate" resultType="_int">
 		SELECT NVL2(DIARY_TITLE, 1, 0) 
 		FROM DIARY 
 		WHERE (DIARY_DATE = #{diaryDate})

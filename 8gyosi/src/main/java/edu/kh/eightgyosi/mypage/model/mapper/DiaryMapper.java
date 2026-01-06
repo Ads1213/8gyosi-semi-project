@@ -32,7 +32,7 @@ public interface DiaryMapper {
 	 * @param inputDiary
 	 * @return
 	 */
-	int checkWhiteDate(DiaryDTO inputDiary);
+	int checkWriteDate(DiaryDTO inputDiary);
 
 
 

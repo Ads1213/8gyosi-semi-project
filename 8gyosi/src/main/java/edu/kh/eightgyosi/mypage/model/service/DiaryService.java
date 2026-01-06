@@ -31,7 +31,7 @@ public interface DiaryService {
 	 * @param inputDiary
 	 * @return
 	 */
-	int checkWhiteDate(DiaryDTO inputDiary);
+	int checkWriteDate(DiaryDTO inputDiary);
 
 
 

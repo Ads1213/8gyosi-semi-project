@@ -43,7 +43,7 @@ public class DiaryServiceImpl implements DiaryService{
 
 	// 일기장 작성일 중복 확인 메서드
 	@Override
-	public int checkWhiteDate(DiaryDTO inputDiary) {
-		return diaryMapper.checkWhiteDate(inputDiary);
+	public int checkWriteDate(DiaryDTO inputDiary) {
+		return diaryMapper.checkWriteDate(inputDiary);
 	}
 }

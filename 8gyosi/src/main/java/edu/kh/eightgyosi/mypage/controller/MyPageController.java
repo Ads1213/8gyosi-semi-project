@@ -204,7 +204,8 @@ public class MyPageController {
 		inputDiary.setMemberNo(memberNo);
 	    int result = 0;
 
-	    // 입력할 날짜가 비어있는 경우
+
+		// 입력할 날짜가 비어있는 경우
 		if (inputDiary.getDiaryDate() == "") {
 			message = "삭제할 날짜를 입력해주세요.";
 	        return "redirect:/myPage";
@@ -217,17 +218,19 @@ public class MyPageController {
 			ra.addFlashAttribute("message", message);
 			return "redirect:/myPage";
 		
+		} 
+/*		
+		result = diaryService.checkWriteDate(inputDiary);
+		
 		// 해당일에 이미 작성한 이메일이 있는 경우
-		} else if(result == 1) {
-			
-			result = diaryService.checkWhiteDate(inputDiary);
+		if(result == 1) {	
 
 			message = "이미 회원님이 일기를 작성한 날이에요";
 			ra.addFlashAttribute("message", message);
 			return "redirect:/myPage";
 			
 		}else {
-			
+*/			
 			result = diaryService.insertDiary(inputDiary);
 			log.debug("저장 결과 : " + result);
 			
@@ -248,7 +251,7 @@ public class MyPageController {
 			
 			
 			
-		}
+		
 		
 		
 		
