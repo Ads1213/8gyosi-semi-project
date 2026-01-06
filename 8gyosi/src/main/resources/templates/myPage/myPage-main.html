@@ -260,11 +260,11 @@
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
 
-                <section class="diary main-content"> <!-- 일기장-->
-                    <div id="diary-name" class="diary-component">일기장</div>
+                <section> <!-- 일기장-->
+                    <div id="diary-name" class="diary-component"></div>
 
                     <section class="diary main-content">
-                        <div id="diary-name" class="diary-component">일기장 관리</div>
+                        <div id="diary-name" class="diary-component">일기장</div>
 
                         <form method="POST" id="diary-form">
                             <label>
@@ -285,12 +285,11 @@
                             <div class="diary-buttons">
                                 <button type="button" id="diary-selectBtn">조회</button>
 
-                                <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장/수정</button>
-                                <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}"
-                                    onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                                <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장</button>
+                                <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}">삭제</button>
                             </div>
                         </form>
-                    </section>F
+                    </section>
                 </section> <!-- 일기장 끝-->
 
                 <!-- 오답노트 정보 없을 때-->

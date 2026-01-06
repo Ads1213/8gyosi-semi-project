@@ -17,7 +17,7 @@
     </insert>
 
 	<!-- 일기장 내용 조회 -->
-	<select id="selectDiary">
+	<select id="selectDiary" resultType="DiaryDTO">
 		SELECT DIARY_TITLE, DIARY_CONTENT, MEMBER_NO, DIARY_DATE
 		FROM DIARY 
 		WHERE (DIARY_DATE = #{diaryDate})

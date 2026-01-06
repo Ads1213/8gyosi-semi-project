@@ -186,7 +186,9 @@ public class MyPageController {
 */	
 	
 	
-	/** 일기장 내용 저장
+	
+	
+	/** 일기장 내용 저장/수정
 	 * @param loginMember
 	 * @param model
 	 * @return
@@ -194,32 +196,62 @@ public class MyPageController {
 	@PostMapping("diary/insertDiary")
 	public String insertDiary(@SessionAttribute("loginMember") Member loginMember,
 			Model model,
-			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
+			@ModelAttribute DiaryDTO inputDiary,
 	        RedirectAttributes ra) { 
 		
-		String message = null;
-
-		
+		String message = null;	
 		int memberNo = loginMember.getMemberNo();
 		inputDiary.setMemberNo(memberNo);
-	    
-	    // 2. 서비스 호출 (inputDiary 객체 자체를 넘기는 것이 좋습니다)
-	    int result = diaryService.insertDiary(inputDiary);
-	    log.debug("result : " + result);
-	    
-	    
-	    if(result > 0) {
-	        message = "일기가 성공적으로 저장되었습니다.";
-	    } else {
-	        message = "일기 저장에 실패했습니다. ";
+	    int result = 0;
+
+	    // 입력할 날짜가 비어있는 경우
+		if (inputDiary.getDiaryDate() == "") {
+			message = "삭제할 날짜를 입력해주세요.";
+	        return "redirect:/myPage";
 	    }
 	    
-	    ra.addFlashAttribute("message", message);
+		//  길이가 8이 아니거나 / 숫자가 아닌 문자가 포함되어 있다면
+		if(!inputDiary.getDiaryDate().matches("\\d+") || inputDiary.getDiaryDate().length() != 8){
+		    
+			message = "YYYYMMDD형식의 8자리 작성일을 입력해주세요";
+			ra.addFlashAttribute("message", message);
+			return "redirect:/myPage";
+		
+		// 해당일에 이미 작성한 이메일이 있는 경우
+		} else if(result == 1) {
+			
+			result = diaryService.checkWhiteDate(inputDiary);
 
-	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
-	    return "redirect:/myPage"; 
-	    
+			message = "이미 회원님이 일기를 작성한 날이에요";
+			ra.addFlashAttribute("message", message);
+			return "redirect:/myPage";
+			
+		}else {
+			
+			result = diaryService.insertDiary(inputDiary);
+			log.debug("저장 결과 : " + result);
+			
+			
+			if(result > 0) {
+				message = "일기가 성공적으로 저장되었습니다.";
+			} else {
+				message = "일기 저장에 실패했습니다. ";
+			}
+			
+			ra.addFlashAttribute("message", message);
+			
+
+			return "redirect:/myPage"; 
+			
 		}
+			
+			
+			
+			
+		}
+		
+		
+		
 	
 	
 	/** 일기 내용 조회
@@ -235,11 +267,13 @@ public class MyPageController {
 	                            @RequestBody DiaryDTO inputDiary) { 
 	    
 	    inputDiary.setMemberNo(loginMember.getMemberNo());
+	    DiaryDTO result = diaryService.selectDiary(inputDiary);
 	    
+	    log.debug("조회 결과: " + result);
 	    
-	    log.debug("result : " + result);
+
 	    // DB에서 일기 정보를 가져와서 객체 그대로 반환 (JSON 변환됨)
-	    return diaryService.selectDiary(inputDiary); 
+	    return result;
 	}
 
 	
@@ -257,24 +291,23 @@ public class MyPageController {
 	        @ModelAttribute DiaryDTO inputDiary,
 	        RedirectAttributes ra) { 
 		
+		String message = null;		
 		int memberNo = loginMember.getMemberNo();
-		
 		inputDiary.setMemberNo(memberNo);
+
 		
 		int result = diaryService.deleteDiary(inputDiary);
-
-	    String message = null;
-	    
-	    if(result > 0) {
-	        message = "일기가 성공적으로 삭제되었습니다.";
-	    } else {
-	        message = "일기 삭제가 실패했습니다.";
-	    }
-	    
-	    ra.addFlashAttribute("message", message);
-
-	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
-	    return "redirect:/myPage";
+		    
+		if(result > 0) {
+			message = "일기가 성공적으로 삭제되었습니다.";
+		} else {
+			message = "일기 삭제가 실패했습니다.";
+		}
+		    
+		ra.addFlashAttribute("message", message);
+	
+		return "redirect:/myPage";
+		
 	}
  		
 

@@ -12,14 +12,14 @@ public interface DiaryService {
 	int insertDiary(DiaryDTO inputDiary);
 
 	
-	/** 일기장 내용 검색
+	/** 일기장 내용 검색 서비스
 	 * @param inputDiary
 	 * @return
 	 */
 	DiaryDTO selectDiary(DiaryDTO inputDiary);
 
 	
-	/** 일기장 내용 삭제
+	/** 일기장 내용 삭제 서비스
 	 * @param inputDiary
 	 * @return
 	 */
@@ -32,5 +32,7 @@ public interface DiaryService {
 	 * @return
 	 */
 	int checkWhiteDate(DiaryDTO inputDiary);
+
+
 
 }
