@@ -20,6 +20,22 @@ public interface DiaryMapper {
 	 */
 	DiaryDTO selectDiary(DiaryDTO inputDiary);
 
+	/** 일기장 내용 삭제 SQL
+	 * @param inputDiary
+	 * @return
+	 */
+	int deleteDiary(DiaryDTO inputDiary);
+
+
+
+	/** 일기장 작성일 중복 확인 SQL
+	 * @param inputDiary
+	 * @return
+	 */
+	int checkWhiteDate(DiaryDTO inputDiary);
+
+
+
 
 
 }

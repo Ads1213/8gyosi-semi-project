@@ -2,12 +2,7 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: 'Malgun Gothic', sans-serif;
+  margin: 0;
 }
 
 
@@ -23,7 +18,7 @@ main {
 #chat-container {
     width: 1000px;
     height: 700px;
-    display: flex;
+
     flex-direction: column;
     border: 1px solid #ccc;
     background-color: white;

@@ -12,11 +12,10 @@ import lombok.NoArgsConstructor;
 public class DiaryDTO {
 	
 	// DIARY 테이블과 동일
-	private int diaryNo;
 	private String diaryDate;
 	private String diaryTitle;
 	private String diaryContent;
 	private int memberNo;
-	private String selectDiaryDate;
+
 	
 }

@@ -149,11 +149,46 @@ function calenderSchedule(){
 
 // --------------------------------------------
 // 2. diary 관련 ------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const selectBtn = document.getElementById("diary-selectBtn");
+    const diaryDateInput = document.getElementById("diaryDate");
+    const diaryTitleInput = document.getElementById("diaryTitle");
+    const diaryContentInput = document.getElementById("diaryContent");
 
-// 오늘 날짜 출력
-document.querySelector("#diary-today").innerText = year + '년 ' + month + '월 ' + today.getDate() + '일';
+    if (selectBtn) {
+        selectBtn.addEventListener("click", () => {
+            const dateValue = diaryDateInput.value.trim();
 
+            if (dateValue.length === 0) {
+                alert("조회할 날짜를 입력해주세요.");
+                return;
+            }
 
-
-
-
+            // 비동기 요청 시작
+            fetch("/myPage/diary/selectDiary", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "diaryDate": dateValue }) // @RequestBody DiaryDTO 매핑
+            })
+            .then(response => {
+                if(response.ok) return response.json();
+                throw new Error("조회 실패");
+            })
+            .then(data => {
+                if (data && data.diaryTitle) { // 데이터가 있는 경우
+                    diaryTitleInput.value = data.diaryTitle;
+                    diaryContentInput.value = data.diaryContent;
+                    alert(dateValue + " 일기를 불러왔습니다.");
+                } else { // 해당 날짜에 데이터가 없는 경우
+                    alert("해당 날짜의 일기가 존재하지 않습니다.");
+                    diaryTitleInput.value = "";
+                    diaryContentInput.value = "";
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("조회 중 오류가 발생했습니다.");
+            });
+        });
+    }
+});

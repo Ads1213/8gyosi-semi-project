@@ -3,14 +3,18 @@ package edu.kh.eightgyosi.mypage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -131,6 +135,57 @@ public class MyPageController {
 		return path;
 	}
 	
+	
+// ------------------------------------------------------------------------------	
+	
+	/** 일기장 작성일 형식 및 중복 확인 메서드 (***** 조립해서 쓸것 ******)
+	 * @param loginMember
+	 * @param model
+	 * @param inputDiary
+	 * @param ra
+	 * @return
+	 */
+/*	public String checkWhiteDate(@SessionAttribute("loginMember") Member loginMember,
+			Model model,
+			@ModelAttribute DiaryDTO inputDiary, 
+	        RedirectAttributes ra) { 
+		int memberNo = loginMember.getMemberNo();
+		inputDiary.setMemberNo(memberNo);
+		int result = 0;
+		String message = null;
+		// *추가 - 숫자가 아닌 문자가 들어온 경우
+
+		// *추가 - 2000이상의 값으로 시작하지 않는 경우
+		
+		
+		// 8자리보다 크거나 작은 숫자를 입력한 경우
+		if(inputDiary.getDiaryDate().length() != 8) {
+			
+		
+			message = "YYYYMMDD형식의 8자리 작성일을 입력해주세요";
+			ra.addFlashAttribute("message", message);
+			return "redirect:/myPage";
+		
+		// 작성한 날짜에 이미 작성한 일기가 존재하는 경우
+		} else if(result == 1) {
+		
+
+			
+			result = diaryService.checkWhiteDate(inputDiary);
+			
+
+			message = "이미 회원님이 일기를 작성한 날이에요";
+			ra.addFlashAttribute("message", message);
+			return "redirect:/myPage";
+		} else {
+			
+
+		
+		}
+	}
+*/	
+	
+	
 	/** 일기장 내용 저장
 	 * @param loginMember
 	 * @param model
@@ -142,48 +197,86 @@ public class MyPageController {
 			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
 	        RedirectAttributes ra) { 
 		
+		String message = null;
+
+		
 		int memberNo = loginMember.getMemberNo();
 		inputDiary.setMemberNo(memberNo);
 	    
 	    // 2. 서비스 호출 (inputDiary 객체 자체를 넘기는 것이 좋습니다)
 	    int result = diaryService.insertDiary(inputDiary);
-	    log.info("inputDiary", inputDiary);
-	    log.debug("inputDiary :: {}", "inputDiary");
-	    String message = null;
+	    log.debug("result : " + result);
+	    
 	    
 	    if(result > 0) {
 	        message = "일기가 성공적으로 저장되었습니다.";
 	    } else {
-	        message = "일기 저장에 실패했습니다.";
+	        message = "일기 저장에 실패했습니다. ";
 	    }
 	    
 	    ra.addFlashAttribute("message", message);
 
 	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
 	    return "redirect:/myPage"; 
-	}
+	    
+		}
 	
 	
+	/** 일기 내용 조회
+	 * @param loginMember
+	 * @param model
+	 * @param inputDiary
+	 * @param ra
+	 * @return
+	 */
+	@ResponseBody
 	@PostMapping("diary/selectDiary")
-	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
-	        @ModelAttribute DiaryDTO inputDiary,
-	        Model model, 
-	        RedirectAttributes ra) { 
+	public DiaryDTO selectDiary(@SessionAttribute("loginMember") Member loginMember,
+	                            @RequestBody DiaryDTO inputDiary) { 
 	    
 	    inputDiary.setMemberNo(loginMember.getMemberNo());
 	    
-	    // 1. 서비스 호출 (결과를 DTO 객체로 받음)
-	    DiaryDTO diary = diaryService.selectDiary(inputDiary);
 	    
-	    if(diary != null) {
-
-	        model.addAttribute("diary", diary);
-	        return "redirect:/myPage";  
-	    } else {
-	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
-	        return "redirect:/myPage"; 
-	    }
+	    log.debug("result : " + result);
+	    // DB에서 일기 정보를 가져와서 객체 그대로 반환 (JSON 변환됨)
+	    return diaryService.selectDiary(inputDiary); 
 	}
+
+	
+	
+	/** 일기 내용 삭제
+	 * @param loginMember
+	 * @param model
+	 * @param inputDiary
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("diary/deleteDiary")
+	public String deleteDiary(@SessionAttribute("loginMember") Member loginMember,
+			Model model, 
+	        @ModelAttribute DiaryDTO inputDiary,
+	        RedirectAttributes ra) { 
+		
+		int memberNo = loginMember.getMemberNo();
+		
+		inputDiary.setMemberNo(memberNo);
+		
+		int result = diaryService.deleteDiary(inputDiary);
+
+	    String message = null;
+	    
+	    if(result > 0) {
+	        message = "일기가 성공적으로 삭제되었습니다.";
+	    } else {
+	        message = "일기 삭제가 실패했습니다.";
+	    }
+	    
+	    ra.addFlashAttribute("message", message);
+
+	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
+	    return "redirect:/myPage";
+	}
+ 		
 
 // seongjong
 	
