@@ -99,7 +99,7 @@
 	</select>
   	
   	
-  		<!-- 검색 결과 목록 조회 -->
+	<!-- 검색 결과 목록 조회 -->
 	<select id="selectSearchList">
 		SELECT BOARD_ID,  MEMBER_NICKNAME, BOARD_TITLE, BOARD_VIEW_COUNT,
 		(SELECT
@@ -154,32 +154,6 @@
 		</choose>
 		ORDER BY BOARD_ID DESC
 	</select>
-	
-	<!--임시로 긁어온거라 없애셔도됩니다
-	 상세 조회한 게시글의 댓글 목록 조회(계층형 쿼리) 
-	<select id="selectCommentList" resultType="Comment">
-		SELECT LEVEL, C.* FROM
-		(SELECT COMMENT_NO, COMMENT_CONTENT,
-		TO_CHAR(COMMENT_WRITE_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"')
-		COMMENT_WRITE_DATE,
-		BOARD_NO, MEMBER_NO, MEMBER_NICKNAME, PROFILE_IMG,
-		PARENT_COMMENT_NO, COMMENT_DEL_FL
-		FROM "COMMENT"
-		JOIN MEMBER
-		USING(MEMBER_NO)
-		WHERE BOARD_NO = #{boardNo}) C
-		WHERE COMMENT_DEL_FL =
-		'N'
-		OR 0 != (SELECT COUNT(*) FROM "COMMENT" SUB
-		WHERE SUB.PARENT_COMMENT_NO = C.COMMENT_NO
-		AND COMMENT_DEL_FL = 'N')
-		START WITH PARENT_COMMENT_NO IS NULL
-		CONNECT BY
-		PRIOR COMMENT_NO = PARENT_COMMENT_NO
-		ORDER SIBLINGS BY COMMENT_NO
-	</select>
-	-->
-
 	
 	<resultMap type="Board" id="board_rm">
 		<id property="boardId" column="BOARD_ID" />
@@ -282,7 +256,6 @@
 		WHERE BOARD_ID = #{boardId}
 	</select>
 	
-	
 	<!-- DB 이미지 파일명 목록 조회 -->
 	<select id="selectDbImageList">
 		SELECT SUBSTR(PROFILE_IMG, 
@@ -294,21 +267,39 @@
 	</select>
 	
 	<!-- 게시판별 인기글 탑5 조회 sql : seongjong -->
-	<!-- 쿼리 설명 sql 안에 있음 -->
+	<!-- 쿼리 설명 sql 안에 있음(설명 보충 필요)-->
 	<select id="selectBoardTop5List" resultType="board">
 		<![CDATA[
 		SELECT * FROM (
-			SELECT B.*,
-	    		ROW_NUMBER() OVER ( 
-	      		PARTITION BY BOARD_TYPE_NO 
-	      		ORDER BY BOARD_VIEW_COUNT DESC, BOARD_ID DESC
-	   	 	) AS RN
-	  		FROM "BOARD" B
-			WHERE BOARD_IS_DELETED = 'N'
-			AND BOARD_CREATE_DATE >= SYSDATE - 7 
+		    SELECT 
+		    
+		        B.*,
+		        CASE 
+		            WHEN (SYSDATE - B.BOARD_CREATE_DATE) <= 1 THEN 1
+		            ELSE 2
+		        END AS IS_NEW,
+		        
+		        (SELECT COUNT(*) 
+		         FROM "COMMENT" C
+		         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+		         
+		         ROW_NUMBER() OVER ( 
+		            PARTITION BY B.BOARD_TYPE_NO 
+		            ORDER BY B.BOARD_ID DESC
+		        ) AS MAIN_CP,
+		
+		        ROW_NUMBER() OVER ( 
+		            PARTITION BY B.BOARD_TYPE_NO 
+		            ORDER BY B.BOARD_VIEW_COUNT DESC, B.BOARD_ID DESC
+		        ) AS RANK 
+		        
+		    FROM "BOARD" B
+		    WHERE B.BOARD_IS_DELETED = 'N'
+		    AND B.BOARD_CREATE_DATE >= SYSDATE - 7
 		)
-		WHERE RN <= 5      
-		ORDER BY BOARD_TYPE_NO, RN
+		WHERE RANK <= 5
+		AND ROWNUM <= 30
+		ORDER BY BOARD_TYPE_NO, RANK
 		]]>
 	</select>
 	

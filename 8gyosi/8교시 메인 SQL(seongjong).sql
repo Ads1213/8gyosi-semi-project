@@ -88,7 +88,7 @@ SELECT SEQ_MEMBER_NO.CURRVAL FROM DUAL;
 -- 3-4. 증감 변경 
 ALTER SEQUENCE SEQ_MEMBER_NO INCREMENT BY 1;
 
-SELECT * FROM "MEMBER";
+SELECT * FROM "BOARD_TYPE";
 
 DROP SEQUENCE SEQ_MEMBER_NO;
 DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
@@ -266,6 +266,7 @@ REFERENCES "MEMBER" ("MEMBER_NO");
 
 SELECT * FROM "BOARD";
 SELECT * FROM "BOARD_TYPE";
+SELECT * FROM "COMMENT";
 
 COMMIT;
 
@@ -281,28 +282,47 @@ BEGIN
 					 DEFAULT, 
 					 DEFAULT, 
 					 DEFAULT,
-					 CEIL(DBMS_RANDOM.VALUE(0,6)), -- 0.0 이상 3.0 미만 난수발생시켜 BOARD_TYPE 랜덤 지정
+					 CEIL(DBMS_RANDOM.VALUE(0,6)), -- 0.0 이상 6.0 미만 난수발생시켜 BOARD_TYPE 랜덤 지정
 					 10 -- 회원번호
 		);
 
 	END LOOP;
 END;
 
----------게시판별 5개씩 조회수 탑5 게시글 조회---------------------------
+---------게시판별 5개씩 조회수 탑5 게시글 조회, 댓글수, 게시판별 순위, 해당 글이 게시판에서 몇 번째 글인지 포함---------------------------
 SELECT * FROM (
-	SELECT 
-		B.*,
-    ROW_NUMBER() OVER ( 
-      PARTITION BY BOARD_TYPE_NO 
-      ORDER BY BOARD_VIEW_COUNT DESC, BOARD_ID DESC
-    ) AS RN
-  FROM "BOARD" B
-  WHERE BOARD_IS_DELETED = 'N'
-  AND BOARD_CREATE_DATE >= SYSDATE - 7 -- 생성일이 일주일 이내
+    SELECT 
+        B.*,
+        -- 작성일이 현재 시간으로부터 24시간(1일) 이내면 1, 아니면 2
+        CASE 
+            WHEN (SYSDATE - B.BOARD_CREATE_DATE) <= 1 THEN 1
+            ELSE 2
+        END AS IS_NEW,
+        
+        -- 댓글 수 조회
+        (SELECT COUNT(*) 
+         FROM "COMMENT" C
+         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+         
+         -- 메인화면에서 연결할 CP 값을 생성하기 위한 부분
+         -- 특정 게시글이 특정 BOARD_TYPE 게시판에서 몇 번째 글인지 파악함
+         ROW_NUMBER() OVER ( 
+            PARTITION BY B.BOARD_TYPE_NO 
+            ORDER BY B.BOARD_ID DESC
+        ) AS MAIN_CP,
+         
+        -- 게시판별 순위 계산
+        ROW_NUMBER() OVER ( 
+            PARTITION BY B.BOARD_TYPE_NO 
+            ORDER BY B.BOARD_VIEW_COUNT DESC, B.BOARD_ID DESC
+        ) AS RANK 
+    FROM "BOARD" B
+    WHERE B.BOARD_IS_DELETED = 'N'
+    AND B.BOARD_CREATE_DATE >= SYSDATE - 7
 )
-WHERE RN <= 5      -- 각 타입별로 상위 5개씩만
-AND ROWNUM <= 30 -- 전체 결과가 30개를 넘지 않도록 제한
-ORDER BY BOARD_TYPE_NO, RN;
+WHERE RANK <= 5
+AND ROWNUM <= 30
+ORDER BY BOARD_TYPE_NO, RANK;
 -------------------------------------------------------------------------
 
 -----------------------------------------------
@@ -607,14 +627,8 @@ ALTER TABLE `TODO` ADD CONSTRAINT `PK_TODO` PRIMARY KEY (
 	`TODO_NO`
 );
 
-
-
 ALTER TABLE `DIARY` ADD CONSTRAINT `PK_DIARY` PRIMARY KEY (
 	`DIARY_NO`
-);
-
-ALTER TABLE `WRONG_NOTE` ADD CONSTRAINT `PK_WRONG_NOTE` PRIMARY KEY (
-	`WRONG_NOTE_NO`
 );
 
 ALTER TABLE `INQUIRY` ADD CONSTRAINT `PK_INQUIRY` PRIMARY KEY (
