@@ -1,6 +1,7 @@
 package edu.kh.eightgyosi.mypage.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -34,6 +35,18 @@ public interface MyPageMapper {
 	 * @return
 	 */
 	int updateInfo(Member member);
+
+	/** 회원 비밀번호 일치 서비스
+	 * @param memberNo
+	 * @return
+	 */
+	String selectPw(int memberNo);
+
+	/** 회원 비밀번호 변경 서비스
+	 * @param paramMap
+	 * @return
+	 */
+	int changePw(Map<String, Object> paramMap);
 	
 	
 

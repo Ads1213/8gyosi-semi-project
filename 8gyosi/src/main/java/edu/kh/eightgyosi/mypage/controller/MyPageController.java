@@ -1,6 +1,7 @@
 package edu.kh.eightgyosi.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -213,7 +214,6 @@ public class MyPageController {
 			// 구분자 "^^^" 를 기준으로
 			// memberAddress 값을 쪼개어 String[] 로 반환
 			String[] arr = memberAddress.split("\\^\\^\\^");
-			log.info("memberAddress" + memberAddress);
 			// ["03189", "서울 종로구 우정국로2길 21", "3층, 302호 클래스 (대왕빌딩)"]
 			
 			model.addAttribute("postcode", arr[0]); // 우편주소
@@ -275,7 +275,7 @@ public class MyPageController {
 	@GetMapping("profile")
 	public String profile() {
 		
-		return "/myPage/myPage-profile";
+		return "myPage/myPage-profile";
 	}
 	
 	// 비밀번호 변경 화면 이동
@@ -284,10 +284,55 @@ public class MyPageController {
 		return "myPage/myPage-changePw";
 	}
 	
+	// 비밀번호 변경	
+	@PostMapping("changePw")
+	public String changePw(@RequestParam Map<String, Object> paramMap,
+							@SessionAttribute("loginMember") Member loginMember,
+							RedirectAttributes ra) {
+		
+		// 로그인한 회원 번호
+		int memberNo = loginMember.getMemberNo();
+		
+		// 서비스 호출
+		int result = myPageService.changePw(paramMap, memberNo);
+		
+		String message = null;
+		String path = null;
+		
+		if(result > 0) {
+			
+			message = "비밀번호가 변경되었습니다";
+			path = "/myPage/info";
+		} else {
+			
+			message = "현재 비밀번호가 일치하지 않습니다";
+			path = "/myPage/changePw";
+		}
+			
+		ra.addFlashAttribute("message", message);
+			
+		return "redirect:" + path;
+	}
+	
 	// 회원 탈퇴 화면 이동
 	@GetMapping("secession")
 	public String secession() {
 		return "myPage/myPage-secession";
+	}
+	
+	@PostMapping("secession") // /myPage/secession POST 요청 매핑
+	public String secession(@RequestParam("memberPw") String memberPw,
+							@SessionAttribute("loginMember") Member loginMember
+							) {
+		
+		// 로그인한 회원의 회원번호 꺼내오기
+		int memberNo = loginMember.getMemberNo();
+		
+		// 서비스 호출 (입력받은 비밀번호, 로그인한 회원번호)
+		int result = myPageService.secession(memberPw, memberNo);
+		
+		
+		return "redirect:/";
 	}
 	
 	// 파일 테스트 화면으로 이동
