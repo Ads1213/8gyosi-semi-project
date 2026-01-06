@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -192,7 +191,7 @@ public class MyPageController {
 	 * @param loginMember
 	 * @return
 	 */
-	@GetMapping("info")
+	@GetMapping("info") // /myPage/info
 	public String info(@SessionAttribute("loginMember") Member loginMember,
 							Model model) {
 		
@@ -218,6 +217,21 @@ public class MyPageController {
 		}
 		
 		return "myPage/myPage-info";
+	}
+	
+	/** 회원 정보 수정
+	 * @return
+	 */
+	@PostMapping("info") // /myPage/info POST 방식 요청 매핑
+	public String updateInfo() {
+		
+		return "";
+	}
+	
+	// 프로필 변경 화면 이동
+	@GetMapping("profile")
+	public String profile() {
+		return "/myPage/myPage-profile";
 	}
 	
 	// 비밀번호 변경 화면 이동

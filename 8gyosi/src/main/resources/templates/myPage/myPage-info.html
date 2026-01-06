@@ -9,19 +9,18 @@
   <th:block th:replace="~{common/common}"></th:block>
 
   <!-- myPage 전용 CSS -->
-  <link rel="stylesheet" href="/css/myPage/myPage-style.css">
+  <link rel="stylesheet" href="/css/myPage/myPage-info.css">
 </head>
 <body>
 
+  <!-- 헤더 추가 -->  
+  <th:block th:replace="~{common/header}"></th:block>
+
   <main>
-
-    <!-- 헤더 추가 -->
-    <th:block th:replace="~{common/header}"></th:block>
-
     <section class="myPage-content">
 
       <!-- 사이드 메뉴(왼쪽) 추가 -->
-      <!-- <th:block th:replace="~{myPage/sideMenu}"></th:block> -->
+      <th:block th:replace="~{myPage/myPage-sideMenu}"></th:block>
 
       <!-- 마이페이지 본문(오른쪽) -->
       <section class="myPage-main">

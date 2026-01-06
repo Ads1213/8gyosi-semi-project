@@ -1,5 +1,6 @@
 package edu.kh.eightgyosi.common.config;
 
+
 import java.util.Arrays;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,19 +16,25 @@ public class FilterConfig {
 	@Bean
 	public FilterRegistrationBean<LoginFilter> loginFilter(){
 		
-		FilterRegistrationBean<LoginFilter> filter = new FilterRegistrationBean<>();
+		FilterRegistrationBean<LoginFilter> filter 
+		= new FilterRegistrationBean<>();
 		
+		// 사용할 필터 객체 세팅
 		filter.setFilter(new LoginFilter());
 		
-		String[] filteringURL = {"/myPage/*"};
+		// 필터가 동작할 URL 세팅
+		// chatting, editBoard 추가 : daosl
+		String[] filteringURL = {"/myPage/*", "/editBoard/*"};
 		
 		filter.setUrlPatterns(Arrays.asList(filteringURL));
 		
+		// 필터 이름 지정
 		filter.setName("loginFilteR");
 		
+		// 필터 순서 지정
 		filter.setOrder(1);
 		
-		return filter;
+		return filter; // 반환된 객체가 Bean 등록
 	};
 		
 }
