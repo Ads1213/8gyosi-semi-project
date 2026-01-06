@@ -11,4 +11,10 @@ public interface DiaryService {
 	 */
 	int insertDiary(DiaryDTO inputDiary);
 
+	/** 일기장 내용 검색
+	 * @param inputDiary
+	 * @return
+	 */
+	DiaryDTO selectDiary(DiaryDTO inputDiary);
+
 }

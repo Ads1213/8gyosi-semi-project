@@ -65,7 +65,11 @@
               <td th:text="*{boardId}">게시글 번호</td>
 
               <!-- 작성자 닉네임-->
-              <td th:text="${board.memberNickname}">닉네임</td>
+
+              <!--<td th:text="${board.memberNickname}">닉네임</td>-->
+
+              <td th:text="*{memberNickname}">닉네임</td>
+
 
               <!-- 게시글 제목-->
               <!-- 검색 X -->
@@ -187,8 +191,10 @@
     <!-- ====================페이지 네이션(이 위까지)============== -->
 
 	<div class="btn-area" th:if="${session.loginMember != null}">
-	  <a th:href="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}" class="btn">글쓰기</a>
+	    <a th:href="@{/editBoard/{typeNo}/insert(typeNo=${boardTypeNo})}" class="btn">글쓰기</a>
 	</div>
+	
+	<!--butoon이 경로지정안되어있어 변경하였고 로그인되었을때 보이게 만들었어요 //철구-->
 
 
     <!-- 검색창 -->
