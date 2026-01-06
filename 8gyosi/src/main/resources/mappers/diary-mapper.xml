@@ -17,6 +17,8 @@
             #{memberNo}         )
     </insert>
 
-
+	<select id="selectDiary">
+		
+	</select>
 	
 </mapper>
