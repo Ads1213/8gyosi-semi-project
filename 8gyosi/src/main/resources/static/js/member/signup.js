@@ -591,6 +591,43 @@ memberSchool.addEventListener("input", e => {
 });
 
 // -----------------------------------------------------
+//                   ** 생년월일 ** 
+// -----------------------------------------------------
+
+/* 생년월일 유효성 검사 */
+const memberBirth = document.querySelector("#memberBirth");
+const birthMessage = document.querySelector("#birthMessage");
+
+memberBirth.addEventListener("input", e => {
+
+    const inputBirth = e.target.value;
+
+    if (inputBirth.trim().length === 0) {
+        birthMessage.innerText = "생년월일을 입력해주세요.(- 제외)";
+        birthMessage.classList.remove("confirm", "error");
+        checkObj.memberBirth = false;
+        memberBirth.value = "";
+        return;
+    }
+
+    const regExp = /^[0-9]{8}$/;
+
+    if (!regExp.test(inputBirth)) {
+        birthMessage.innerText = "유효하지 않은 생년월일 형식입니다.";
+        birthMessage.classList.add("error");
+        birthMessage.classList.remove("confirm");
+        checkObj.memberBirth = false;
+        return;
+    }
+
+    birthMessage.innerText = "유효한 생년월일 형식입니다.";
+    birthMessage.classList.add("confirm");
+    birthMessage.classList.remove("error");
+    checkObj.memberBirth = true;
+
+});
+
+// -----------------------------------------------------
 //                      ** 주소 ** 
 // -----------------------------------------------------
 
@@ -665,6 +702,9 @@ signUpForm.addEventListener("submit", e => {
 
                 case "memberSchool":
                     str = "학교명이 유효하지 않습니다"; break;
+
+                case "memberBirth":
+                    str = "생년월일이 유효하지 않습니다"; break;    
             }
 
             alert(str);

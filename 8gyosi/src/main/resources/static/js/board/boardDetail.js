@@ -37,7 +37,11 @@ $(function() {
                     let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentNo}">삭제</button>` : '';
                     $list.append(`
                         <div class="comment" id="comment-${c.commentNo}">
-                            <p><strong>${c.memberName}</strong> (${c.commentWriteDate})</p>
+
+                            // <p><strong>${c.memberName}</strong> (${c.commentWriteDate})</p>
+
+                            <p><strong>${c.memberNickname}</strong> (${c.commentWriteDate})</p>
+							
                             <p>${c.commentContent}</p>
                             ${deleteBtn}
                         </div>
@@ -58,7 +62,9 @@ $(function() {
         const content = $('#commentContent').val().trim();
         if(!content) return alert('댓글 내용을 입력하세요');
 
-        const obj = { "commentContent" : content };
+        const obj = { "commentContent" : content,
+					  "boardId" : boardId // 추가 : seongjong
+		 };
 
         $.ajax({
             url: `/editBoard/comment/${boardId}`,

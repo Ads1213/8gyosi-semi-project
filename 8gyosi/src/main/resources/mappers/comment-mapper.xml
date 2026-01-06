@@ -30,29 +30,25 @@
     <insert id="insertComment" parameterType="BoardComment">
         INSERT INTO "COMMENT"
         VALUES(SEQ_COMMENT_NO.NEXTVAL, #{commentContent}, DEFAULT, DEFAULT, #{boardId}, #{memberNo}, 
-        <!-- 자식 댓글(답글) -->
 		<if test="parentCommentNo != 0">
 			#{parentCommentNo}
-		</if>
-		
-		<!-- 부모 댓글(1레벨) -->
+		</if>	
 		<if test="parentCommentNo == 0">
 			NULL
 		</if>
-        )
     </insert>
 
     <!-- 단일 댓글 조회 -->
     <select id="selectComment" parameterType="int" resultType="BoardComment">
         SELECT *
-        FROM COMMENT
-        WHERE COMMENT_ID = #{commentId}
+        FROM "COMMENT"
+        WHERE COMMENT_NO = #{commentNo}
     </select>
 
     <!-- 댓글/대댓글 삭제 -->
     <delete id="deleteComment" parameterType="int">
-        DELETE FROM COMMENT
-        WHERE COMMENT_NO = #{commetNo}
+        DELETE FROM "COMMENT"
+         WHERE COMMENT_NO = #{commetNo}
     </delete>
 
 </mapper>

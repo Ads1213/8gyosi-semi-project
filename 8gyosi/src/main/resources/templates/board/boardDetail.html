@@ -84,7 +84,11 @@
 					<p class="comment-writer">
 						
 	
-						<span th:text="${board.memberNickname}">닉네임</span>
+
+						<!--<span th:text="${board.memberNickname}">닉네임</span>-->
+
+						<span th:text="*{memberNickname}">닉네임</span>
+
 						<span class="comment-date" th:text="*{commentWriteDate}">작성일</span>
 					</p>
 	

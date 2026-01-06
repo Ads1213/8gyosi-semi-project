@@ -34,7 +34,22 @@ ALTER TABLE "MEMBER" ADD ("MEMBER_SCHOOL" NVARCHAR2(20) NOT NULL);
 	
    3) 학교 컬럼 추가 					 */
 
-	 
+INSERT INTO "MEMBER" VALUES(
+	SEQ_MEMBER_NO.NEXTVAL,
+	'chulgu@test.co.kr',
+	'1111',
+	'철구님 테스트',
+	NULL,
+	DEFAULT,
+	DEFAULT,
+	'20091010',
+	'010-0100-0101',
+	NULL,
+	DEFAULT,
+	DEFAULT,
+	'고등학교'
+);	 
+
 	 
 ALTER TABLE "MEMBER" MODIFY ("MEMBER_BG" NOT NULL);
 ALTER TABLE "MEMBER" MODIFY "MEMBER_BG" NUMBER;
@@ -73,7 +88,7 @@ SELECT SEQ_MEMBER_NO.CURRVAL FROM DUAL;
 -- 3-4. 증감 변경 
 ALTER SEQUENCE SEQ_MEMBER_NO INCREMENT BY 1;
 
-SELECT * FROM "MEMBER";
+SELECT * FROM "BOARD_TYPE";
 
 DROP SEQUENCE SEQ_MEMBER_NO;
 DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
@@ -109,7 +124,6 @@ INSERT INTO "CALENDER" VALUES(
 );
 
 COMMIT;
-
 
 -----------------------------------------------
 -------------------TIME_TABLE-----------------------
@@ -251,12 +265,65 @@ FOREIGN KEY ("MEMBER_NO")
 REFERENCES "MEMBER" ("MEMBER_NO"); 
 
 SELECT * FROM "BOARD";
+SELECT * FROM "BOARD_TYPE";
+SELECT * FROM "COMMENT";
 
 COMMIT;
 
 
+BEGIN
+	FOR I IN 1..100 LOOP
+		
+		INSERT INTO "BOARD"
+		VALUES(SEQ_BOARD_ID.NEXTVAL,
+					 SEQ_BOARD_ID.CURRVAL || '번째 게시글 제목 테스트',
+					 SEQ_BOARD_ID.CURRVAL || '번째 게시글 내용 테스트',
+					 DEFAULT, 
+					 DEFAULT, 
+					 DEFAULT, 
+					 DEFAULT,
+					 CEIL(DBMS_RANDOM.VALUE(0,6)), -- 0.0 이상 6.0 미만 난수발생시켜 BOARD_TYPE 랜덤 지정
+					 10 -- 회원번호
+		);
 
+	END LOOP;
+END;
 
+---------게시판별 5개씩 조회수 탑5 게시글 조회, 댓글수, 게시판별 순위, 해당 글이 게시판에서 몇 번째 글인지 포함---------------------------
+SELECT * FROM (
+    SELECT 
+        B.*,
+        -- 작성일이 현재 시간으로부터 24시간(1일) 이내면 1, 아니면 2
+        CASE 
+            WHEN (SYSDATE - B.BOARD_CREATE_DATE) <= 1 THEN 1
+            ELSE 2
+        END AS IS_NEW,
+        
+        -- 댓글 수 조회
+        (SELECT COUNT(*) 
+         FROM "COMMENT" C
+         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+         
+         -- 메인화면에서 연결할 CP 값을 생성하기 위한 부분
+         -- 특정 게시글이 특정 BOARD_TYPE 게시판에서 몇 번째 글인지 파악함
+         ROW_NUMBER() OVER ( 
+            PARTITION BY B.BOARD_TYPE_NO 
+            ORDER BY B.BOARD_ID DESC
+        ) AS MAIN_CP,
+         
+        -- 게시판별 순위 계산
+        ROW_NUMBER() OVER ( 
+            PARTITION BY B.BOARD_TYPE_NO 
+            ORDER BY B.BOARD_VIEW_COUNT DESC, B.BOARD_ID DESC
+        ) AS RANK 
+    FROM "BOARD" B
+    WHERE B.BOARD_IS_DELETED = 'N'
+    AND B.BOARD_CREATE_DATE >= SYSDATE - 7
+)
+WHERE RANK <= 5
+AND ROWNUM <= 30
+ORDER BY BOARD_TYPE_NO, RANK;
+-------------------------------------------------------------------------
 
 -----------------------------------------------
 -------------------COMMENT-----------------------
@@ -560,14 +627,8 @@ ALTER TABLE `TODO` ADD CONSTRAINT `PK_TODO` PRIMARY KEY (
 	`TODO_NO`
 );
 
-
-
 ALTER TABLE `DIARY` ADD CONSTRAINT `PK_DIARY` PRIMARY KEY (
 	`DIARY_NO`
-);
-
-ALTER TABLE `WRONG_NOTE` ADD CONSTRAINT `PK_WRONG_NOTE` PRIMARY KEY (
-	`WRONG_NOTE_NO`
 );
 
 ALTER TABLE `INQUIRY` ADD CONSTRAINT `PK_INQUIRY` PRIMARY KEY (

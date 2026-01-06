@@ -1,7 +1,6 @@
 * {
     box-sizing: border-box;
 }
-
 body {
     background-color: #f0f0f0;
     display: flex;
@@ -9,6 +8,15 @@ body {
     align-items: center;
     height: 100vh;
     font-family: 'Malgun Gothic', sans-serif;
+}
+
+
+main {
+  width: 1440px;
+  margin: auto; /* 좌우 가운데 정렬을 위해서 */
+  background-color: #F1F4F9;
+  overflow: hidden;
+  
 }
 
 /* 전체 컨테이너 */

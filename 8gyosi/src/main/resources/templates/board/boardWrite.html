@@ -14,33 +14,41 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.js"></script>
 </head>
 <body>
+<!-- 헤더 -->
 <th:block th:replace="~{common/header}"></th:block>
 
 <main class="container">
-	<form th:action="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
-	      method="post" enctype="multipart/form-data">
+    <form th:action="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
+          method="post"
+          enctype="multipart/form-data"
+          id="boardForm">
 
-	    <select name="boardTypeNo" required>
-	        <option value="">게시판 선택</option>
-	        <option th:each="type : ${categoryList}"
-	                th:value="${type.boardTypeNo}"
-	                th:text="${type.boardTypeName}"
-	                th:if="${!type.adminOnly or session.loginMember.role == T(edu.kh.eightgyosi.member.model.dto.Member.Role).ADMIN}">
-	        </option>
-	    </select>
+        <!-- 게시판 타입 (hidden) -->
+        <input type="hidden" name="boardTypeNo" th:value="${boardTypeNo}" />
 
-	    <input type="text" name="boardTitle" placeholder="제목 입력" required>
-	    <textarea id="boardContent" name="boardContent"></textarea>
+        <!-- 제목 -->
+        <input type="text" name="title" placeholder="제목 입력" required>
 
-	    <input type="file" name="images" multiple accept="image/*">
-	    <input type="file" name="files" multiple>
+        <!-- 내용 -->
+        <textarea id="boardContent" name="content"></textarea>
 
-	    <button type="submit">작성 완료</button>
-	</form>
+        <!-- 이미지 업로드 -->
+        <input type="file" name="images" multiple accept="image/*">
+
+        <!-- 일반 파일 업로드 -->
+        <input type="file" name="files" multiple>
+
+        <!-- 제출 버튼 -->
+        <button type="submit">작성 완료</button>
+    </form>
 </main>
 
+<!-- 푸터 -->
 <th:block th:replace="~{common/footer}"></th:block>
 
+<!-- JS -->
 <script th:src="@{/js/board/boardWrite.js}"></script>
 </body>
 </html>
+
+

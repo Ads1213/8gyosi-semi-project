@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
 
     <!-- 게시글 작성 -->
     <!--  
     <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
-        INSERT INTO board (board_title, board_content, board_view_count, board_is_deleted,
-                           board_create, board_updated, board_type_no, member_no)
-        VALUES (#{boardTitle}, #{boardContent}, 0, 'N', NOW(), NOW(), #{boardTypeNo}, #{memberNo})
+        INSERT INTO board (board_type_no, member_no, title, content, create_date, update_date)
+        VALUES (#{boardTypeNo}, #{memberNo}, #{title}, #{content}, NOW(), NOW())
     </insert>
     -->
 
     <!-- 게시글 수정 -->
     <update id="updateBoard">
         UPDATE board
-        SET board_title = #{boardTitle},
-            board_content = #{boardContent},
-            board_updated = NOW()
+        SET title = #{title},
+            content = #{content},
+            update_date = NOW()
         WHERE board_id = #{boardId}
     </update>
 
@@ -29,60 +27,73 @@
         WHERE board_id = #{boardId} AND member_no = #{memberNo}
     </delete>
 
-    <!-- 게시글 단일 조회 -->
+    <!-- 단일 게시글 조회 -->
     <select id="selectBoardDetail" resultType="edu.kh.eightgyosi.board.model.dto.Board">
-        SELECT *
+        SELECT board_id, board_type_no, member_no, title, content, create_date, update_date
         FROM board
         WHERE board_id = #{boardId}
     </select>
 
-    <!-- ===================== 이미지 ===================== -->
+    <!-- 게시글 이미지 조회 -->
+    <select id="selectBoardImages" resultType="edu.kh.eightgyosi.board.model.dto.BoardImage">
+        SELECT img_no, board_id, img_order, img_path, img_rename, img_original_name, img_size
+        FROM board_image
+        WHERE board_id = #{boardId}
+        ORDER BY img_order ASC
+    </select>
 
-    <insert id="insertBoardImage">
-        INSERT INTO board_image (img_path, img_original_name, img_rename, img_order, board_id, img_size)
-        VALUES (#{imgPath}, #{imgOriginalName}, #{imgRename}, #{imgOrder}, #{boardId}, #{imgSize})
-    </insert>
+    <!-- 게시글 파일 조회 -->
+    <select id="selectBoardFiles" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
+        SELECT uploadfile_no, board_id, uploadfile_origin, uploadfile_strg, uploadfile_size, uploadfile_date, uploadfile_path
+        FROM board_file
+        WHERE board_id = #{boardId}
+    </select>
 
+    <!-- 단일 이미지 조회 -->
     <select id="selectBoardImageById" resultType="edu.kh.eightgyosi.board.model.dto.BoardImage">
         SELECT * FROM board_image WHERE img_no = #{imgNo}
     </select>
 
+    <!-- 단일 파일 조회 -->
+    <select id="selectBoardFile" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
+        SELECT * FROM board_file WHERE uploadfile_no = #{fileNo}
+    </select>
+
+    <!-- 이미지 삽입 -->
+    <insert id="insertBoardImage">
+        INSERT INTO board_image (board_id, img_order, img_path, img_rename, img_original_name, img_size)
+        VALUES (#{boardId}, #{imgOrder}, #{imgPath}, #{imgRename}, #{imgOriginalName}, #{imgSize})
+    </insert>
+
+    <!-- 이미지 삭제 -->
     <delete id="deleteBoardImage">
         DELETE FROM board_image WHERE img_no = #{imgNo}
     </delete>
 
-    <select id="selectMaxImgOrder" resultType="int">
-        SELECT IFNULL(MAX(img_order), 0) FROM board_image WHERE board_id = #{boardId}
-    </select>
-
-    <select id="selectBoardImages" resultType="edu.kh.eightgyosi.board.model.dto.BoardImage">
-        SELECT * FROM board_image WHERE board_id = #{boardId} ORDER BY img_order ASC
-    </select>
-
-    <!-- ===================== 파일 ===================== -->
-
+    <!-- 파일 삽입 -->
     <insert id="insertBoardFile">
-        INSERT INTO board_file (uploadfile_origin, uploadfile_path, uploadfile_strg, uploadfile_size, uploadfile_date, board_id)
-        VALUES (#{uploadfileOrigin}, #{uploadfilePath}, #{uploadfileStrg}, #{uploadfileSize}, #{uploadfileDate}, #{boardId})
+        INSERT INTO board_file (board_id, uploadfile_origin, uploadfile_strg, uploadfile_size, uploadfile_date, uploadfile_path)
+        VALUES (#{boardId}, #{uploadfileOrigin}, #{uploadfileStrg}, #{uploadfileSize}, #{uploadfileDate}, #{uploadfilePath})
     </insert>
 
-    <select id="selectBoardFile" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
-        SELECT * FROM board_file WHERE uploadfile_no = #{uploadfileNo}
-    </select>
-
+    <!-- 파일 삭제 -->
     <delete id="deleteBoardFile">
-        DELETE FROM board_file WHERE uploadfile_no = #{uploadfileNo}
+        DELETE FROM board_file WHERE uploadfile_no = #{fileNo}
     </delete>
 
-    <select id="selectBoardFiles" resultType="edu.kh.eightgyosi.board.model.dto.BoardFile">
-        SELECT * FROM board_file WHERE board_id = #{boardId}
+    <!-- 이미지 최대 순서 조회 -->
+    <select id="selectMaxImgOrder" resultType="int">
+        SELECT IFNULL(MAX(img_order), 0)
+        FROM board_image
+        WHERE board_id = #{boardId}
     </select>
 
-    <!-- ===================== 카테고리 ===================== -->
-    <select id="selectCategoryList" resultType="edu.kh.eightgyosi.board.model.dto.Board">
-        SELECT *
+    <!-- 카테고리 조회 -->
+    <select id="selectCategoryList" resultType="edu.kh.eightgyosi.board.model.dto.BoardType">
+        SELECT board_type_no, board_type_name
         FROM board_type
         ORDER BY BOARD_TYPE_NO ASC
     </select>
 
 </mapper>
+
