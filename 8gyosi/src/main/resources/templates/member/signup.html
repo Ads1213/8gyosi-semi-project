@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>8gyosi - 회원가입</title>
+  <title>8gyosi 회원가입</title>
 
   <link rel="stylesheet" href="/css/member/signup-style.css">
 
@@ -148,11 +148,15 @@
         <span class="signUp-message" id="schoolMessage">한글, 영어, 숫자, ·, 띄어쓰기 2~40자 사이로 입력해 주세요</span>
 
         <!-- 생년월일 입력 -->
-        <label for="memberBirth">생년월일</label>
+        <label for="memberBirth">
+          <span class="required">*</span> 생년월일
+        </label>
 
         <div class="signUp-input-area">
           <input type="text" name="memberBirth" id="memberBirth" placeholder="ex)20001213" maxlength="8">
         </div>
+
+        <span class="signUp-message" id="birthMessage">숫자만 입력해 주세요</span>
 
         <!-- 주소 입력 -->
         <label for="memberAddress">주소</label>

@@ -1,7 +1,5 @@
 package edu.kh.eightgyosi.member.model.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import edu.kh.eightgyosi.member.model.dto.Member;
 
 public interface MemberService {
