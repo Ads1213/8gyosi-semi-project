@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 
 public interface BoardService {
 
@@ -43,5 +44,12 @@ public interface BoardService {
 	 * @return
 	 */
 	int boardLike(Map<String, Integer> map);
+
+	/** 메인화면에 boardTypeList 가져오기 위한 service
+	 * @return
+	 */
+	List<BoardType> selectBoardType();
+
+	List<Board> selectBoardTop5List();
 
 }

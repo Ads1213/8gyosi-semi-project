@@ -42,22 +42,23 @@
         </th:block>
 
         <!-- 오답노트 정보가 있을 때 -->
-		<!-- 아래 th:object 쪽을 js에서 페이지를 이동할 때마다 갈아끼우는 식으로 -->
-        <th:block th:unless="${#lists.isEmpty(wrongNoteDTOLists)}" th:object="${wrongNoteDTOLists[0]}"> 
-	        <section id="main-box">
-	            <section id="left">
-	                <div th:text="*{wrongNoteTitle}" id="wrong-note-title" class="wrong-note-inner-content">
-	                    문제 제목이 없습니다</div>
-	                <div th:text="*{wrongNoteContent}" id="wrong-note-content" class="wrong-note-inner-content">문제 내용이 없습니다</div>
-	                <div th:text="*{wrongNoteMyanswer}" id="wrong-note-myanswer" class="wrong-note-inner-content">문제 정답이 없습니다</div>
-	            </section>
-	            <section id="right">
-	                <div th:text="*{wrongNoteExplain}" id="wrong-note-explain" class="wrong-note-inner-content">풀이 내용이 없습니다</div>
-	                <button id="addBtn">추가</button>
-	            </section>
-	        </section>
+        <th:block th:unless="${#lists.isEmpty(wrongNoteDTOLists)}">
+			<th:block th:each="tempList : ${wrongNoteDTOLists}" th:if="${tempList.wrongNoteNo == wrongNoteNo}" th:object="${tempList}">
+		        <section id="main-box">
+		            <section id="left">
+		                <div th:text="*{wrongNoteTitle}" id="wrong-note-title" class="wrong-note-inner-content">
+		                    문제 제목이 없습니다</div>
+		                <div th:text="*{wrongNoteContent}" id="wrong-note-content" class="wrong-note-inner-content">문제 내용이 없습니다</div>
+		                <div th:text="*{wrongNoteMyanswer}" id="wrong-note-myanswer" class="wrong-note-inner-content">문제 정답이 없습니다</div>
+		            </section>
+		            <section id="right">
+		                <div th:text="*{wrongNoteExplain}" id="wrong-note-explain" class="wrong-note-inner-content">풀이 내용이 없습니다</div>
+		                <button id="addBtn">추가</button>
+		            </section>
+		        </section>
+			</th:block>
         </th:block>
-       ㅑ* 6
+       
         <!-- 오답노트 추가 버튼 클릭 시 띄울 창 -->
     	<div id="wrongNote-add-window" class="w-hidden">
 		

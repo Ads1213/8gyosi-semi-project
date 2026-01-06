@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 
 @Mapper
 public interface BoardMapper {
@@ -77,4 +78,14 @@ public interface BoardMapper {
 	 * @return
 	 */
 	int selectLikeCount(int boardId);
+
+	/** 게시판 종류 조회 SQL 2
+	 * @return
+	 */
+	List<BoardType> selectBoardType();
+
+	/** 게시판별 조회수 탑 5 조회 sql
+	 * @return
+	 */
+	List<Board> selectBoardTop5List();
 }

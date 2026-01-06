@@ -44,8 +44,8 @@ $(document).ready(function () {
     }
 
     // 폼 제출 전 유효성 체크
-    $('form').on('submit', function(){
-        const title = $('input[name="boardTitle"]').val().trim();
+    $('#boardForm').on('submit', function(){
+        const title = $('input[name="title"]').val().trim();
         const content = $('#boardContent').summernote('code').trim();
 
         if(!title){
@@ -58,3 +58,4 @@ $(document).ready(function () {
         }
     });
 });
+

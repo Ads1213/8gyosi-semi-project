@@ -68,6 +68,12 @@
     margin:3px;
 }
 
+.board-top5-list > section{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .board-rank{
     padding:10px;
     margin-left:10px;
@@ -92,6 +98,7 @@
     display: flex;
     margin-top:6px;
     margin-bottom: 3px;
+	gap:5px;
 }
 
 .board-rank-part-lower{
@@ -112,6 +119,16 @@
 
 .to-each-board a{
     text-decoration: none;
+}
+
+.new{
+	background-color: rgb(0, 198, 149);
+	color:white;
+}
+
+.hot{
+	background-color: rgb(255, 55, 45);
+	color:white;
 }
 
 
