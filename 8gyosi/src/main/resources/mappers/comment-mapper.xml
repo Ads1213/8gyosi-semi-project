@@ -36,6 +36,7 @@
 		<if test="parentCommentNo == 0">
 			NULL
 		</if>
+		)
     </insert>
 
     <!-- 단일 댓글 조회 -->
@@ -50,5 +51,12 @@
         DELETE FROM "COMMENT"
         WHERE COMMENT_NO = #{commentNo}
     </delete>
+    <!--  댓글 수정 -->
+    <update id="updateComment">
+	    UPDATE "COMMENT" SET
+    	COMMENT_CONTENT = #{commentContent}
+   		 WHERE COMMENT_NO = #{commentNo}
+	 </update>
+    
 
 </mapper>

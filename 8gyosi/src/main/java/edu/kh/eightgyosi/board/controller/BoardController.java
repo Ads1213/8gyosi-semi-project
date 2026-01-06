@@ -239,10 +239,19 @@ public class BoardController {
 		return path;
 	}
 	
-	@ResponseBody
-	@PostMapping("like")
-	public int boardLike(@RequestBody Map<String, Integer> map) {
-		return service.boardLike(map);
+	@PostMapping("{boardId}/{commentNo}/like")
+	@ResponseBody	
+	public int boardLike(@PathVariable("boardId") int boardId,
+						 @PathVariable("commentNo") int commentNo,
+						 @SessionAttribute(value="loginMember", required=false) Member loginMember,
+						 @RequestBody Map<String, Object> paramMap) {
+		
+		if(loginMember == null) return -1; 
+		
+		paramMap.put("memberNo", loginMember.getMemberNo());
+		paramMap.put("boardId", boardId);
+	    
+	    return service.boardLike(paramMap);
 	}
 
 	

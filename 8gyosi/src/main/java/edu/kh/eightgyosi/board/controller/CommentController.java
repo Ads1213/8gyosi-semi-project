@@ -91,8 +91,13 @@ public class CommentController {
 	
 
 	@PutMapping("")
-	public int update(@RequestBody BoardComment comment) {
-		return service.update(comment);
+	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody BoardComment comment) {
+	    
+	    int result = service.updateComment(comment);
+	    
+	    return ResponseEntity.ok(
+	        Map.of("success", result > 0)
+	    );
 	}
 	
 }

@@ -49,22 +49,22 @@
 
         <!-- 좋아요 -->
         <div class="toolbar">
-            <button id="likeBtn"
-                    th:data-board-id="${board.boardId}">
-                👍 좋아요
+           <button id="likeBtn"
+                th:data-board-id="${board.boardId}"
+                th:data-comment-no="${board.boardId}" 
+                class="fa-regular fa-heart">
             </button>
-            <span id="likeCount">0</span>
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
-        <div class="toolbar"
+        <!--<div class="toolbar"
              th:if="${session.loginMember != null
              and (session.loginMember.memberNo == board.memberNo)}">
              <!-- or session.loginMember.role.name() == 'ADMIN')}"> -->
 
-            <a th:href="@{/board/{id}/edit(id=${board.boardId})}">수정</a>
-            <button id="deleteBoardBtn">삭제</button>
-        </div>
+            <!--<a th:href="@{/board/{id}/edit(id=${board.boardId})}">수정</a>
+           
+        </div>-->
 
         <!-- 댓글 영역 -->
         <section id="commentSection">
@@ -82,13 +82,7 @@
 
 				<th:block th:if="*{commentDelFl} == 'N'">
 					<p class="comment-writer">
-						
-	
-
-						<!--<span th:text="${board.memberNickname}">닉네임</span>-->
-
 						<span th:text="*{memberNickname}">닉네임</span>
-
 						<span class="comment-date" th:text="*{commentWriteDate}">작성일</span>
 					</p>
 	
@@ -132,6 +126,8 @@
 
 <script th:inline="javascript">
     const boardId = /*[[${board.boardId}]]*/ 0;
+    const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0;  
+   const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER';
 </script>
 
 <script th:src="@{/js/board/boardDetail.js}"></script>

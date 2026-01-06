@@ -65,19 +65,19 @@ public interface BoardMapper {
 	 * @param map
 	 * @return
 	 */
-	int deleteBoardLike(Map<String, Integer> map);
+	//int deleteBoardLike(Map<String, Object> map);
 
 	/** 좋아요 체크
 	 * @param map
 	 * @return
 	 */
-	int insertBoardLike(Map<String, Integer> map);
+	//int insertBoardLike(Map<String, Object> map);
 
 	/** 게시글 좋아요 갯수 조회
 	 * @param integer
 	 * @return
 	 */
-	int selectLikeCount(int boardId);
+	int selectLikeCount(Object object);
 
 	/** 게시판 종류 조회 SQL 2
 	 * @return
@@ -88,4 +88,11 @@ public interface BoardMapper {
 	 * @return
 	 */
 	List<Board> selectBoardTop5List();
+
+	int deleteBoardLike(Map<String, Object> map);
+
+	int insertBoardLike(Map<String, Object> map);
+
+
+
 }

@@ -103,27 +103,26 @@ public class BoardSerivceImpl implements BoardService{
 		}
 
 		@Override
-		public int boardLike(Map<String, Integer> map) {
-			
-			int result = 0;
-			
-			// 1. 좋아요가 체크된 상태인 경우(likeCheck == 1)
-			if( map.get("likeCheck") == 1 ) {
-				
-				result = mapper.deleteBoardLike(map);
-				
-			} else {			
-			// 2. 좋아요가 해제된 상태인 경우(likeCheck == 0)
-				result = mapper.insertBoardLike(map);
-				
-			}
-			
-			// 3. INSERT/DELETE 성공했다면 해당 게시글의 좋아요갯수 조회해서 반환
-			if(result > 0) {
-				return mapper.selectLikeCount(map.get("boardId"));
-			}
-			
-			return -1;
+		public int boardLike(Map<String, Object> map) {
+		    int result = 0;
+		    
+		   
+		    int likeCheck = Integer.parseInt(String.valueOf(map.get("likeCheck")));
+		    
+		    if (likeCheck == 1) {
+		        result = mapper.deleteBoardLike(map);
+		        
+		    } else {			
+		        result = mapper.insertBoardLike(map);
+		    }
+		    
+		    if (result > 0) {
+		       
+		        int boardId = Integer.parseInt(String.valueOf(map.get("boardId")));
+		        return mapper.selectLikeCount(boardId);
+		    }
+		    
+		    return -1;
 		}
 		
 		/**
@@ -143,5 +142,5 @@ public class BoardSerivceImpl implements BoardService{
 		public List<Board> selectBoardTop5List() {
 			return mapper.selectBoardTop5List();
 		}
-		
+
 }

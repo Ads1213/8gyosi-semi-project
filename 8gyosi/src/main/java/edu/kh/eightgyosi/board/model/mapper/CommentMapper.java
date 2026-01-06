@@ -12,12 +12,13 @@ public interface CommentMapper {
 
     List<BoardComment> selectCommentList(int boardId);
     int insertComment(BoardComment comment);
-    int deleteComment(int commentId, int memberNo);
+    int deleteComment(Map<String, Object> map);
     BoardComment selectComment(int commentId);
     
 	List<BoardComment> select(int boardId);
 	int insert(BoardComment comment);
 	int delete(int commentNo);
 	int update(BoardComment comment);
-	int deleteComment(Map<String, Object> map);
+	int updateComment(BoardComment comment);
+	
 }

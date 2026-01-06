@@ -40,10 +40,10 @@ public interface BoardService {
 	int updateReadCount(int boardId);
 
 	/** 게시글 좋아요 체크/해제 서비스
-	 * @param map
+	 * @param paramMap
 	 * @return
 	 */
-	int boardLike(Map<String, Integer> map);
+	int boardLike(Map<String, Object> paramMap);
 
 	/** 메인화면에 boardTypeList 가져오기 위한 service
 	 * @return

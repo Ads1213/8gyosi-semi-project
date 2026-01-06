@@ -75,6 +75,11 @@ public class CommentServiceImpl implements CommentService {
 		// TODO Auto-generated method stub
 		return mapper.update(comment);
 	}
+	@Override
+	public int updateComment(BoardComment comment) {
+		// TODO Auto-generated method stub
+		return mapper.updateComment(comment);
+	}
 
      /*/ ===================== 댓글/대댓글 삭제 ===================== 
     @Override

@@ -23,4 +23,6 @@ public interface CommentService {
 	int delete(int commentNo);
 
 	int update(BoardComment comment);
+
+	int updateComment(BoardComment comment);
 }
