@@ -1,5 +1,7 @@
 package edu.kh.eightgyosi.board.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,12 @@ public class BoardImage {
 
     /** 이미지 파일 크기 */
     private long imgSize;
+    
+    /** 게시글 이미지 삽입/수정 할 때 사용 */
+    private MultipartFile uploadFile;
+    
+    /** 서버 저장 파일명 */
+    private String imgStoredName;
     
     
 }

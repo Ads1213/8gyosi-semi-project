@@ -104,6 +104,20 @@ public class FileConfig implements WebMvcConfigurer {
     public long getMaxFileSize() {
         return maxFileSize;
     }
+    
+    @Value("${my.board.web-path}")
+    private String boardWebPath;
+
+    @Value("${my.board.folder-path}")
+    private String boardFolderPath;
+
+    public String getBoardWebPath() {
+        return boardWebPath;
+    }
+
+    public String getBoardFolderPath() {
+        return boardFolderPath;
+    }
 }
 
 //boardPrjoect에 양식에서 getter추가함

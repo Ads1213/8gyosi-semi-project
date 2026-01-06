@@ -42,12 +42,12 @@
 	    <input type="file" name="images" multiple>
 
 	    <!-- 기존 파일 -->
-	    <div id="fileContainer">
-	        <div th:each="file : ${board.boardFiles}" class="boardFile">
-	            <a th:href="@{'/files/' + ${file.uploadfileStrg}}" th:text="${file.uploadfileOrigin}" target="_blank"></a>
-	            <button type="button" class="delete-file" th:data-file-id="${file.uploadfileNo}">삭제</button>
-	        </div>
-	    </div>
+		<div id="fileContainer">
+		    <div th:each="file : ${board.boardFiles}" class="boardFile">
+		        <a th:href="@{'/editBoard/' + ${board.boardTypeNo} + '/file/' + ${file.uploadfileNo}}"
+		           th:text="${file.uploadfileOrigin}" target="_blank"></a>
+		    </div>
+		</div>
 	    <input type="file" name="files" multiple>
 
 	    <input type="hidden" name="deleteImageIds" id="deleteImageIds">

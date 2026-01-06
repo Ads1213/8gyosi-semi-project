@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 import edu.kh.eightgyosi.board.model.dto.Pagination;
 import edu.kh.eightgyosi.board.model.mapper.BoardMapper;
 
@@ -81,4 +82,66 @@ public class BoardSerivceImpl implements BoardService{
 		return map;
 
 	}
+	
+	// 게시글 상세 조회
+		@Override
+		public Board selectOne(Map<String, Integer> map) {
+			return mapper.selectOne(map);
+		}
+
+		// 조회수 1증가
+		@Override
+		public int updateReadCount(int boardId) {
+			
+			int result = mapper.updateReadCount(boardId);
+
+			if(result > 0) {
+				return mapper.selectReadCount(boardId);
+			}
+					
+			return -1;
+		}
+
+		@Override
+		public int boardLike(Map<String, Integer> map) {
+			
+			int result = 0;
+			
+			// 1. 좋아요가 체크된 상태인 경우(likeCheck == 1)
+			if( map.get("likeCheck") == 1 ) {
+				
+				result = mapper.deleteBoardLike(map);
+				
+			} else {			
+			// 2. 좋아요가 해제된 상태인 경우(likeCheck == 0)
+				result = mapper.insertBoardLike(map);
+				
+			}
+			
+			// 3. INSERT/DELETE 성공했다면 해당 게시글의 좋아요갯수 조회해서 반환
+			if(result > 0) {
+				return mapper.selectLikeCount(map.get("boardId"));
+			}
+			
+			return -1;
+		}
+		
+		/**
+		 * 메인 화면에 boardType 뿌려주기 위한 서비스
+		 * - seongjong
+		 */
+		@Override
+		public List<BoardType> selectBoardType() {
+			return mapper.selectBoardType();
+		}
+		
+		
+		/**
+		 * 메인 화면에 게시판별 top5 게시글 뿌려주기 위한 서비스
+		 */
+		@Override
+		public List<Board> selectBoardTop5List() {
+			return mapper.selectBoardTop5List();
+		}
+		
 }

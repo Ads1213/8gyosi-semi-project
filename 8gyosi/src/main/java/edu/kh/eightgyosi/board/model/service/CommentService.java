@@ -15,4 +15,12 @@ public interface CommentService {
 
     /** 댓글/대댓글 삭제 */
     int deleteComment(int commentId, Member loginMember);
+    
+	List<BoardComment> select(int boardId);
+
+	int insert(BoardComment comment);
+
+	int delete(int commentNo);
+
+	int update(BoardComment comment);
 }

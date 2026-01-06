@@ -1,6 +1,5 @@
 package edu.kh.eightgyosi.mypage.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +10,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
+import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 import edu.kh.eightgyosi.mypage.model.service.CalenderService;
+import edu.kh.eightgyosi.mypage.model.service.DiaryService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ */
 @SessionAttributes({"calender"})
 @Controller
 @RequestMapping("myPage")
@@ -33,6 +38,10 @@ public class MyPageController {
 
 	@Autowired
 	private WrongNoteService wroService; // 오답노트 서비스 필드 선언
+	
+	@Autowired
+	private DiaryService diaryService; // 다이어리 서비스 필드 선언
+	
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
@@ -69,12 +78,16 @@ public class MyPageController {
 	 */
 	@GetMapping("myPage-wrongNote/{wrongNoteNo:[0-9]+}")
 	public String wrongNote(@SessionAttribute("loginMember") Member loginMember,
-							Model model) {
+							Model model,
+							@PathVariable("wrongNoteNo") int wrongNoteNo) {
 		
 		// 1. 오답노트 테이블 조회하기 위해 service 불러오기
 		int memberNo = loginMember.getMemberNo();
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo); 
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
+		
+		// 2. 주소창에서 얻어온 wrongNoteNo 도 따로 model 로 전달
+		model.addAttribute("wrongNoteNo", wrongNoteNo);
 		
 		// test: log.debug(wrongNote.get(0).getWrongNoteExplain());
 		
@@ -118,6 +131,98 @@ public class MyPageController {
 		return path;
 	}
 	
-}
+	/** 일기장 내용 저장
+	 * @param loginMember
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("diary/insertDiary")
+	public String insertDiary(@SessionAttribute("loginMember") Member loginMember,
+			Model model,
+			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
+	        RedirectAttributes ra) { 
+		
+		int memberNo = loginMember.getMemberNo();
+		inputDiary.setMemberNo(memberNo);
+	    
+	    // 2. 서비스 호출 (inputDiary 객체 자체를 넘기는 것이 좋습니다)
+	    int result = diaryService.insertDiary(inputDiary);
+	    log.info("inputDiary", inputDiary);
+	    log.debug("inputDiary :: {}", "inputDiary");
+	    String message = null;
+	    
+	    if(result > 0) {
+	        message = "일기가 성공적으로 저장되었습니다.";
+	    } else {
+	        message = "일기 저장에 실패했습니다.";
+	    }
+	    
+	    ra.addFlashAttribute("message", message);
+
+	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
+	    return "redirect:/myPage"; 
+	}
+	
+	
+	@PostMapping("diary/selectDiary")
+	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
+	        @ModelAttribute DiaryDTO inputDiary,
+	        Model model, 
+	        RedirectAttributes ra) { 
+	    
+	    inputDiary.setMemberNo(loginMember.getMemberNo());
+	    
+	    // 1. 서비스 호출 (결과를 DTO 객체로 받음)
+	    DiaryDTO diary = diaryService.selectDiary(inputDiary);
+	    
+	    if(diary != null) {
+
+	        model.addAttribute("diary", diary);
+	        return "redirect:/myPage";  
+	    } else {
+	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
+	        return "redirect:/myPage"; 
+	    }
+	}
 
 // seongjong
+	
+	/** 마이페이지 프로필 수정 화면으로 이동
+	 * @author dasol
+	 * @return
+	 */
+	@GetMapping("info")
+	public String myPageInfo() {
+		
+		return "myPage/myPage-info";
+	}
+	
+	// 비밀번호 변경 화면 이동
+	@GetMapping("changePw") 
+	public String changePw() {
+		return "myPage/myPage-changePw";
+	}
+	
+	// 회원 탈퇴 화면 이동
+	@GetMapping("secession")
+	public String secession() {
+		return "myPage/myPage-secession";
+	}
+	
+	// 파일 테스트 화면으로 이동
+	@GetMapping("fileTest")
+	public String fileTest() {
+		return "myPage/myPage-fileTest";
+	}
+	
+	// 파일 목록 조회 화면 이동
+	@GetMapping("fileList")
+	public String fileList() {
+		return "/myPage/fileList";
+	}
+	
+
+	
+	
+	
+}

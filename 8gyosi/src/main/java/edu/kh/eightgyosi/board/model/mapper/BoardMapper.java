@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
+import edu.kh.eightgyosi.board.model.dto.BoardType;
 
 @Mapper
 public interface BoardMapper {
@@ -42,5 +43,49 @@ public interface BoardMapper {
 	 */
 	List<Board> selectSearchList(Map<String, Object> paramMap, RowBounds rowBounds);
 
-	
+	/** 게시글 상세 조회 SQL 수행 (BOARD/BOARD_IMG/COMMENT)
+	 * @param map
+	 * @return
+	 */
+	Board selectOne(Map<String, Integer> map);
+
+	/** 조회수 1증가 SQL 수행
+	 * @param boardId
+	 * @return
+	 */
+	int updateReadCount(int boardId);
+
+	/** 조회수 조회 SQL 수행
+	 * @param boardId
+	 * @return
+	 */
+	int selectReadCount(int boardId);
+
+	/** 좋아요 해체
+	 * @param map
+	 * @return
+	 */
+	int deleteBoardLike(Map<String, Integer> map);
+
+	/** 좋아요 체크
+	 * @param map
+	 * @return
+	 */
+	int insertBoardLike(Map<String, Integer> map);
+
+	/** 게시글 좋아요 갯수 조회
+	 * @param integer
+	 * @return
+	 */
+	int selectLikeCount(int boardId);
+
+	/** 게시판 종류 조회 SQL 2
+	 * @return
+	 */
+	List<BoardType> selectBoardType();
+
+	/** 게시판별 조회수 탑 5 조회 sql
+	 * @return
+	 */
+	List<Board> selectBoardTop5List();
 }

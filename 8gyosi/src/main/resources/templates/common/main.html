@@ -1,25 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>8교시 메인화면 테스트</title>
+  <title>8교시 메인화면</title>
 
 
 	<th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
-	
-	<h3><a href="/editBoard/detail">detail</a></h3>
-	<h3><a href="/editBoard/update">update</a></h3>
-	<h3><a href="/editBoard/write">write</a></h3>
-
 	<!-- common/header.html 을 header로 사용합니다. -->
 	  <!-- !! 모든 화면에서 해당 header를 사용해주세요. -->
-	  <th:block th:replace="~{common/header}"></th:block>
-	  
-  <h3> 8교시 시작</h3>
-  <a href="/myPage"> 8교시 마이페이지 링크 test</a>
+	<th:block th:replace="~{common/header}"></th:block>
   
   <container id="main-container"> <!-- 메인화면 이미지 섹션 + 게시판 전체 섹션-->
     
@@ -29,855 +21,126 @@
 
     <section class="main-board"> <!-- 메인화면 게시판 전체 섹션(6개) -->
       
-      <section class="main-board-all" id="main-board-upper"> <!-- 상단 부분 3개 -->
-
-        <div class="main-board-ea" id="main-board-free"> <!-- 자유게시판 (상단 3개 중 1번)-->
-
-          <div class="board-name-area"> <!-- 자유게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-free-name">자유게시판</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div>
-          </div>
-
-          <section class="board-free-top5-list"> <!-- 자유게시판 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 자유게시판 하단 버튼-->
-            <a href="#" id="to-each-board-free">더 보기</a>
-          </section>
-
-        </div> <!-- 자유게시판 부분 끝 -->
-
-        <div class="main-board-ea" id="main-board-info"> <!-- 정보게시판 (상단 3개 중 2번)-->
-          
-          <div class="board-name-area"> <!-- 정보게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-info-name">정보게시판</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div>
-          </div>
-
-          <section class="board-info-top5-list"> <!-- 정보게시판 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 정보게시판 하단 버튼-->
-            <a href="#" id="to-each-board-info">더 보기</a>
-          </section>
-
-        </div> <!-- 정보게시판 부분 끝 -->
-
-        <div class="main-board-ea" id="main-board-question"> <!-- 질문게시판 (상단 3개 중 3번)-->
-
-          <div class="board-name-area"> <!-- 질문게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-question-name">질문게시판</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div>
-          </div>
-
-          <section class="board-question-top5-list"> <!-- 질문게시판 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 질문게시판 하단 버튼-->
-            <a href="#" id="to-each-board-question">더 보기</a>
-          </section>
-
-        </div> <!-- 질문게시판 부분 끝 -->
-
-      </section> <!-- 상단 부분 3개 끝-->
-      
-      <section class="main-board-all" id="main-board-lower"> <!-- 하단 부분 3개 -->
-
-        <div class="main-board-ea" id="main-board-mealschedule"> <!-- 급식표게시판 (하단 3개 중 1번)-->
-
-          <div class="board-name-area"> <!-- 자유게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-mealschedule-name">급식게시판</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div>
-          </div>
-
-          <section class="board-mealschedule-top5-list"> <!-- 급식표게시판 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-                        <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 급식표게시판 하단 버튼-->
-            <a href="#" id="to-each-board-mealschedule">더 보기</a>
-          </section>
-
-        </div> <!-- 급식표게시판 부분 끝 -->
-
-        <div class="main-board-ea" id="main-board-study"> <!-- 공부게시판 (상단 3개 중 2번)-->
-          
-          <div class="board-name-area"> <!-- 공부게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-study-name">문제게시판</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div>
-          </div>
-
-          <section class="board-study-top5-list"> <!-- 공부게시판 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 공부게시판 하단 버튼-->
-            <a href="#" id="to-each-board-study">더 보기</a>
-          </section>
-
-        </div> <!-- 공부게시판 부분 끝 -->
-
-        <div class="main-board-ea" id="main-board-notice"> <!-- 공지사항 (상단 3개 중 3번)-->
-
-          <div class="board-name-area"> <!-- 공지사항 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
-            <div>
-              <img src="#"> 
-              <a href="#" class="board-name" id="board-notice-name">공지사항</a>
-            </div>
-            <div class="top5-text">인기글 TOP5</div> <!-- MEMO 공지사항 인기글이 필요가 있을까 싶습니다-->
-          </div>
-
-          <section class="board-notice-top5-list"> <!-- 공지사항 인기글 탑5 목록-->
-
-            <section class="rank1"> <!-- 1순위-->
-              <div class="board-rank">1</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 2순위-->
-              <div class="board-rank">2</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 3순위-->
-              <div class="board-rank">3</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 4순위-->
-              <div class="board-rank">4</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            <section class="rank1"> <!-- 5순위-->
-              <div class="board-rank">5</div> <!-- 순위 -->
-              <section> <!-- 순위별 게시글 정보 부분-->
-                <div class="board-rank-part-upper">
-                  <img src="#" class="board-rank-part-nameicon"> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-                  <div>게시글 제목 TEST</div>
-                </div>
-                <div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-                  <div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-                    <img src="#">
-                    <div>view</div>
-                  </div>
-                  <div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-                    <img src="#">
-                    <div>comment</div>
-                  </div>
-                  <div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-                    <img src="#">
-                    <div>writedate</div>
-                  </div>
-                </div>
-              </section>
-            </section>
-
-          </section>
-
-          <section class="to-each-board"> <!-- 공지사항 하단 버튼-->
-            <a href="#" id="to-each-board-notice">더 보기</a>
-          </section>
-
-        </div> <!-- 공지사항 부분 끝 -->
-      </section>
-
-    </section>
-
+		<th:block th:unless="${#lists.isEmpty(boardTop5List)}"> <!-- 상단 부분 3개 -->
+			<section class="main-board-all" id="main-board-upper"> 
+				<div th:each="i : ${#numbers.sequence(0, 2)}" class="main-board-ea">
+					
+					<div class="board-name-area"> <!-- 게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
+						<div>
+		      				<img src="#"> 
+		      				<a th:text="${boardTypeList[i].boardTypeName}" href="#" class="board-name" id="board-free-name">게시판 이름</a>
+		    			</div>
+			    		<div class="top5-text">인기글 TOP5
+						</div>
+		  			</div>
+					
+					<section class="board-top5-list"> <!-- 게시판 인기글 탑5 목록-->
+						<th:block th:each="board : ${boardTop5List}">
+							<section th:if="${board.boardTypeNo == boardTypeList[i].boardTypeNo}"> <!-- 순위-->
+								
+								<div th:class="'board-rank' + ${board.rank} + ' board-rank'" th:text="${board.rank}">
+									순위
+								</div> <!-- 순위 -->
+								
+								<section> <!-- 순위별 게시글 정보 부분-->
+									<div class="board-rank-part-upper">
+										<a th:href="@{/board/{boardTypeNo}/{boardId}(boardTypeNo=${boardTypeList[i].boardTypeNo}, boardId=${board.boardId}, cp=${(board.mainCp - 1) / 10 + 1})}"
+										th:text="${board.boardTitle}">
+											게시글 제목 TEST
+										</a>
+										<div th:if="${board.isNew == 1}" th:class="new">new</div> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
+										<div th:if="${board.boardViewCount >= 5}" th:class="hot">hot</div>
+			            			</div>
+									
+									<div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
+										<div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
+											<img src="#">
+											조회 : 
+											<div th:text="${board.boardViewCount}"></div>
+										</div>
+										<div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
+											<img src="#">
+											댓글 수 :
+											<div th:text="${board.boardCommentCount}"></div>
+										</div>
+										<div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
+											<img src="#">
+											작성일자 : 
+											<div th:text="${board.boardCreateDate}"></div>
+										</div>
+									</div>
+								</section>
+								
+							</section>
+						</th:block>
+					</section>
+					
+				</div>
+			</section>
+		</th:block>
+		
+		<th:block th:unless="${#lists.isEmpty(boardTop5List)}"> <!-- 하단 부분 3개 -->
+			<section class="main-board-all" id="main-board-lower"> 
+				<div th:each="i : ${#numbers.sequence(3, 5)}" class="main-board-ea">
+					
+					<div class="board-name-area"> <!-- 게시판 부분 하단 제목(글자 클릭 시 해당 게시판 이동)-->
+						<div>
+		      				<img src="#"> 
+		      				<a th:text="${boardTypeList[i].boardTypeName}" href="#" class="board-name" id="board-free-name">게시판 이름</a>
+		    			</div>
+			    		<div class="top5-text">인기글 TOP5
+						</div>
+		  			</div>
+					
+					<section class="board-top5-list"> <!-- 게시판 인기글 탑5 목록-->
+						<th:block th:each="board : ${boardTop5List}">
+							<section th:if="${board.boardTypeNo == boardTypeList[i].boardTypeNo}"> <!-- 순위-->
+								
+								<div th:class="'board-rank' + ${board.rank} + ' board-rank'" th:text="${board.rank}">
+									순위
+								</div> <!-- 순위 -->
+								
+								<section> <!-- 순위별 게시글 정보 부분-->
+									<div class="board-rank-part-upper">
+										<a th:href="@{/board/{boardTypeNo}/{boardId}(boardTypeNo=${boardTypeList[i].boardTypeNo}, boardId=${board.boardId}, cp=${(board.mainCp - 1) / 10 + 1})}"
+										th:text="${board.boardTitle}">
+											게시글 제목 TEST
+										</a>
+										<div th:if="${board.isNew == 1}" th:class="new">NEW</div> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
+										<div th:if="${board.boardViewCount >= 5}" th:class="hot">HOT</div>
+			            			</div>
+									
+									<div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
+										<div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
+											<img src="#">
+											조회 : 
+											<div th:text="${board.boardViewCount}"></div>
+										</div>
+										<div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
+											<img src="#">
+											댓글 수 :
+											<div th:text="${board.boardCommentCount}"></div>
+										</div>
+										<div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
+											<img src="#">
+											작성일자 : 
+											<div th:text="${board.boardCreateDate}"></div>
+										</div>
+									</div>
+								</section>
+								
+							</section>
+						</th:block>
+					</section>
+					
+				</div>
+			</section>
+		</th:block>
+		
+
+		
+</section>
+    
 	
 	
 	

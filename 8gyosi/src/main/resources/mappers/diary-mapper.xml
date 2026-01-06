@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.kh.eightgyosi.mypage.model.mapper.DiaryMapper">
+
+	<!-- 일기장 내용 저장-->
+	<insert id="insertDiary">
+        INSERT INTO "DIARY" (
+            DIARY_NO, 
+            DIARY_DATE, 
+            DIARY_TITLE, 
+            DIARY_CONTENT, 
+            MEMBER_NO
+        ) VALUES (
+            SEQ_DIARY_NO.NEXTVAL, 
+            SYSDATE,            #{diaryTitle}, 
+            #{diaryContent}, 
+            #{memberNo}         )
+    </insert>
+
+	<select id="selectDiary">
+		
+	</select>
+	
+</mapper>
