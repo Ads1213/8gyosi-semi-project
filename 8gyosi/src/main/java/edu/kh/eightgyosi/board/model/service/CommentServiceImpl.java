@@ -1,6 +1,8 @@
 package edu.kh.eightgyosi.board.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +32,12 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 	@Override
-	public int deleteComment(int commentId, Member loginMember) {
-		return 0;
+	public int deleteComment(int commentNo, Member loginMember) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("commentNo", commentNo);
+	    map.put("memberNo", loginMember.getMemberNo());
+	    
+	    return mapper.deleteComment(map); 
 }
     /** ===================== 댓글/대댓글 작성 ===================== */
     @Override

@@ -46,9 +46,9 @@
     </select>
 
     <!-- 댓글/대댓글 삭제 -->
-    <delete id="deleteComment" parameterType="int">
+    <delete id="deleteComment">
         DELETE FROM "COMMENT"
-         WHERE COMMENT_NO = #{commetNo}
+        WHERE COMMENT_NO = #{commentNo}
     </delete>
 
 </mapper>

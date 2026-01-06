@@ -56,14 +56,14 @@ public class CommentController {
     }
 
     /** ===================== 댓글/대댓글 삭제 ===================== */
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<Map<String,Object>> deleteComment(@PathVariable("commentId") int commentId,
-                                                            @RequestParam int boardId,
+    @DeleteMapping("/{boardId}/{commentNo}")
+    public ResponseEntity<Map<String,Object>> deleteComment(@PathVariable("boardId") int boardId,
+    														@PathVariable("commentNo") int commentNo,  
                                                             @SessionAttribute("loginMember") Member loginMember) {
 
-        int result = service.deleteComment(commentId, loginMember);
+        int result = service.deleteComment(commentNo, loginMember);
         List<BoardComment> commentList = service.selectCommentList(boardId); // 삭제 후 댓글 목록 반환
-
+        log.debug("result :: {}", result);
         return ResponseEntity.status(result > 0 ? HttpStatus.OK : HttpStatus.FORBIDDEN)
                 .body(Map.of(
                         "success", result > 0,

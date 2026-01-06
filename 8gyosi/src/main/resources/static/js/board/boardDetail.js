@@ -63,7 +63,7 @@ $(function() {
         if(!content) return alert('댓글 내용을 입력하세요');
 
         const obj = { "commentContent" : content,
-					  "boardId" : boardId // 추가 : seongjong
+					  "boardId" : boardId 
 		 };
 
         $.ajax({
@@ -83,23 +83,25 @@ $(function() {
     });
 
     // ===================== 댓글 삭제 =====================
-   window.deleteComment = function(commentNo) {
+    window.deleteComment = function(commentNo) {
         if (!confirm("정말 삭제하시겠습니까?")) return;
 
-        const obj = { "commentNo": commentNo };
-
         $.ajax({
-            url: `/board/${boardTypeNo}/${boardId}/comments/${commentNo}`,
-            type: 'DELETE',
-            data: JSON.stringify(obj),
+           url: `/editBoard/comment/${boardId}/${commentNo}`,
+            type: "DELETE",
             success: function(res) {
-                $(`#comment-${commentNo}`).remove();
-            },
-            error: function(err) {
-                alert('댓글 삭제 실패');
-                console.error(err);
+            if (res.success) {
+                alert(res.message);
+                loadComments(); 
+            } else {
+                alert(res.message);
             }
-        });
+        },
+        error: function(err) {
+            alert("댓글 삭제 중 오류가 발생했습니다.");
+            console.error(err);
+        }
+    });
     };
 
     // ===================== 게시글 삭제 =====================
