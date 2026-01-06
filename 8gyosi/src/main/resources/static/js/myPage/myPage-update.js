@@ -102,10 +102,12 @@ function execDaumPostcode() {
 }
 
 // 주소 검색 버튼 클릭 시
-document.querySelector("#searchAddress")
-    .addEventListener("click", execDaumPostcode);
+const searchAddressBtn = document.querySelector("#searchAddress"); 
 
-console.log("searchAddress : " + searchAddress);
+// 요소가 존재할 때만(null이 아닐 때만) 이벤트 리스너 등록
+if (searchAddressBtn != null) {
+    searchAddressBtn.addEventListener("click", execDaumPostcode);
+}
 
 
 // -----------------------------------------------------

@@ -36,17 +36,23 @@ public interface MyPageMapper {
 	 */
 	int updateInfo(Member member);
 
-	/** 회원 비밀번호 일치 서비스
+	/** 회원의 암호화된 비밀번호 조회
 	 * @param memberNo
 	 * @return
 	 */
 	String selectPw(int memberNo);
 
-	/** 회원 비밀번호 변경 서비스
+	/** 회원 비밀번호 변경
 	 * @param paramMap
 	 * @return
 	 */
 	int changePw(Map<String, Object> paramMap);
+
+	/** 회원 탈퇴
+	 * @param memberNo
+	 * @return
+	 */
+	int secession(int memberNo);
 	
 	
 
