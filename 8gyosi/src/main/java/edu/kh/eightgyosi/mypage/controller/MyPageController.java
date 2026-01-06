@@ -136,7 +136,7 @@ public class MyPageController {
 	 * @param model
 	 * @return
 	 */
-	@PostMapping("diary")
+	@PostMapping("diary/insertDiary")
 	public String insertDiary(@SessionAttribute("loginMember") Member loginMember,
 			Model model,
 			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
@@ -148,7 +148,7 @@ public class MyPageController {
 	    // 2. 서비스 호출 (inputDiary 객체 자체를 넘기는 것이 좋습니다)
 	    int result = diaryService.insertDiary(inputDiary);
 	    log.info("inputDiary", inputDiary);
-	    
+	    log.debug("inputDiary :: {}", "inputDiary");
 	    String message = null;
 	    
 	    if(result > 0) {
@@ -164,7 +164,27 @@ public class MyPageController {
 	}
 	
 	
-	
+	@PostMapping("diary/selectDiary")
+	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
+	        @ModelAttribute DiaryDTO inputDiary,
+	        Model model, 
+	        RedirectAttributes ra) { 
+	    
+	    inputDiary.setMemberNo(loginMember.getMemberNo());
+	    
+	    // 1. 서비스 호출 (결과를 DTO 객체로 받음)
+	    DiaryDTO diary = diaryService.selectDiary(inputDiary);
+	    
+	    if(diary != null) {
+
+	        model.addAttribute("diary", diary);
+	        return "redirect:/myPage";  
+	    } else {
+	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
+	        return "redirect:/myPage"; 
+	    }
+	}
+
 // seongjong
 	
 	/** 마이페이지 프로필 수정 화면으로 이동

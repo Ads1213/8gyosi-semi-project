@@ -261,7 +261,7 @@
                 <section class="diary main-content"> <!-- 일기장-->
                     <div id="diary-name" class="diary-component">오늘은 무슨 일 있었나요?</div>                   
                     <div id="diary-today" class="diary-component">날짜부분</div>
-                    <form action="/myPage/diary" method="POST" id="diary-form">
+                    <form action="/myPage/diary/insertDiary" method="POST" id="diary-form">
                         <label>
                             <input name="diaryDate" placeholder="날짜를 입력해주세요(YYYYMMDD)">
                         </label>
@@ -273,9 +273,9 @@
                         </label>
                         <button type="submit" id="diary-insertBtn">저장</button>
                     </form>
-                    <form>
-                        <button>일기장 보기</button>
-                    </form>
+                    <form action="/myPage/diary/selectDiary" method="POST" id="insertDiary-form">
+                        <button type="submit" id="diary-selectBtn">일기장 보러가기</button>
+                    </form >
                 </section> <!-- 일기장 끝-->  
 				
                 <!-- 오답노트 정보 없을 때-->

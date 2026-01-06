@@ -21,8 +21,11 @@ public class DiaryServiceImpl implements DiaryService{
 		return diaryMapper.insertDiary(inputDiary);
 	}
 	
-	
-	
+	// 일기장 내용 불러오기 서비스
+	@Override
+	public DiaryDTO selectDiary(DiaryDTO inputDiary) {
+		return diaryMapper.selectDiary(inputDiary);
+	}
 
 
 }

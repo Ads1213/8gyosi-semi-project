@@ -26,7 +26,7 @@ public class EditBoardController {
     /** ==================== 게시글 작성 화면 ==================== */
     @GetMapping("/{boardTypeNo:[1-6]}/insert")
     public String insertForm(
-            @PathVariable(name="boardTypeNo") int boardTypeNo,
+            @PathVariable("boardTypeNo") int boardTypeNo,
             Model model,
             HttpSession session,
             RedirectAttributes ra) {
@@ -45,7 +45,7 @@ public class EditBoardController {
     /** ==================== 게시글 작성 처리 ==================== */
     @PostMapping("/{boardTypeNo:[1-6]}/insert")
     public String insertBoard(
-            @PathVariable(name="boardTypeNo") int boardTypeNo,
+            @PathVariable("boardTypeNo") int boardTypeNo,
             @ModelAttribute Board board,
             @RequestParam(value="images", required=false) List<org.springframework.web.multipart.MultipartFile> images,
             @RequestParam(value="files", required=false) List<org.springframework.web.multipart.MultipartFile> files,

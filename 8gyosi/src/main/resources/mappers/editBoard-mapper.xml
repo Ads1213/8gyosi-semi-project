@@ -5,12 +5,18 @@
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
 
     <!-- 게시글 작성 -->
-    <!--  
-    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
-        INSERT INTO board (board_type_no, member_no, title, content, create_date, update_date)
-        VALUES (#{boardTypeNo}, #{memberNo}, #{title}, #{content}, NOW(), NOW())
-    </insert>
-    -->
+    
+	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
+	
+	    <selectKey keyProperty="boardId" resultType="_int" order="BEFORE">
+	        SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+	    </selectKey>
+	
+	    INSERT INTO board (board_id, board_title, board_content, board_view_count, 
+	                       board_is_deleted, board_create, board_updated, 
+	                       board_type_no, member_no)
+	    VALUES (#{boardId}, #{boardTitle}, #{boardContent}, 0, 'N', SYSDATE, SYSDATE, #{boardTypeNo}, #{memberNo})
+	</insert>
 
     <!-- 게시글 수정 -->
     <update id="updateBoard">
