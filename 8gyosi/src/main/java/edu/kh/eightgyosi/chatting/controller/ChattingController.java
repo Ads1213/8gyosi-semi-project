@@ -29,10 +29,17 @@ public class ChattingController {
 	@Autowired
 	private ChattingService service;
 
+
+	@GetMapping("")
+	public String chat() {
+		return "chatting/chatting";
+	}
+	
+		
 	/** 채팅 목록 조회 및 페이지 전환
 	 * @return
 	 */
-	@GetMapping("list")
+/*	@GetMapping("list")
 	public String chatting(@SessionAttribute("loginMember") Member loginMember, 
 							Model model) {
 		
@@ -87,6 +94,7 @@ public class ChattingController {
 		
 		return service.selectRoomList(loginMember.getMemberNo());
 	}
+*/	
 /*	
 	// 메세지 목록 조회 - 비동기
 	@GetMapping("selectMessage")

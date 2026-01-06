@@ -138,6 +138,7 @@ public class MyPageController {
 	 */
 	@PostMapping("diary")
 	public String insertDiary(@SessionAttribute("loginMember") Member loginMember,
+			Model model,
 			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
 	        RedirectAttributes ra) { 
 		
