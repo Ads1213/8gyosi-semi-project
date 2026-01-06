@@ -4,19 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>체팅창</title>
+	<title>채팅창</title>
 
 	<link rel="stylesheet" href="/css/chatting/chatting-style.css">
+	<th:block th:replace="~{common/common}"></th:block>
+	
 
-	<script src="https://kit.fontawesome.com/0968aeef36.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+
 	<main id="chat-container">
 		<div>
-			<button id="addTarget">
-				<i id="addTargetBtn" class="fa-solid fa-user-plus"></i>
-			</button>
+			<button id="addTarget">추가</button>
 		</div>
 
 		<div id="addTargetPopupLayer" class="popup-layer-close">
@@ -31,7 +31,7 @@
 
 		<div class="chatting-area">
 			<ul class="chatting-list">
-				<th:block th:each="room : ${roomList}">
+				<th:block th:each="room : ${chattingRoomList}">
 
 					<li class="chatting-item" th:chat-no="${room.chattingRoomNo}" th:target-no="${room.targetNo}">
 						<div class="item-header">

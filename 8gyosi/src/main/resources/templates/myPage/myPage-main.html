@@ -6,7 +6,7 @@
     <title>마이페이지 메인</title>
 
     <link rel="stylesheet" href="/css/myPage/myPage-main.css">
-	<th:block th:replace="~{common/common}"></th:block>
+	<th:block th:replace="~{common/common}"></th:block> 
 </head>
 <body>
 	<th:block th:replace="~{common/header}"></th:block>
@@ -259,18 +259,23 @@
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
                 
                 <section class="diary main-content"> <!-- 일기장-->
-                    <div id="diary-name" class="diary-component">오늘은 무슨 일 있었나요?</div>
+                    <div id="diary-name" class="diary-component">오늘은 무슨 일 있었나요?</div>                   
                     <div id="diary-today" class="diary-component">날짜부분</div>
                     <form action="/myPage/diary" method="POST" id="diary-form">
                         <label>
-                            <input type="text" name="diary-title" placeholder="제목을 입력해주세요">
+                            <input name="diaryDate" placeholder="날짜를 입력해주세요(YYYYMMDD)">
                         </label>
                         <label>
-                            <input type="text" name="diary-content" placeholder="내용을 입력해주세요" id="diary-content">
+                            <input type="text" name="diaryTitle" placeholder="제목을 입력해주세요">
                         </label>
-                        <button type="submit">저장</button>
+                        <label>
+                            <input type="text" name="diaryContent" placeholder="내용을 입력해주세요" id="diary-content">
+                        </label>
+                        <button type="submit" id="diary-insertBtn">저장</button>
                     </form>
-                    <button>수정</button>
+                    <form>
+                        <button>일기장 보기</button>
+                    </form>
                 </section> <!-- 일기장 끝-->  
 				
                 <!-- 오답노트 정보 없을 때-->
@@ -341,7 +346,7 @@
 				</div>
 				<div id="picture-edit-area">
 					<div id="my-profile-picture"></div>
-					<a href="/myPage/myPage-profile">수정</a>
+					<a href="myPage/info">수정</a>
 				</div>
 			</section>
 			<section class="select-theme">
@@ -366,7 +371,7 @@
 	<script th:inline="javascript">
 		
 		// Calender 관련
-		const calenderList = [[${calender}]];
+		// const calenderList = [[${calender}]];
 		console.log(calenderList);
 		
 	</script>
