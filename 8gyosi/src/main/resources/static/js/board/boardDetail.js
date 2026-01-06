@@ -62,10 +62,20 @@ $(function() {
         const content = $('#commentContent').val().trim();
         if(!content) return alert('댓글 내용을 입력하세요');
 
-        const obj = { "commentContent" : content,
-                        "boardId" : boardId,
-                        "parentCommentNo": parentCommentNo || 0
-                    };
+        let pNo = 0;
+            try {
+                if (typeof parentCommentNo !== 'undefined') {
+                    pNo = parentCommentNo;
+                 }
+            } catch (e) {
+                pNo = 0;
+            }
+
+        const obj = { 
+            "commentContent" : content,
+            "boardId" : boardId,
+            "parentCommentNo": pNo
+        };
 
         $.ajax({
             url: `/editBoard/comment/${boardId}`,
@@ -128,13 +138,18 @@ $(function() {
 
     const insertBtn = document.createElement("button");
     insertBtn.innerText = "등록";
-    insertBtn.setAttribute("onclick", `insertChildComment(${parentCommentNo}, this)`);
+
+    insertBtn.onclick = function() {
+        window.insertChildComment(parentCommentNo, insertBtn);
+    };
 
     const cancelBtn = document.createElement("button");
     cancelBtn.innerText = "취소";
-    cancelBtn.setAttribute("onclick", "insertCancel(this)");
+    cancelBtn.onclick = function() {
+        window.insertCancel(cancelBtn);
+    };
 
-    // 4. 조립 및 화면 삽입
+    // 화면 삽입
     commentBtnArea.append(insertBtn, cancelBtn);
     btn.parentElement.after(textarea);         
     textarea.after(commentBtnArea);     
@@ -142,7 +157,7 @@ $(function() {
 
     /** * 답글 등록 */
     window.insertChildComment = (parentCommentNo, btn) => {
-        // 버튼 영역의 이전 요소인 textarea 찾기
+
         const textarea = btn.parentElement.previousElementSibling;
         const content = textarea.value;
 
@@ -163,13 +178,14 @@ $(function() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(obj)
         })
-        .then(response => response.text())
-        .then(result => {
-            if(result > 0){
-                alert("답글이 등록되었습니다.");
-                loadComments(); 
+        .then(response => response.json())
+        .then(data => {
+            console.log("data:", data);
+            if(data.success === true || data.result > 0){
+                alert(data.message || "답글이 등록되었습니다.");
+                location.reload(); 
             } else {
-                alert("답글 등록 실패");
+                alert(data.message || "답글 등록 실패");
             }
         })
         .catch(err => console.error("답글 등록 에러:", err));
@@ -180,6 +196,8 @@ $(function() {
         btn.parentElement.previousElementSibling.remove(); // textarea 삭제
         btn.parentElement.remove(); // 버튼 영역 삭제
     };
+
+
     //===================== 댓글 수정 =======================
    window.showUpdateComment = (commentNo, btn) => {
     // 부모 li 요소 찾기

@@ -48,9 +48,13 @@
 
     <!-- 댓글/대댓글 삭제 -->
     <delete id="deleteComment">
-        DELETE FROM "COMMENT"
-        WHERE COMMENT_NO = #{commentNo}
+        UPDATE "COMMENT"
+		SET COMMENT_DEL_FL = 'Y',
+		COMMENT_CONTENT = '삭제된 댓글입니다.'
+		WHERE COMMENT_NO = #{commentNo}
+		AND MEMBER_NO = #{memberNo}
     </delete>
+    
     <!--  댓글 수정 -->
     <update id="updateComment">
 	    UPDATE "COMMENT" SET
