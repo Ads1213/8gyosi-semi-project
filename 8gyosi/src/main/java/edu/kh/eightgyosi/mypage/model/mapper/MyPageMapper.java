@@ -29,6 +29,14 @@ public interface MyPageMapper {
 	 */
 	int insertWrongNote(WrongNoteDTO wrongNote);
 
+	/** 회원 정보 수정 서비스
+	 * @param member
+	 * @return
+	 */
+	int updateInfo(Member member);
+	
+	
+
 	
 	
 }

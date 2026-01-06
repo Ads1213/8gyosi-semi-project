@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,6 +21,8 @@ import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 import edu.kh.eightgyosi.mypage.model.service.CalenderService;
 import edu.kh.eightgyosi.mypage.model.service.DiaryService;
+import edu.kh.eightgyosi.mypage.model.service.MyPageService;
+import edu.kh.eightgyosi.mypage.model.service.MyPageServiceImpl;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +44,8 @@ public class MyPageController {
 	@Autowired
 	private DiaryService diaryService; // 다이어리 서비스 필드 선언
 	
+	@Autowired
+	private MyPageService myPageService; // 내 정보 변경  
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
@@ -220,17 +225,56 @@ public class MyPageController {
 	}
 	
 	/** 회원 정보 수정
+	 * @param member
+	 * @param memberAddress : 주소만 따로 배열 형태로 얻어옴
+	 * @param loginMember : 현재 로그인한 회원의 회원번호(PK) 사용
 	 * @return
 	 */
 	@PostMapping("info") // /myPage/info POST 방식 요청 매핑
-	public String updateInfo() {
+	public String updateInfo(@ModelAttribute Member member,
+			@RequestParam("memberAddress") String[] memberAddress,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra) {
 		
-		return "";
+		// Member 에 현재 로그인한 회원 번호 추가
+		member.setMemberNo( loginMember.getMemberNo() );
+		// member : 수정된 회원의 닉네임, 수정된 회원의 전화번호, [주소], 회원번호
+		
+		// 회원 정보 수정 서비스 호출
+		int result = myPageService.updateInfo(member, memberAddress);
+		
+		String message = null;
+		
+		if(result > 0) {
+			message = "회원 정보 수정 성공!!!";
+			
+			// member에 DB상 업데이트된 내용으로 세팅
+			// -> member는 세션에 저장된 로그인한 회원 정보가
+			//	저장되어 있다 (로그인 할 당시의 기존 데이터)
+			// -> member를 수정하면 세션에 저장된 로그인한 회원의
+			//	정보가 업데이트 된다
+			//	== Session에 있는 회원 정보와 DB 데이터를 동기화
+			
+			loginMember.setMemberNickname( member.getMemberNickname() );
+			loginMember.setMemberTel( member.getMemberTel() );
+			loginMember.setMemberAddress( member.getMemberAddress() );
+			
+		} else {
+			message = "회원 정보 수정 실패...";
+			
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:info"; // 재요청 경로 : /myPage/info GET 요청
 	}
 	
-	// 프로필 변경 화면 이동
+	/** 회원 프로필
+	 * @return
+	 */
 	@GetMapping("profile")
 	public String profile() {
+		
 		return "/myPage/myPage-profile";
 	}
 	
