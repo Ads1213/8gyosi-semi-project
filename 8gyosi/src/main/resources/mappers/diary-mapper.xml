@@ -5,13 +5,11 @@
 	<!-- 일기장 내용 저장-->
 	<insert id="insertDiary">
         INSERT INTO "DIARY" ( 
-        	DIARY_NO,
             DIARY_DATE, 
             DIARY_TITLE, 
             DIARY_CONTENT, 
             MEMBER_NO
         ) VALUES (
-        	SEQ_DIARY_NO.NEXTVAL,
 			#{diaryDate},  
 			#{diaryTitle}, 
             #{diaryContent}, 
@@ -20,10 +18,8 @@
 
 	<!-- 일기장 내용 조회 -->
 	<select id="selectDiary" resultType="DiaryDTO">
-		SELECT DIARY_TITLE AS "diaryTitle"
-		, DIARY_CONTENT AS "diaryContent"
-		, MEMBER_NO AS "memberNo"
-		, DIARY_DATE AS "diaryDate"
+		SELECT DIARY_TITLE AS diaryTitle,
+		DIARY_CONTENT AS diaryContent
 		FROM DIARY  
 		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
