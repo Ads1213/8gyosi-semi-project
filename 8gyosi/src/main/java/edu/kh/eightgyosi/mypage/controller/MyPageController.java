@@ -1,13 +1,10 @@
 package edu.kh.eightgyosi.mypage.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -63,8 +61,6 @@ public class MyPageController {
 	// @Autowired 
 	// private ServletContext application; // 테스트용
 	
-	@Autowired
-	private DiaryService diaryService; // 다이어리 서비스 필드 선언
 	
 	
 	/**
@@ -91,8 +87,6 @@ public class MyPageController {
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo);
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
 
-		return "myPage/myPage-main"; // forward
-		
 		// 3. 시간표 정보 뿌려주기
 		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo);
 		
@@ -296,72 +290,30 @@ public class MyPageController {
 			
 	}	
 			
-			
-	/*
-	 * 		// 게시글 상세 조회 서비스 호출
-		// 1) Map으로 전달할 파라미터 묶기
-		Map<String, Integer> map = new HashMap<>();
-		map.put("boardCode", boardCode);
-		map.put("boardNo", boardNo);
-		
-		// 로그인 상태인 경우에만 memberNo를 map 추가
-		// LIKE_CHECK시 이용 (로그인한 사람이 좋아요 누른 게시글인지 체크하기 위함)
-		if(loginMember != null) {
-			map.put("memberNo", loginMember.getMemberNo());
-		}
-		
-		// 2) 서비스 호출
-		Board board = service.selectOne(map);
-		
-		//log.debug("조회된 board : " + board);
-		
-		String path = null;
-		
-		// 조회 결과가 없는 경우
-		if(board == null) {
-			path = "redirect:/board/" + boardCode; 
-			// 내가 현재 보고있는 게시판목록으로 재요청
-			ra.addFlashAttribute("message", "게시글이 존재하지 않습니다");
-			
-		} else { // 조회 결과가 있는 경우
-			//------------------ 쿠키를 이용한 조회 수 증가 시작 ------------------
-			// 비회원 또는 로그인한 회원의 글이 아닌 경우 (== 글쓴이를 뺀 다른 사람)
-	 * 
-	 * 
-	 * 
-	 * */	
-		
-		
-		
 	
 	
-	/** 일기 내용 조회
-	 * @param loginMember
-	 * @param model
-	 * @param inputDiary
-	 * @param ra
-	 * @return
-	 */
-	@ResponseBody
 	@PostMapping("diary/selectDiary")
-	public DiaryDTO selectDiary(@SessionAttribute("loginMember") Member loginMember,
-	                            @RequestBody DiaryDTO inputDiary) { 
-		log.info("넘어온 날짜: " + inputDiary.getDiaryDate());
-	    log.info("로그인 회원번호: " + loginMember.getMemberNo());
-		
-		
+	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
+	        @ModelAttribute DiaryDTO inputDiary,
+	        Model model, 
+	        RedirectAttributes ra) { 
+	    
 	    inputDiary.setMemberNo(loginMember.getMemberNo());
-	    DiaryDTO result = diaryService.selectDiary(inputDiary);
 	    
-	    log.debug("조회 결과: " + result);
+	    // 1. 서비스 호출 (결과를 DTO 객체로 받음)
+	    DiaryDTO diary = diaryService.selectDiary(inputDiary);
 	    
+	    if(diary != null) {
 
-	    // DB에서 일기 정보를 가져와서 객체 그대로 반환 (JSON 변환됨)
-	    return result;
+	        model.addAttribute("diary", diary);
+	        return "redirect:/myPage";  
+	    } else {
+	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
+	        return "redirect:/myPage"; 
+	    }
 	}
 
-	
-	
+
 	/** 일기 내용 삭제
 	 * @param loginMember
 	 * @param model
@@ -393,9 +345,11 @@ public class MyPageController {
 		return "redirect:/myPage";
 		
 	}
+	
+	
  		
 
-// seongjong
+//--------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * 마이페이지 프로필 수정 화면으로 이동
@@ -476,11 +430,11 @@ public class MyPageController {
 	}
 
 	// 비밀번호 변경 화면 이동
-	@GetMapping("changePw")
-	public String changePw() {
-
-		return "myPage/myPage-changePw";
-	}
+	//	@GetMapping("changePw")
+	//	public String changePw() {
+	//
+	//		return "myPage/myPage-changePw";
+	//	}
 
 	// 비밀번호 변경
 	@PostMapping("changePw")
@@ -523,11 +477,11 @@ public class MyPageController {
 		return "myPage/myPage-profile";
 	}
 
-	// 회원 탈퇴 화면 이동
-	@GetMapping("secession")
-	public String secession() {
-		return "myPage/myPage-secession";
-	}
+	//	// 회원 탈퇴 화면 이동
+	//	@GetMapping("secession")
+	//	public String secession() {
+	//		return "myPage/myPage-secession";
+	//	}
 
 	/** 회원 탈퇴
 	 * @param memberPw
@@ -568,12 +522,12 @@ public class MyPageController {
 		return "redirect:" + path;
 	}
 
-	// 파일 테스트 화면으로 이동
-	@GetMapping("fileTest")
-	public String fileTest() {
-		return "myPage/myPage-fileTest";
-	}
-	
+	//	// 파일 테스트 화면으로 이동
+	//	@GetMapping("fileTest")
+	//	public String fileTest() {
+	//		return "myPage/myPage-fileTest";
+	//	}
+	//	
 	/*
 	 * Spring에서 파일을 처리하는 방법
 	 * 
@@ -609,90 +563,20 @@ public class MyPageController {
 		
 		return "redirect:/myPage/fileTest";
 	}
-
-	/** 일기장 내용 저장
-	 * @param loginMember
-	 * @param model
-	 * @return
-	 */
-	@PostMapping("diary/insertDiary")
-	public String insertDiary(@SessionAttribute("loginMember") Member loginMember,
-			Model model,
-			@ModelAttribute DiaryDTO inputDiary, // 제목과 내용이 여기에 담김
-	        RedirectAttributes ra) { 
-		
-		int memberNo = loginMember.getMemberNo();
-		inputDiary.setMemberNo(memberNo);
-	    
-	    // 2. 서비스 호출 (inputDiary 객체 자체를 넘기는 것이 좋습니다)
-	    int result = diaryService.insertDiary(inputDiary);
-	    log.info("inputDiary", inputDiary);
-	    log.debug("inputDiary :: {}", "inputDiary");
-	    String message = null;
-	    
-	    if(result > 0) {
-	        message = "일기가 성공적으로 저장되었습니다.";
-	    } else {
-	        message = "일기 저장에 실패했습니다.";
-	    }
-	    
-	    ra.addFlashAttribute("message", message);
-
-	    // 3. 저장 후 다시 마이페이지 메인으로 리다이렉트
-	    return "redirect:/myPage"; 
-	}
 	
-	
-	@PostMapping("diary/selectDiary")
-	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
-	        @ModelAttribute DiaryDTO inputDiary,
-	        Model model, 
-	        RedirectAttributes ra) { 
-	    
-	    inputDiary.setMemberNo(loginMember.getMemberNo());
-	    
-	    // 1. 서비스 호출 (결과를 DTO 객체로 받음)
-	    DiaryDTO diary = diaryService.selectDiary(inputDiary);
-	    
-	    if(diary != null) {
-
-	        model.addAttribute("diary", diary);
-	        return "redirect:/myPage";  
-	    } else {
-	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
-	        return "redirect:/myPage"; 
-	    }
-	}
 
 // seongjong
 	
-	/** 마이페이지 프로필 수정 화면으로 이동
-	 * @author dasol
-	 * @return
-	 */
-	@GetMapping("info")
-	public String myPageInfo() {
-		
-		return "myPage/myPage-info";
-	}
+
 	
-	// 비밀번호 변경 화면 이동
-	@GetMapping("changePw") 
-	public String changePw() {
-		return "myPage/myPage-changePw";
-	}
 	
-	// 회원 탈퇴 화면 이동
-	@GetMapping("secession")
-	public String secession() {
-		return "myPage/myPage-secession";
-	}
+
 	
-	// 파일 테스트 화면으로 이동
-	@GetMapping("fileTest")
-	public String fileTest() {
-		return "myPage/myPage-fileTest";
-	}
+	//	// 파일 테스트 화면으로 이동
+	//	@GetMapping("fileTest")
+	//	public String fileTest() {
+	//		return "myPage/myPage-fileTest";
+	//	}
 	
 	// 파일 목록 조회 화면 이동
 	@GetMapping("fileList")
