@@ -31,7 +31,7 @@ public interface BoardService {
 	 * @param map
 	 * @return
 	 */
-	Board selectOne(Map<String, Integer> map);
+	Board selectOne(Map<String, Object> map);
 
 	/** 조회수 1 증가 서비스
 	 * @param boardId
@@ -51,5 +51,7 @@ public interface BoardService {
 	List<BoardType> selectBoardType();
 
 	List<Board> selectBoardTop5List();
+
+	Board selectBoardDetail(Map<String, Object> map);
 
 }

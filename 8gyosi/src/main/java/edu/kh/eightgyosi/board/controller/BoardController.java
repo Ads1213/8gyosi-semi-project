@@ -126,7 +126,8 @@ public class BoardController {
 							HttpServletRequest req,
 							HttpServletResponse resp) {
 		
-		Map<String, Integer> map =  new HashMap<>();
+		//Map<String, Integer> map =  new HashMap<>();
+		Map<String, Object> map =  new HashMap<>();
 		map.put("boardTypeNo", boardTypeNo);
 		map.put("boardId", boardId);
 		
@@ -134,9 +135,10 @@ public class BoardController {
 			map.put("memberNo", loginMember.getMemberNo());
 		}
 		
+		//Board board = service.selectOne(map);
 		Board board = service.selectOne(map);
 		
-		log.debug("현재 board :: {}", board);
+	    log.debug("현재 board :: {}", board);
 		
 		String path = null;
 		
@@ -245,6 +247,7 @@ public class BoardController {
 		return service.boardLike(map);
 	}
 	
+
 
 	
 }

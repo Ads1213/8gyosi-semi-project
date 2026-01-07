@@ -1,6 +1,12 @@
 /* boardDetail.js */
+$(document).ready(function () {
+    if(likeCheck == 0) {
+        document.getElementById("boardLike").replace('fa-regular');
+    }
+    if(likeCheck == 1) {
+        document.getElementById("boardLike").replace('fa-solid');
+    }
 
-$(function() {
     // ===================== 댓글 목록 =====================
     function loadComments() {
         $.ajax({
@@ -280,21 +286,36 @@ document.querySelector("#boardLike").addEventListener("click", e => {
     .then(resp => resp.text())
     .then(count => {
 
-      if (count == -1) {
-        console.log("좋아요 처리 실패");
-        return;
-      }
+        if (count == -1) {
+            console.log("좋아요 처리 실패");
+            return;
+        }
+      // 클릭 이벤트 성공(.then) 내부 로직 예시
+        
+        const heartIcon = document.getElementById("boardLike");
+        
+         if (likeCheck == 0) { // 비어있던 상태였다면
+            heartIcon.classList.replace('fa-regular', 'fa-solid');
+            likeCheck = 1; // 상태 변경
+        } else { // 채워져있던 상태였다면
+            heartIcon.classList.replace('fa-solid', 'fa-regular');
+            likeCheck = 0; // 상태 변경
+        }
+        
+        // 좋아요 카운트 숫자 업데이트
+        document.getElementById("likeCount").innerText;
+    
 
       // 5. likeCheck 값 0 <-> 1 변환
       // -> 클릭 될 때 마다 INSERT/DELETE 동작을 번갈아 가면서 할 수 있게끔
       likeCheck = likeCheck == 0 ? 1 : 0;
 
       // 6. 하트를 채우기/비우기 바꾸기
-      e.target.classList.toggle("fa-regular");
-      e.target.classList.toggle("fa-solid");
+      heartIcon.classList.toggle("fa-regular");
+      heartIcon.classList.toggle("fa-solid");
 
       // 7. 게시글 좋아요 수 수정
-      e.target.nextElementSibling.innerText = count;
+      heartIcon.nextElementSibling.innerText = count;
 
     });
 

@@ -85,7 +85,7 @@ public class BoardSerivceImpl implements BoardService{
 	
 	// 게시글 상세 조회
 		@Override
-		public Board selectOne(Map<String, Integer> map) {
+		public Board selectOne(Map<String, Object> map) {
 			return mapper.selectOne(map);
 		}
 
@@ -138,6 +138,11 @@ public class BoardSerivceImpl implements BoardService{
 		@Override
 		public List<Board> selectBoardTop5List() {
 			return mapper.selectBoardTop5List();
+		}
+
+		@Override
+		public Board selectBoardDetail(Map<String, Object> map) {
+			return mapper.selectBoardDetail(map);
 		}
 
 }

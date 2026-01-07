@@ -48,19 +48,11 @@
         </div>
 
         <!-- 좋아요 -->
-      <div class="toolbar">
-            
+        <div class="toolbar">   
             <i class="fa-heart" id="boardLike" 
-                th:classappend="*{likeCheck == 1} ? fa-solid : fa-regular"
+               th:class="${board.likeCheck == 1} ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
                 th:data-board-id="${board.boardId}"></i>
             <span th:text="*{likeCount}">0</span>
-
-            <!-- <button id="likeBtn"
-                th:data-board-id="${board.boardId}"
-                th:data-comment-no="${board.boardId}" 
-                th:class="|fa-heart ${board.likeCheck == 1 ? 'fa-solid' : 'fa-regular'}|">
-            </button>
-            <span id="likeCount" th:text="*{likeCount}">0</span> -->
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
@@ -110,11 +102,7 @@
 
 			</li>
             </ul>
-
-
-            <!-- 댓글 목록 (비동기) -->
-            <!-- <div id="commentList"></div> -->
-
+            
             <!-- 댓글 작성 -->
              <div th:if="${session.loginMember != null}">
                 <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
@@ -132,10 +120,11 @@
 <th:block th:replace="~{common/footer}"></th:block>
 
 <script th:inline="javascript">
+    let likeCheck = /*[[${board.likeCheck}]]*/ 0;
     const boardId = /*[[${board.boardId}]]*/ 0;
     const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0; 
    const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER';
-   let likeCheck = /*[[${board.likeCheck}]]*/ 0;
+   
 </script>
 
 <script th:src="@{/js/board/boardDetail.js}"></script>

@@ -47,7 +47,7 @@ public interface BoardMapper {
 	 * @param map
 	 * @return
 	 */
-	Board selectOne(Map<String, Integer> map);
+	Board selectOne(Map<String, Object> map);
 
 	/** 조회수 1증가 SQL 수행
 	 * @param boardId
@@ -94,6 +94,9 @@ public interface BoardMapper {
 	int insertBoardLike(Map<String, Integer> map);
 
 	int checkBoard(Map<String, Object> map);
+
+	Board selectBoardDetail(Map<String, Object> map);
+
 
 
 
