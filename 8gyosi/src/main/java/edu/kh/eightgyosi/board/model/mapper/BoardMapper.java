@@ -89,9 +89,9 @@ public interface BoardMapper {
 	 */
 	List<Board> selectBoardTop5List();
 
-	int deleteBoardLike(Map<String, Object> map);
+	int deleteBoardLike(Map<String, Integer> map);
 
-	int insertBoardLike(Map<String, Object> map);
+	int insertBoardLike(Map<String, Integer> map);
 
 	int checkBoard(Map<String, Object> map);
 

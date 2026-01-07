@@ -49,12 +49,18 @@
 
         <!-- 좋아요 -->
       <div class="toolbar">
-            <button id="likeBtn"
+            
+            <i class="fa-heart" id="boardLike" 
+                th:classappend="*{likeCheck == 1} ? fa-solid : fa-regular"
+                th:data-board-id="${board.boardId}"></i>
+            <span th:text="*{likeCount}">0</span>
+
+            <!-- <button id="likeBtn"
                 th:data-board-id="${board.boardId}"
                 th:data-comment-no="${board.boardId}" 
                 th:class="|fa-heart ${board.likeCheck == 1 ? 'fa-solid' : 'fa-regular'}|">
             </button>
-            <span id="likeCount" th:text="*{likeCount}">0</span>
+            <span id="likeCount" th:text="*{likeCount}">0</span> -->
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
@@ -127,8 +133,9 @@
 
 <script th:inline="javascript">
     const boardId = /*[[${board.boardId}]]*/ 0;
-    const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0;  
+    const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0; 
    const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER';
+   let likeCheck = /*[[${board.likeCheck}]]*/ 0;
 </script>
 
 <script th:src="@{/js/board/boardDetail.js}"></script>

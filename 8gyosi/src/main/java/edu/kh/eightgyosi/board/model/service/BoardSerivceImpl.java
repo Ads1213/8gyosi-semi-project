@@ -103,19 +103,23 @@ public class BoardSerivceImpl implements BoardService{
 		}
 
 		@Override
-		public int boardLike(Map<String, Object> map) {
+		public int boardLike(Map<String, Integer> map) {
 		    int result = 0;
-		    
-		    try {
-		        result = mapper.insertBoardLike(map); 
-		    } catch (Exception e) {
-		        result = mapper.deleteBoardLike(map);
-		    }
-
-		    if (result > 0) {
-		        return mapper.selectLikeCount(map.get("boardId"));
-		    }
-		    return -1;
+		    System.out.println("전달된 map 내용: " + map);
+		    if( map.get("likeCheck") == 1 ) {
+				
+				result = mapper.deleteBoardLike(map);
+				
+			} else {			
+				result = mapper.insertBoardLike(map);
+				
+			}
+			
+			if(result > 0) {
+				return mapper.selectLikeCount(map.get("boardId"));
+			}
+			
+			return -1;
 		}
 		
 		/**

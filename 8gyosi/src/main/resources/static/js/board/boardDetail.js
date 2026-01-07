@@ -1,29 +1,6 @@
 /* boardDetail.js */
 
 $(function() {
-    const boardId = $('#likeBtn').data('board-id'); // HTML에서 data-board-id 가져오기
-    const boardTypeNo = /*[[${board.boardTypeNo}]]*/ 1; // Thymeleaf 바인딩
-
-    // ===================== 좋아요 토글 =====================
-    // function updateLikeUI(liked, likeCount) {
-    //     $('#likeBtn').text(liked ? '👍 좋아요 취소' : '👍 좋아요');
-    //     $('#likeCount').text(likeCount);
-    // }
-
-    // $('#likeBtn').click(function() {
-    //     $.ajax({
-    //         url: `/board/${boardTypeNo}/${boardId}/like`,
-    //         type: 'POST',
-    //         success: function(res) {
-    //             updateLikeUI(res.liked, res.likeCount);
-    //         },
-    //         error: function(err) {
-    //             alert('좋아요 처리 중 오류 발생');
-    //             console.error(err);
-    //         }
-    //     });
-    // });
-
     // ===================== 댓글 목록 =====================
     function loadComments() {
         $.ajax({
@@ -256,38 +233,6 @@ $(function() {
     .catch(err => console.log(err));
     };
 
-    // ==================좋아요 버튼========================
-    $("#likeBtn").off("click").on("click", function(e) {
-    const $btn = $(this);
-    const $countSpan = $("#likeCount"); 
-    
-    const boardId = $btn.data("board-id");
-    const commentNo = $btn.data("comment-no");
-    let likeCheck = $btn.hasClass("fa-solid") ? 1 : 0;
-
-    const obj = {
-        "likeCheck": likeCheck,
-        "boardId": boardId
-    };
-    
-    fetch(`/board/${boardId}/${commentNo}/like`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(obj)
-    })
-    .then(resp => resp.text())
-    .then(count => {
-        if (count == -1) {
-            alert("로그인 후 이용 가능합니다.");
-            return;
-        }
-
-        $btn.toggleClass("fa-regular fa-solid");
-        $countSpan.text(count);
-    })
-    .catch(err => console.error("오류:", err));
-});
-
     // ===================== 게시글 삭제 =====================
     $('#deleteBoardBtn').click(function() {
         if(!confirm('정말 삭제하시겠습니까?')) return;
@@ -307,3 +252,51 @@ $(function() {
     });
 
 });
+
+document.querySelector("#boardLike").addEventListener("click", e => {
+   
+    const heartIcon = e.target; 
+    const currentId = e.currentTarget.dataset.boardId || boardId;
+    
+
+  // 로그인 상태가 아닌 경우 동작 X
+  if (loginMemberNo == null) {
+    alert("로그인 후 이용해주세요.");
+    return;
+  }
+
+  const obj = {
+    "memberNo": loginMemberNo,
+    "boardId": currentId,
+    "likeCheck": likeCheck
+  };
+
+  // 좋아요 INSERT/DELETE 비동기 요청
+  fetch("/board/like", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(obj)
+  })
+    .then(resp => resp.text())
+    .then(count => {
+
+      if (count == -1) {
+        console.log("좋아요 처리 실패");
+        return;
+      }
+
+      // 5. likeCheck 값 0 <-> 1 변환
+      // -> 클릭 될 때 마다 INSERT/DELETE 동작을 번갈아 가면서 할 수 있게끔
+      likeCheck = likeCheck == 0 ? 1 : 0;
+
+      // 6. 하트를 채우기/비우기 바꾸기
+      e.target.classList.toggle("fa-regular");
+      e.target.classList.toggle("fa-solid");
+
+      // 7. 게시글 좋아요 수 수정
+      e.target.nextElementSibling.innerText = count;
+
+    });
+
+});
+

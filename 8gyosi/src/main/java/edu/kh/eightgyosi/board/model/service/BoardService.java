@@ -43,7 +43,7 @@ public interface BoardService {
 	 * @param paramMap
 	 * @return
 	 */
-	int boardLike(Map<String, Object> paramMap);
+	int boardLike(Map<String, Integer> map);
 
 	/** 메인화면에 boardTypeList 가져오기 위한 service
 	 * @return
