@@ -93,6 +93,8 @@ public interface BoardMapper {
 
 	int insertBoardLike(Map<String, Object> map);
 
+	int checkBoard(Map<String, Object> map);
+
 
 
 }

@@ -48,16 +48,13 @@
         </div>
 
         <!-- 좋아요 -->
-        <div class="toolbar">
-           <button id="likeBtn"
+      <div class="toolbar">
+            <button id="likeBtn"
                 th:data-board-id="${board.boardId}"
                 th:data-comment-no="${board.boardId}" 
-                class="fa-regular fa-heart">
+                th:class="|fa-heart ${board.likeCheck == 1 ? 'fa-solid' : 'fa-regular'}|">
             </button>
-            <span th:text="*{likeCount}">0</span>
-          </span>
-
-            
+            <span id="likeCount" th:text="*{likeCount}">0</span>
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->

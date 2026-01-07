@@ -249,6 +249,12 @@
 		INSERT INTO "BOARD_LIKE" 
 		VALUES(#{memberNo}, #{boardId})
 	</insert>
+	<!-- 좋아요 조회 -->
+	<select id="checkBoardLike">
+   		 SELECT COUNT(*) FROM "BOARD_LIKE"
+    	WHERE MEMBER_NO = #{memberNo}
+    	AND BOARD_ID = #{boardId}
+	</select>
 
 	<!-- 게시글 좋아요 갯수 조회(SELECT) -->
 	<select id="selectLikeCount">

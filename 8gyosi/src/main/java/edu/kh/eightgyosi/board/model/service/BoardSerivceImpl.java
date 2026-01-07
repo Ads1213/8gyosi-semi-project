@@ -106,22 +106,15 @@ public class BoardSerivceImpl implements BoardService{
 		public int boardLike(Map<String, Object> map) {
 		    int result = 0;
 		    
-		   
-		    int likeCheck = Integer.parseInt(String.valueOf(map.get("likeCheck")));
-		    
-		    if (likeCheck == 1) {
+		    try {
+		        result = mapper.insertBoardLike(map); 
+		    } catch (Exception e) {
 		        result = mapper.deleteBoardLike(map);
-		        
-		    } else {			
-		        result = mapper.insertBoardLike(map);
 		    }
-		    
+
 		    if (result > 0) {
-		       
-		        int boardId = Integer.parseInt(String.valueOf(map.get("boardId")));
-		        return mapper.selectLikeCount(boardId);
+		        return mapper.selectLikeCount(map.get("boardId"));
 		    }
-		    
 		    return -1;
 		}
 		
