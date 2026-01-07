@@ -1,6 +1,5 @@
 package edu.kh.eightgyosi.board.controller;
 
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,9 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriUtils;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
 import edu.kh.eightgyosi.board.model.dto.BoardFile;
@@ -115,10 +121,13 @@ public class EditBoardController {
             return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
         }
 
-        // 이미지 조회 (필요시)
+        // ==================== null-safe 처리 ====================
+        // 서비스에서 항상 빈 리스트 반환하도록 개선 → null 체크 제거 가능
+        
+        
         board.setBoardImages(service.selectBoardImages(boardId));
-        // 파일 조회
         board.setBoardFiles(service.selectBoardFiles(boardId));
+        // ================================================
 
         model.addAttribute("board", board);
         model.addAttribute("categoryList", service.getCategoryList());
@@ -151,6 +160,11 @@ public class EditBoardController {
         board.setBoardTypeNo(boardTypeNo);
         board.setMemberNo(loginMember.getMemberNo());
 
+        // ==================== null-safe parseIds ====================
+        // 기존: null 반환 → service에서 null 체크 필요
+        // 변경: 항상 빈 리스트 반환 → null-safe
+      //게시글에 파일이없거나 이미지가 없으면 null이들어가게되는데 null이 들어가면 500서버에러가 뜸 
+        //그래서 빈 리스트로 바꾸면 안전하게 처리됨
         List<Integer> deleteImageList = parseIds(deleteImageStr);
         List<Integer> deleteFileList = parseIds(deleteFileStr);
 
@@ -232,14 +246,16 @@ public class EditBoardController {
             return ResponseEntity.notFound().build();
         }
 
-        Path path = Paths.get(file.getUploadfilePath(), file.getUploadfileStrg());
+     // Windows 전용 실제 저장 경로 (하드코딩임)
+        String serverBasePath = "C:\\uploadFiles\\board";
+        Path path = Paths.get(serverBasePath, file.getUploadfileStrg());
         Resource resource = new UrlResource(path.toUri());
 
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
 
-        String encodedFileName = URLEncoder.encode(file.getUploadfileOrigin(), StandardCharsets.UTF_8);
+        String encodedFileName = UriUtils.encode(file.getUploadfileOrigin(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -257,9 +273,10 @@ public class EditBoardController {
                 || member.getRole() == Member.Role.ADMIN;
     }
 
-    /* ==================== 문자열 → 정수 리스트 ==================== */
+    /* ==================== 문자열 → 정수 리스트 (null-safe) ==================== */
     private List<Integer> parseIds(String str) {
-        if (str == null || str.isBlank()) return null;
+        // 변경: null이나 빈 문자열이면 항상 빈 리스트 반환 → null-safe
+        if (str == null || str.isBlank()) return List.of();
         return Arrays.stream(str.split(","))
                 .map(Integer::parseInt)
                 .toList();

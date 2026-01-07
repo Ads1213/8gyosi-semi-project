@@ -71,10 +71,6 @@ body {
   gap: 8px;
 }
 
-.textarea-wrapper {
-  position: relative;
-}
-
 .content-input {
   width: 100%;
   min-height: 400px;
@@ -83,21 +79,6 @@ body {
   padding: 12px;
   font-size: 14px;
   resize: vertical;
-}
-
-/* + 버튼 textarea 안쪽 오른쪽 아래 */
-.add-btn.inside {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  border: 1px solid #5f86e5;
-  background-color: white;
-  color: #5f86e5;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
 /* 완료 버튼 영역 */
@@ -141,6 +122,14 @@ body {
   display: none;
 }
 
+/* 이미지 미리보기 */
+.preview-wrapper {
+  display: inline-block;
+  position: relative;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
 .preview {
   width: 100px;
   height: 100px;
@@ -149,6 +138,7 @@ body {
   border-radius: 4px;
 }
 
+/* 삭제 버튼 */
 .delete-image, .delete-file {
   cursor: pointer;
   background-color: #ff6b6b;
@@ -157,4 +147,18 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
+  margin-top: 5px;
+}
+
+/* 파일 리스트 */
+#file-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }

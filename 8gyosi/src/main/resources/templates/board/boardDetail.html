@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 상세</title>
-
     <link rel="stylesheet" th:href="@{/css/board/boardDetail-style.css}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
@@ -31,37 +29,29 @@
         <div class="content-wrapper">
             <div th:utext="${board.boardContent}"></div>
         </div>
-		<!-- detail.html: 파일 리스트 -->
-		<div class="file-wrapper">
-		    <h4>첨부 파일</h4>
-		    <ul id="file-list">
-		        <li th:each="file : ${board.boardFiles}" class="boardFile">
-		            <a th:href="@{'/editBoard/' + ${board.boardTypeNo} + '/file/' + ${file.uploadfileNo}}"
-		               th:text="${file.uploadfileOrigin}" target="_blank"></a>
-		        </li>
-		    </ul>
-		</div>
 
-		<!-- 첨부 이미지 -->
-		<div class="file-wrapper">
-		    <div th:each="img : ${board.boardImages}">
-		        <img th:src="${img.imgPath}" class="preview">
-		    </div>
-		</div>
-		
-		<div id="fileContainer">
-		    <div th:each="file : ${board.boardFiles}" class="boardFile">
-		        <a th:href="@{'/editBoard/' + ${board.boardTypeNo} + '/file/' + ${file.uploadfileNo}}"
-		           th:text="${file.uploadfileOrigin}" target="_blank"></a>
-		    </div>
-		</div>
+        <!-- 첨부 파일 -->
+        <div class="file-wrapper">
+            <h4>첨부 파일</h4>
+            <ul>
+				<li th:each="file : ${board.boardFiles}">
+				    <a th:href="@{'/editBoard/' + ${board.boardTypeNo} + '/file/' + ${file.uploadfileNo}}"
+				       th:text="${file.uploadfileOrigin}"
+				       download></a>
+				</li>
+            </ul>
+        </div>
+
+        <!-- 첨부 이미지 -->
+        <div class="file-wrapper">
+            <div th:each="img : ${board.boardImages}">
+                <img th:src="${img.imgPath}" class="preview">
+            </div>
+        </div>
 
         <!-- 좋아요 -->
         <div class="toolbar">
-            <button id="likeBtn"
-                    th:data-board-id="${board.boardId}">
-                👍 좋아요
-            </button>
+            <button id="likeBtn" th:data-board-id="${board.boardId}">👍 좋아요</button>
             <span id="likeCount">0</span>
         </div>
 
@@ -69,77 +59,54 @@
         <div class="toolbar"
              th:if="${session.loginMember != null
              and (session.loginMember.memberNo == board.memberNo)}">
-             <!-- or session.loginMember.role.name() == 'ADMIN')}"> -->
 
-            <a th:href="@{/board/{id}/edit(id=${board.boardId})}">수정</a>
-            <button id="deleteBoardBtn">삭제</button>
+            <!-- 수정 링크 -->
+            <a th:href="@{/editBoard/{boardTypeNo}/{boardId}/update(boardTypeNo=${board.boardTypeNo}, boardId=${board.boardId})}">
+                수정
+            </a>
+
+            <!-- 삭제 form -->
+            <form th:action="@{/editBoard/{boardTypeNo}/{boardId}/delete(boardTypeNo=${board.boardTypeNo}, boardId=${board.boardId})}"
+                  method="post" style="display:inline;"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <input type="hidden" name="cp" th:value="${param.cp != null ? param.cp : 1}" />
+                <button type="submit">삭제</button>
+            </form>
+
         </div>
 
         <!-- 댓글 영역 -->
         <section id="commentSection">
             <h3>댓글</h3>
             <ul>
-
-            <li class="comment-row" 
-					th:each="comment : ${board.boardComments}" 
-					th:classappend="${comment.parentCommentNo} != 0 ? child-comment"
-					th:object="${comment}">
-
-				<th:block th:if="*{commentDelFl} == 'Y'">
-					삭제된 댓글 입니다
-				</th:block>
-
-				<th:block th:if="*{commentDelFl} == 'N'">
-					<p class="comment-writer">
-						
-	
-						<span th:text="*{memberNickname}">닉네임</span>
-						<span class="comment-date" th:text="*{commentWriteDate}">작성일</span>
-					</p>
-	
-					<p class="comment-content" th:text="*{commentContent}">댓글 내용</p>
-	
-					<!-- 버튼 영역 -->
-					<div class="comment-btn-area">
-						<button th:onclick="|showInsertComment(*{commentNo}, this)|">답글</button>
-	
-						<th:block th:if="${session.loginMember != null and session.loginMember.memberNo == comment.memberNo}">
-							<button th:onclick="|showUpdateComment(*{commentNo}, this)|">수정</button>
-							<button th:onclick="|deleteComment(*{commentNo})|">삭제</button>
-						</th:block>
-						<!-- 로그인 회원과 댓글 작성자가 같은 경우 -->
-	
-					</div>
-				</th:block>
-
-			</li>
+                <li class="comment-row" th:each="comment : ${board.boardComments}" 
+                    th:classappend="${comment.parentCommentNo} != 0 ? 'child-comment'">
+                    <th:block th:if="${comment.commentDelFl == 'Y'}">
+                        삭제된 댓글입니다
+                    </th:block>
+                    <th:block th:if="${comment.commentDelFl == 'N'}">
+                        <p class="comment-writer">
+                            <span th:text="${comment.memberNickname}">닉네임</span>
+                            <span class="comment-date" th:text="${comment.commentWriteDate}">작성일</span>
+                        </p>
+                        <p class="comment-content" th:text="${comment.commentContent}">댓글 내용</p>
+                        <div class="comment-btn-area">
+                            <button th:onclick="|showInsertComment(${comment.commentNo}, this)|">답글</button>
+                            <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == comment.memberNo}">
+                                <button th:onclick="|showUpdateComment(${comment.commentNo}, this)|">수정</button>
+                                <button th:onclick="|deleteComment(${comment.commentNo})|">삭제</button>
+                            </th:block>
+                        </div>
+                    </th:block>
+                </li>
             </ul>
-
-
-            <!-- 댓글 목록 (비동기) -->
-            <div id="commentList"></div>
-
-            <!-- 댓글 작성 -->
-             <div th:if="${session.loginMember != null}">
-                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
-                <button id="addCommentBtn">댓글 작성</button>
-            </div>
-
-            <div th:if="${session.loginMember == null}">
-                <p>로그인 후 댓글 작성이 가능합니다.</p>
-            </div>
         </section>
 
     </div>
 </main>
 
 <th:block th:replace="~{common/footer}"></th:block>
-
-<script th:inline="javascript">
-    const boardId = /*[[${board.boardId}]]*/ 0;
-</script>
-
-<script th:src="@{/js/board/boardDetail.js}"></script>
+<!-- ERR_INCOMPLETE_CHUNKED_ENCODING떠서 null처리함-->
 </body>
 </html>
 

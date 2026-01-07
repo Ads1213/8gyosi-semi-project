@@ -138,7 +138,7 @@ public class EditBoardServiceImpl implements EditBoardService {
         String rename = UUID.randomUUID() + ext;
 
         file.transferTo(new File(folderPath + rename));
-
+        
         return fileConfig.getBoardWebPath() + rename;
     }
 
@@ -180,28 +180,54 @@ public class EditBoardServiceImpl implements EditBoardService {
         }
     }
 
-    private void saveBoardFiles(int boardId, List<MultipartFile> files) throws Exception {
-        for(MultipartFile f : files){
-            if(f.isEmpty()) continue;
+    private void saveBoardFiles(int boardId, List<MultipartFile> files) {
+        // 디렉토리 생성 (반복문 밖에서 한 번만)
+        String folderPath = fileConfig.getBoardFolderPath();
+        if (!folderPath.endsWith("/") && !folderPath.endsWith("\\")) {
+            folderPath += "/";
+        }
+        File dir = new File(folderPath);
+        if (!dir.exists()) dir.mkdirs();
 
-            String origin = f.getOriginalFilename();
-            String rename = UUID.randomUUID() + origin.substring(origin.lastIndexOf("."));
+        for (MultipartFile f : files) {
+            if (f.isEmpty()) continue;
 
-            File dir = new File(fileConfig.getBoardFolderPath());
-            if(!dir.exists()) dir.mkdirs();
-            f.transferTo(new File(fileConfig.getBoardFolderPath() + rename));
+            try {
+                String origin = f.getOriginalFilename();
+                if (origin == null || origin.isBlank()) continue; // 안전 처리
 
-            BoardFile bf = new BoardFile();
-            bf.setBoardId(boardId);
-            bf.setUploadfileOrigin(origin);
-            bf.setUploadfileStrg(rename);
-            bf.setUploadfileSize(f.getSize());
-            bf.setUploadfileDate(LocalDateTime.now());
-            bf.setUploadfilePath(fileConfig.getBoardWebPath() + rename);
+                // 확장자 추출
+                String ext = "";
+                int dotIndex = origin.lastIndexOf(".");
+                if (dotIndex != -1) {
+                    ext = origin.substring(dotIndex);
+                }
 
-            mapper.insertBoardFile(bf);
+                // 랜덤 이름 생성
+                String rename = UUID.randomUUID() + ext;
+
+                // 실제 파일 저장
+                File dest = new File(folderPath + rename);
+                f.transferTo(dest);
+
+                // DB 저장용 DTO 생성
+                BoardFile bf = new BoardFile();
+                bf.setBoardId(boardId);
+                bf.setUploadfileOrigin(origin);
+                bf.setUploadfileStrg(rename);
+                bf.setUploadfileSize(f.getSize());
+                bf.setUploadfilePath(fileConfig.getBoardWebPath() + rename);
+
+                mapper.insertBoardFile(bf);
+
+            } catch (Exception e) {
+                e.printStackTrace(); // 실패 로깅, 다음 파일 계속 진행
+            }
         }
     }
+
+
+
 
     private void deletePhysicalFile(String path){
         File file = new File(path);

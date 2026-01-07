@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.EditBoardMapper">
 
     <!-- ===================== 게시글 작성 ===================== -->
     <insert id="insertBoard">
-    <selectKey keyProperty="boardId" resultType="int" order="BEFORE">
-        SELECT SEQ_BOARD_ID.NEXTVAL AS boardId FROM DUAL
-    </selectKey>
-    INSERT INTO board (
-        board_id, board_title, board_content, board_view_count,
-        board_is_deleted, board_create_date, board_update_date,
-        board_type_no, member_no
-    )
-    VALUES (
-        #{boardId}, #{boardTitle}, #{boardContent}, 0,
-        'N', SYSDATE, SYSDATE,
-        #{boardTypeNo}, #{memberNo}
-    )
-</insert>
+        <selectKey keyProperty="boardId" resultType="int" order="BEFORE">
+            SELECT SEQ_BOARD_ID.NEXTVAL AS boardId FROM DUAL
+        </selectKey>
+        INSERT INTO board (
+            board_id, board_title, board_content, board_view_count,
+            board_is_deleted, board_create_date, board_update_date,
+            board_type_no, member_no
+        )
+        VALUES (
+            #{boardId}, #{boardTitle}, #{boardContent}, 0,
+            'N', SYSDATE, SYSDATE,
+            #{boardTypeNo}, #{memberNo}
+        )
+    </insert>
+
     <!-- ===================== 게시글 수정 ===================== -->
     <update id="updateBoard">
         UPDATE board
@@ -124,26 +126,26 @@
     </select>
 
     <!-- ===================== 이미지 삽입 ===================== -->
-<insert id="insertBoardImage">
-    INSERT INTO board_img (
-        img_no,
-        board_id,
-        img_order,
-        img_path,
-        img_rename,
-        img_original_name,
-        img_size
-    )
-    VALUES (
-        SEQ_IMG_NO.NEXTVAL,
-        #{boardId},
-        #{imgOrder},
-        #{imgPath},
-        #{imgRename},
-        #{imgOriginalName},
-        #{imgSize}
-    )
-</insert>
+    <insert id="insertBoardImage">
+        INSERT INTO board_img (
+            img_no,
+            board_id,
+            img_order,
+            img_path,
+            img_rename,
+            img_original_name,
+            img_size
+        )
+        VALUES (
+            SEQ_IMG_NO.NEXTVAL,
+            #{boardId},
+            #{imgOrder},
+            #{imgPath},
+            #{imgRename},
+            #{imgOriginalName},
+            #{imgSize}
+        )
+    </insert>
 
     <!-- ===================== 이미지 삭제 ===================== -->
     <delete id="deleteBoardImage">
@@ -151,17 +153,29 @@
     </delete>
 
     <!-- ===================== 파일 삽입 ===================== -->
+   <!-- ===================== 파일 삽입 ===================== -->
+<!-- ===================== 파일 삽입 ===================== -->
 <insert id="insertBoardFile">
-    <selectKey keyProperty="uploadfileNo" resultType="int" order="BEFORE">
-        SELECT SEQ_BOARD_FILE_NO.NEXTVAL AS uploadfileNo FROM DUAL
-    </selectKey>
     INSERT INTO board_file (
-        uploadfile_no, board_id, uploadfile_origin, uploadfile_strg, uploadfile_size, uploadfile_date, uploadfile_path
+        uploadfile_no,
+        board_id,
+        uploadfile_origin,
+        uploadfile_strg,
+        uploadfile_path,
+        uploadfile_date,
+        uploadfile_size
     )
     VALUES (
-        #{uploadfileNo}, #{boardId}, #{uploadfileOrigin}, #{uploadfileStrg}, #{uploadfileSize}, #{uploadfileDate}, #{uploadfilePath}
+        SEQ_BOARD_FILE_NO.NEXTVAL,
+        #{boardId},
+        #{uploadfileOrigin},
+        #{uploadfileStrg},
+        #{uploadfilePath},
+        SYSDATE,
+        #{uploadfileSize}
     )
 </insert>
+
 
     <!-- ===================== 파일 삭제 ===================== -->
     <delete id="deleteBoardFile">
@@ -204,4 +218,6 @@
     </delete>
 
 </mapper>
+
+
 

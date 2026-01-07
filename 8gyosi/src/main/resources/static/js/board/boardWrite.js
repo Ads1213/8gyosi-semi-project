@@ -1,222 +1,170 @@
-/*$(document).ready(function () {
-    const uploadUrl = '/editBoard/uploadFile';
-
-    // Summernote 초기화
-    $('#boardContent').summernote({
-        placeholder: '내용을 입력하세요',
-        height: 400,
-        toolbar: [
-            ['style', ['bold','italic','underline','clear']],
-            ['font',['fontsize','color','fontname']],
-            ['para',['ul','ol','paragraph']],
-            ['insert',['link','picture','video']],
-            ['view',['fullscreen','codeview']]
-        ],
-        callbacks: {
-            onImageUpload: function(files) {
-                for(let file of files){
-                    uploadFile(file, true);
-                }
-            }
-        }
-    });
-
-    // 파일 업로드 함수
-    function uploadFile(file, isEditorImage=false){
-        let formData = new FormData();
-        formData.append("file", file);
-
-        $.ajax({
-            url: uploadUrl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-			success: function(res){
-			    if(res.error){
-			        alert('로그인이 필요합니다');
-			        return;
-			    }
-
-			    if(isEditorImage || file.type.startsWith("image/")){
-			        $('#boardContent').summernote('insertImage', res.url);
-			    } else {
-			        $('#boardContent').summernote(
-			            'pasteHTML',
-			            `<a href="${res.url}" target="_blank">${file.name}</a><br>`
-			        );
-			    }
-			},
-            error: function(){ 
-                alert('파일 업로드 실패'); 
-            }
-        });
-    }
-
-    // 폼 제출 전 유효성 체크
-    $('#boardForm').on('submit', function(){
-        const title = $('input[name="boardTitle"]').val().trim();
-        const content = $('#boardContent').summernote('code').trim();
-
-        if(!title){
-            alert('제목을 입력해주세요');
-            return false;
-        }
-        if(!content || content === '<p><br></p>'){
-            alert('내용을 입력해주세요');
-            return false;
-        }
-    });
-
-    // 이미지 미리보기
-    $('#img-input').on('change', function(){
-        const files = this.files;
-        const previewArea = $('#image-preview-area');
-        previewArea.empty(); // 기존 미리보기 초기화
-
-        Array.from(files).forEach((file, idx) => {
-            const reader = new FileReader();
-            reader.onload = function(e){
-                const img = $('<img>').attr('src', e.target.result)
-                                       .addClass('preview')
-                                       .attr('data-index', idx);
-                previewArea.append(img);
-            }
-            reader.readAsDataURL(file);
-        });
-    });
-});
-
-*/
-
-
+/* ===================== Summernote ===================== */
 $(document).ready(function () {
-    const uploadUrl = '/editBoard/uploadFile';
-
-    // Summernote 초기화
     $('#boardContent').summernote({
-        placeholder: '내용을 입력하세요',
         height: 400,
-        toolbar: [
-            ['style', ['bold','italic','underline','clear']],
-            ['font',['fontsize','color','fontname']],
-            ['para',['ul','ol','paragraph']],
-            ['insert',['link','picture','video']],
-            ['view',['fullscreen','codeview']]
-        ],
+        lang: 'ko-KR',
         callbacks: {
-            onImageUpload: function(files) {
-                for(let file of files){
-                    uploadEditorFile(file, true);
+            onImageUpload: function (files) {
+                for (let file of files) {
+                    uploadEditorFile(file);
                 }
             }
         }
-    });
-
-    // Summernote 이미지/파일 업로드
-    function uploadEditorFile(file, isImage=false){
-        let formData = new FormData();
-        formData.append("file", file);
-
-        $.ajax({
-            url: uploadUrl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(res){
-                if(res.error){
-                    alert('로그인이 필요합니다');
-                    return;
-                }
-
-                if(isImage || file.type.startsWith("image/")){
-                    $('#boardContent').summernote('insertImage', res.url);
-                } else {
-                    $('#boardContent').summernote(
-                        'pasteHTML',
-                        `<a href="${res.url}" target="_blank">${file.name}</a><br>`
-                    );
-                }
-            },
-            error: function(){ 
-                alert('파일 업로드 실패'); 
-            }
-        });
-    }
-
-    // 파일 input 선택 시 UI에 파일 이름 표시
-    const fileInput = $('#file-input');
-    const fileListArea = $('<ul id="file-list"></ul>'); // 파일 이름 리스트
-    $('.boardFile').append(fileListArea);
-
-    fileInput.on('change', function(){
-        fileListArea.empty(); // 초기화
-        const files = this.files;
-
-        Array.from(files).forEach((file, idx)=>{
-            const li = $('<li></li>').text(file.name)
-                                      .attr('data-index', idx)
-                                      .css({marginBottom:'4px'});
-            const removeBtn = $('<button type="button">삭제</button>')
-                                .css({marginLeft:'8px'})
-                                .on('click', function(){
-                                    removeFile(idx);
-                                });
-            li.append(removeBtn);
-            fileListArea.append(li);
-        });
-    });
-
-    // 선택된 파일 삭제 (input.files는 직접 수정 불가하므로 workaround)
-    function removeFile(index){
-        const dt = new DataTransfer();
-        const files = fileInput[0].files;
-
-        Array.from(files).forEach((file, i)=>{
-            if(i !== index){
-                dt.items.add(file);
-            }
-        });
-
-        fileInput[0].files = dt.files;
-
-        // UI 업데이트
-        fileInput.trigger('change');
-    }
-
-    // 폼 제출 전 유효성 체크
-    $('#boardForm').on('submit', function(){
-        const title = $('input[name="boardTitle"]').val().trim();
-        const content = $('#boardContent').summernote('code').trim();
-
-        if(!title){
-            alert('제목을 입력해주세요');
-            return false;
-        }
-        if(!content || content === '<p><br></p>'){
-            alert('내용을 입력해주세요');
-            return false;
-        }
-    });
-
-    // 이미지 미리보기
-    $('#img-input').on('change', function(){
-        const files = this.files;
-        const previewArea = $('#image-preview-area');
-        previewArea.empty();
-
-        Array.from(files).forEach((file, idx)=>{
-            const reader = new FileReader();
-            reader.onload = function(e){
-                const img = $('<img>').attr('src', e.target.result)
-                                       .addClass('preview')
-                                       .attr('data-index', idx)
-                                       .css({width:'100px', marginRight:'5px'});
-                previewArea.append(img);
-            }
-            reader.readAsDataURL(file);
-        });
     });
 });
 
+/* Summernote 이미지 업로드 */
+function uploadEditorFile(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    $.ajax({
+        url: "/editBoard/uploadFile",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            if (res.error) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+            $('#boardContent').summernote('insertImage', res.url);
+        },
+        error: () => alert("이미지 업로드 실패")
+    });
+}
+
+/* ===================== 이미지 (멀티 + 누적) ===================== */
+const imgInput = document.getElementById("img-input");
+const imgPreviewArea = document.getElementById("image-preview-area");
+const dtImages = new DataTransfer();
+
+imgInput.addEventListener("change", () => {
+    Array.from(imgInput.files).forEach(file => {
+        if (!file.type.startsWith("image/")) return;
+
+        const exists = Array.from(dtImages.files)
+            .some(f => f.name === file.name && f.size === file.size);
+
+        if (!exists) dtImages.items.add(file);
+    });
+
+    renderImagePreview();
+});
+
+function renderImagePreview() {
+    imgPreviewArea.innerHTML = "";
+
+    Array.from(dtImages.files).forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            imgPreviewArea.insertAdjacentHTML("beforeend", `
+                <div class="img-box">
+                    <img src="${e.target.result}" class="preview">
+                    <button type="button" class="remove-img" data-idx="${idx}">×</button>
+                </div>
+            `);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+imgPreviewArea.addEventListener("click", e => {
+    if (!e.target.classList.contains("remove-img")) return;
+
+    const removeIdx = Number(e.target.dataset.idx);
+    const newDt = new DataTransfer();
+
+    Array.from(dtImages.files).forEach((file, idx) => {
+        if (idx !== removeIdx) newDt.items.add(file);
+    });
+
+    dtImages.items.clear();
+    Array.from(newDt.files).forEach(f => dtImages.items.add(f));
+
+    renderImagePreview();
+});
+
+/* ===================== 일반 파일 (멀티 + 누적) ===================== */
+const fileInput = document.getElementById("file-input");
+const filePreviewArea = document.getElementById("file-preview-area");
+const dtFiles = new DataTransfer();
+
+fileInput.addEventListener("change", () => {
+    Array.from(fileInput.files).forEach(file => {
+        const exists = Array.from(dtFiles.files)
+            .some(f => f.name === file.name && f.size === file.size);
+
+        if (!exists) dtFiles.items.add(file);
+    });
+
+    renderFilePreview();
+});
+
+function renderFilePreview() {
+    filePreviewArea.innerHTML = "";
+
+    Array.from(dtFiles.files).forEach((file, idx) => {
+        filePreviewArea.insertAdjacentHTML("beforeend", `
+            <div class="file-item">
+                <span>${file.name}</span>
+                <button type="button" class="remove-file" data-idx="${idx}">삭제</button>
+            </div>
+        `);
+    });
+}
+
+filePreviewArea.addEventListener("click", e => {
+    if (!e.target.classList.contains("remove-file")) return;
+
+    const removeIdx = Number(e.target.dataset.idx);
+    const newDt = new DataTransfer();
+
+    Array.from(dtFiles.files).forEach((file, idx) => {
+        if (idx !== removeIdx) newDt.items.add(file);
+    });
+
+    dtFiles.items.clear();
+    Array.from(newDt.files).forEach(f => dtFiles.items.add(f));
+
+    renderFilePreview();
+});
+
+/* ===================== ★ 핵심: submit 가로채기 ===================== */
+const boardForm = document.getElementById("boardForm");
+
+boardForm.addEventListener("submit", e => {
+    e.preventDefault(); // 🔥 브라우저 기본 submit 차단
+
+    const formData = new FormData(boardForm);
+
+    // ⚠️ 기존 input files 제거 (덮어쓰기 방지)
+    formData.delete("images");
+    formData.delete("files");
+
+    // 🔥 누적된 파일 기준으로 다시 append
+    Array.from(dtImages.files).forEach(img => {
+        formData.append("images", img);
+    });
+
+    Array.from(dtFiles.files).forEach(file => {
+        formData.append("files", file);
+    });
+
+    fetch(boardForm.action, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => {
+        if (res.redirected) {
+            location.href = res.url;
+        } else {
+            alert("게시글 등록 실패");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("서버 오류");
+    });
+});
