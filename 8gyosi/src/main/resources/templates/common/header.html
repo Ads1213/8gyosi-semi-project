@@ -14,13 +14,13 @@
 		</a>
 	</section>
 
-	<section></section> <!-- 2. 안 쓰는 섹션-->
+	<section></section> 
 
   	<section id="btn-area">
 
 		<div class="board-header">
 			<div>
-				<a href="#">게시판</a>
+				<a href="#">게시판</a><!-- 2. 안 쓰는 섹션-->
 			</div>
 			<ul id="board-nav">
 				<li th:each="boardType : ${application.boardTypeList}">
@@ -30,7 +30,7 @@
 		</div>
 
 		<div> <!--3. 채팅 -->
-			<a href="/chatting">채팅</a>
+			<a href="/chatting/list">채팅</a>
 		</div>
 
 		<!-- 4. 로그인이 되어 있지 않은 경우 -->

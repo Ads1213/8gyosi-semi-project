@@ -23,6 +23,30 @@ function validateDelete() {
 }
 
 
+// 2. diary 관련 ------------------------------
+function validateDelete() {
+	const diaryDate = document.getElementById("diaryDate");
+	const dateValue = diaryDate.value.trim();
+	const datePattern = /^\d{8}$/;
+
+	// 1. 날짜 검증
+	if (!datePattern.test(dateValue)) {
+		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
+		diaryDate.focus();
+		return false; // 서버 전송 차단
+	}
+
+	// 2. 삭제 확인창
+	const isConfirm = confirm("정말 삭제하시겠습니까?");
+
+	if (isConfirm) {
+		return true;  // ★ 이 값이 반환되어야 Java 컨트롤러(@PostMapping)가 실행됩니다.
+	} else {
+		return false; // 취소 시 서버 전송 차단
+	}
+}
+
+// --------------------------------------------
 
 // 조회관련 비동기
 document.addEventListener("DOMContentLoaded", () => {
@@ -219,31 +243,4 @@ function calenderSchedule() {
 	}
 
 }
-
-// --------------------------------------------
-// 2. diary 관련 ------------------------------
-function validateDelete() {
-	const diaryDate = document.getElementById("diaryDate");
-	const dateValue = diaryDate.value.trim();
-	const datePattern = /^\d{8}$/;
-
-	// 1. 날짜 검증
-	if (!datePattern.test(dateValue)) {
-		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
-		diaryDate.focus();
-		return false; // 서버 전송 차단
-	}
-
-	// 2. 삭제 확인창
-	const isConfirm = confirm("정말 삭제하시겠습니까?");
-
-	if (isConfirm) {
-		return true;  // ★ 이 값이 반환되어야 Java 컨트롤러(@PostMapping)가 실행됩니다.
-	} else {
-		return false; // 취소 시 서버 전송 차단
-	}
-}
-
-
-
 

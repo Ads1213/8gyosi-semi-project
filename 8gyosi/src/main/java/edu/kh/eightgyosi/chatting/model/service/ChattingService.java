@@ -33,4 +33,22 @@ public interface ChattingService {
 	 */
 	int createChattingRoom(Map<String, Integer> map);
 
+	/** 채팅 메세지 조회 서비스
+	 * @param paramMap
+	 * @return
+	 */
+	List<Message> selectMessageList(Map<String, Object> paramMap);
+
+	/** 채팅 읽음 표시 업데이트
+	 * @param paramMap
+	 * @return
+	 */
+	int updateReadFlag(Map<String, Object> paramMap);
+
+	/** 채팅 입력 서비스
+	 * @param msg
+	 * @return
+	 */
+	int insertMessage(Message msg);
+
 }

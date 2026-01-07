@@ -72,8 +72,7 @@ targetInput.addEventListener("input", e => {
 				let email = member.memberEmail;
 
 				const span = document.createElement("span");
-				span.innerHTML = `${nickname} ${email}`.replace(query, `<mark>${query}</mark>`);
-				// 검색어와 잂치하는 문자 화면에 형광팬으로 나오게 처리
+				span.innerHTML = `${nickname} ${email}`.replace(query, `<b>${query}</b>`);
 
 				// 요소 조립(화면에 추가)
 				li.append(img, span);
@@ -92,7 +91,7 @@ targetInput.addEventListener("input", e => {
 // 새로운 채팅방 입장 또는 기존 채팅방 선택 함수
 function chattingEnter(e){
 
-	console.log(e.target); // 실제 클릭된 요소(체팅하려는 상대방)
+	console.log(e.target); // 실제 클릭된 요소
 	console.log(e.currentTarget); // 이벤트 리스트가 설정된 요소
 
 	const targetNo = e.currentTarget.getAttribute("data-id");
@@ -456,9 +455,6 @@ chattingSock.onmessage = function(e) {
 
 	selectRoomList();
 }
-
-
-
 
 // 문서 로딩 완료 후 수행할 기능
 document.addEventListener("DOMContentLoaded", ()=>{

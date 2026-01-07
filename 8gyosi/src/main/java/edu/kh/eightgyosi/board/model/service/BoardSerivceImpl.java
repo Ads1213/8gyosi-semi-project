@@ -58,7 +58,7 @@ public class BoardSerivceImpl implements BoardService{
 	@Override
 	public Map<String, Object> searchList(Map<String, Object> paramMap, int cp) {
 		
-		// 1. 지정된 게시판(boardCode)에서
+		// 1. 지정된 게시판(boardTypeNo)에서
 		//    검색조건에 맞으면서
 		// 	  삭제되지 않은 게시글 수를 조회
 		int listCount = mapper.getSearchCount(paramMap);

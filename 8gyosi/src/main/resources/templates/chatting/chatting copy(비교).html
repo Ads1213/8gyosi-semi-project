@@ -16,10 +16,8 @@
 	<main>
 
 		<th:block th:replace="~{common/header}">header.html</th:block>
-		<section id="chatting-container">
-			<button id="addTarget">
-				<i class="fa-solid fa-user-plus"></i>
-			</button>
+		<section>
+			<button id="addTarget">추가</button>
 
 			<div id="addTargetPopupLayer" class="popup-layer-close">
 				<span id="closeBtn">&times</span>
@@ -33,7 +31,7 @@
 
 			<div class="chatting-area">
 				<ul class="chatting-list">
-					<th:block th:each="room : ${roomList}">
+					<th:block th:each="room : ${chattingRoomList}">
 
 						<li class="chatting-item" th:chat-no="${room.chattingRoomNo}" th:target-no="${room.targetNo}">
 							<div class="item-header">
@@ -62,7 +60,7 @@
 				</ul>
 
 				<div class="prev-message">
-					<h1>대화할 친구를 선택해주세요</h1>
+					<h1>채팅방을 선택해주세요</h1>
 				</div>
 
 				<div class="chatting-content display-none">
