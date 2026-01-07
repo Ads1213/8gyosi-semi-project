@@ -7,11 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import edu.kh.eightgyosi.board.model.dto.Board;
-import edu.kh.eightgyosi.board.model.dto.BoardType;
-import edu.kh.eightgyosi.board.model.service.BoardService;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.eightgyosi.board.model.dto.Board;
 import edu.kh.eightgyosi.board.model.dto.BoardType;
