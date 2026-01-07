@@ -19,7 +19,6 @@
     </section>
 
     <section class="main-board"> <!-- 메인화면 게시판 전체 섹션(6개) -->
-
 		<th:block th:unless="${#lists.isEmpty(boardTop5List)}"> <!-- 상단 부분 3개 -->
 			<section class="main-board-all" id="main-board-upper"> 
 				<div th:each="i : ${#numbers.sequence(0, 2)}" class="main-board-ea">

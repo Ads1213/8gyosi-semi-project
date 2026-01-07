@@ -1,23 +1,22 @@
-/* ===================== 기본 스타일 ===================== */
+/* ===================== 공통 스타일 ===================== */
 * { 
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 html, body {
   height: 100%;
-  background-color: #f5f6fa;
-  color: #333;
 }
 
 body {
   display: flex;
   flex-direction: column;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-/* main container */
 .container {
   flex: 1;
   display: flex;
@@ -27,12 +26,11 @@ body {
 
 .write-box {
   width: 90%;
-  max-width: 900px;
-  min-height: 70vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: white;
+  background-color: #fff;
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -43,64 +41,93 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #2f3640;
+  padding: 10px;
+  background-color: #5f86e5;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px 4px 0 0;
 }
 
-/* select, 제목 input 높이 통일 */
-.category-select,
-.title-input {
+.title-wrapper select,
+.title-wrapper input[type="text"] {
   height: 36px;
   padding: 6px 10px;
-  font-size: 14px;
-  border: 1px solid #dcdde1;
+  border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
 }
 
-.category-select:focus,
-.title-input:focus {
-  border-color: #5f86e5;
+.title-wrapper select:focus,
+.title-wrapper input[type="text"]:focus {
+  border-color: #4864c7;
 }
 
-/* 본문 */
+/* 게시글 정보 (작성자/날짜/조회수) */
+.board-info {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 내용 */
 .content-wrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.textarea-wrapper {
-  position: relative;
-}
-
-.content-input {
+.content-wrapper textarea {
   width: 100%;
   min-height: 400px;
-  border: 1px solid #dcdde1;
-  border-radius: 6px;
-  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 14px;
   font-size: 14px;
   resize: vertical;
 }
 
-/* + 버튼 textarea 안쪽 오른쪽 아래 */
-.add-btn.inside {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  border: 1px solid #5f86e5;
-  background-color: white;
-  color: #5f86e5;
-  font-size: 20px;
-  cursor: pointer;
+/* 이미지/파일 영역 */
+.boardImg,
+.boardFile {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.boardImg h4,
+.boardFile h4 {
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-/* 완료 버튼 영역 */
+.delete-image, .delete-file {
+  cursor: pointer;
+  background-color: #ff6b6b;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.boardFile a {
+  text-decoration: none;
+  color: #5f86e5;
+}
+
+/* 제출 버튼 */
 .bottom-area {
   display: flex;
   justify-content: flex-end;
@@ -122,62 +149,35 @@ body {
   background-color: #4864c7;
 }
 
-/* ===================== 이미지 업로드 ===================== */
-.boardImg, .boardFile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+/* ===================== Dark Mode ===================== */
+body.dark {
+  background-color: #121212;
+  color: #e5e5e5;
 }
 
-.boardImg label, .boardFile label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
+body.dark .title-wrapper {
+  background-color: #1f1f1f;
+  color: #e5e5e5;
 }
 
-.boardImg input[type=file], .boardFile input[type=file] {
-  display: none;
+body.dark .content-wrapper textarea {
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+  border: 1px solid #555;
 }
 
-/* 이미지 미리보기 */
-.preview {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border: 1px solid #dcdde1;
-  border-radius: 4px;
-  position: relative;
+body.dark .boardFile a {
+  color: #22d3ee;
 }
 
-/* 삭제 버튼 */
-.delete-image, .delete-file {
-  cursor: pointer;
-  background-color: #ff6b6b;
-  border: none;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin-top: 4px;
+body.dark .submit-btn {
+  background-color: #22d3ee;
+  color: #121212;
 }
 
-/* 새 파일 선택 버튼 */
-.add-file-btn {
-  display: inline-block;
-  padding: 6px 12px;
-  border: 1px solid #5f86e5;
-  border-radius: 4px;
-  background-color: white;
-  color: #5f86e5;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 8px;
+body.dark .boardFile a:hover,
+body.dark .delete-image:hover,
+body.dark .delete-file:hover {
+  opacity: 0.8;
 }
 
-.add-file-btn:hover {
-  background-color: #5f86e5;
-  color: white;
-}

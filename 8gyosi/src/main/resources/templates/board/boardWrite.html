@@ -6,20 +6,23 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/board/boardWrite-style.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.css">
+    <!-- Summernote 안정 버전 0.8.20 -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.css" rel="stylesheet">
 
-    <!-- JS 라이브러리 -->
+    <!-- JS 라이브러리 순서 중요: jQuery 먼저, Summernote 다음 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.22/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.js"></script>
 </head>
 <body>
+
+<!-- 공통 헤더 -->
 <th:block th:replace="~{common/header}"></th:block>
 
 <main class="container">
     <form th:action="@{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})}"
-          method="post" enctype="multipart/form-data" class="write-box">
+          method="post" enctype="multipart/form-data" class="write-box" id="boardForm">
 
+        <!-- 제목 + 카테고리 -->
         <div class="title-wrapper">
             <select name="boardTypeNo" class="category-select" required>
                 <option value="">게시판 선택</option>
@@ -30,16 +33,16 @@
                 </option>
             </select>
 
-            <input type="text" name="boardTitle" class="title-input" 
+            <input type="text" name="boardTitle" class="title-input"
                    placeholder="제목 입력" style="flex:1" required>
         </div>
 
+        <!-- 내용 -->
         <div class="content-wrapper">
-            <div class="textarea-wrapper">
-                <textarea id="boardContent" name="boardContent" class="content-input"></textarea>
-            </div>
+            <textarea id="boardContent" name="boardContent" class="content-input"></textarea>
         </div>
 
+        <!-- 이미지 업로드 -->
         <div class="boardImg">
             <label for="img-input">
                 <span class="submit-btn" style="background-color: #eee; color: #333;">이미지 선택</span>
@@ -48,21 +51,27 @@
             <div id="image-preview-area"></div>
         </div>
 
-        <div class="boardFile">
-            <label for="file-input">
-                <span class="submit-btn" style="background-color: #eee; color: #333;">파일 첨부</span>
-                <input type="file" id="file-input" name="files" multiple>
-            </label>
-        </div>
+		<!-- 파일 업로드 -->
+		<div class="boardFile">
+		    <label for="file-input">
+		        <span class="submit-btn" style="background-color: #eee; color: #333;">파일 첨부</span>
+		        <input type="file" id="file-input" name="files" multiple>
+		    </label>
+		    <div id="file-preview-area"></div> <!-- 선택한 파일 이름 표시 영역 -->
+		</div>
 
+        <!-- 제출 버튼 -->
         <div class="bottom-area">
             <button type="submit" class="submit-btn">작성 완료</button>
         </div>
     </form>
 </main>
 
+<!-- 공통 푸터 -->
 <th:block th:replace="~{common/footer}"></th:block>
 
+<!-- Board Write JS -->
 <script th:src="@{/js/board/boardWrite.js}"></script>
+
 </body>
 </html>

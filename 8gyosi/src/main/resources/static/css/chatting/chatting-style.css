@@ -14,6 +14,15 @@ main {
   
 }
 
+
+main {
+  width: 1440px;
+  margin: auto; /* 좌우 가운데 정렬을 위해서 */
+  background-color: #F1F4F9;
+  overflow: hidden;
+  
+}
+
 /* 전체 컨테이너 */
 #chat-container {
     width: 1000px;
