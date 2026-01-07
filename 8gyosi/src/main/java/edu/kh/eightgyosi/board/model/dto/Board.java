@@ -68,6 +68,7 @@ public class Board {
 	private int boardLikeCount; // 좋아요 수
 	private List<BoardComment> boardComments = new ArrayList<>();;
 	private String boardTypeName;
+
 	
 	private int rank; // 메인화면 출력용 rank 필드
 	private int isNew; // 메인화면 출력용 isNew 필드

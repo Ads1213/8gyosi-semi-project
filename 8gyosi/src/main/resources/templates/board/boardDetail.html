@@ -50,13 +50,15 @@
         </div>
 
         <!-- 좋아요 -->
-        <div class="toolbar">
-            <button id="likeBtn" th:data-board-id="${board.boardId}">👍 좋아요</button>
-            <span id="likeCount">0</span>
+        <div class="toolbar">   
+            <i class="fa-heart" id="boardLike" 
+               th:class="${board.likeCheck == 1} ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
+                th:data-board-id="${board.boardId}"></i>
+            <span th:text="*{likeCount}">0</span>
         </div>
 
         <!-- 수정 / 삭제 (작성자 or 관리자) -->
-        <div class="toolbar"
+        <!--<div class="toolbar"
              th:if="${session.loginMember != null
              and (session.loginMember.memberNo == board.memberNo)}">
 
@@ -78,35 +80,64 @@
         <!-- 댓글 영역 -->
         <section id="commentSection">
             <h3>댓글</h3>
-            <ul>
-                <li class="comment-row" th:each="comment : ${board.boardComments}" 
-                    th:classappend="${comment.parentCommentNo} != 0 ? 'child-comment'">
-                    <th:block th:if="${comment.commentDelFl == 'Y'}">
-                        삭제된 댓글입니다
+
+            <!-- 댓글 작성 -->
+             <div th:if="${session.loginMember != null}">
+                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                <button id="addCommentBtn">댓글 작성</button>
+            </div>
+
+            <div th:if="${session.loginMember == null}">
+                <p>로그인 후 댓글 작성이 가능합니다.</p>
+            </div>
+            <ul class="commentList">
+
+                <li class="comment-row" 
+					th:each="comment : ${board.boardComments}" 
+					th:classappend="${comment.parentCommentNo} != 0 ? child-comment"
+					th:object="${comment}">
+
+                    <th:block th:if="*{commentDelFl} == 'Y'">
+                        삭제된 댓글 입니다
                     </th:block>
-                    <th:block th:if="${comment.commentDelFl == 'N'}">
+
+                    <th:block th:if="*{commentDelFl} == 'N'">
                         <p class="comment-writer">
-                            <span th:text="${comment.memberNickname}">닉네임</span>
-                            <span class="comment-date" th:text="${comment.commentWriteDate}">작성일</span>
+                            <span th:text="*{memberNickname}">닉네임</span>
+                            <span class="comment-date" th:text="*{commentWriteDate}">작성일</span>
                         </p>
-                        <p class="comment-content" th:text="${comment.commentContent}">댓글 내용</p>
+        
+                        <p class="comment-content" th:text="*{commentContent}">댓글 내용</p>
+        
+                        <!-- 버튼 영역 -->
                         <div class="comment-btn-area">
-                            <button th:onclick="|showInsertComment(${comment.commentNo}, this)|">답글</button>
+                            <button th:onclick="|showInsertComment(*{commentNo}, this)|">답글</button>
+        
                             <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == comment.memberNo}">
-                                <button th:onclick="|showUpdateComment(${comment.commentNo}, this)|">수정</button>
-                                <button th:onclick="|deleteComment(${comment.commentNo})|">삭제</button>
+                                <button th:onclick="|showUpdateComment(*{commentNo}, this)|">수정</button>
+                                <button th:onclick="|deleteComment(*{commentNo})|">삭제</button>
                             </th:block>
+                            <!-- 로그인 회원과 댓글 작성자가 같은 경우 -->
+        
                         </div>
                     </th:block>
+
                 </li>
             </ul>
         </section>
-
     </div>
 </main>
 
 <th:block th:replace="~{common/footer}"></th:block>
-<!-- ERR_INCOMPLETE_CHUNKED_ENCODING떠서 null처리함-->
+
+<script th:inline="javascript">
+    let likeCheck = /*[[${board.likeCheck}]]*/ 0;
+    const boardId = /*[[${board.boardId}]]*/ 0;
+    const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0; 
+   const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER';
+   
+</script>
+
+<script th:src="@{/js/board/boardDetail.js}"></script>
 </body>
 </html>
-
