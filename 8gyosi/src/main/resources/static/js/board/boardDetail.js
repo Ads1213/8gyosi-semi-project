@@ -1,214 +1,189 @@
 /* boardDetail.js */
 $(document).ready(function () {
-    if(likeCheck == 0) {
-        document.getElementById("boardLike").replace('fa-regular');
-    }
-    if(likeCheck == 1) {
-        document.getElementById("boardLike").replace('fa-solid');
-    }
+    
 
     // ===================== 댓글 목록 =====================
     function loadComments() {
-        $.ajax({
-            url: `/editBoard/comment/${boardId}`,
-            type: 'GET',
-            success: function(comments) {
-                const $list = $('#commentList');
-                $list.empty();
-                comments.forEach(c => {
-                    const canDelete = c.memberNo === loginMemberNo || sessionRole === 'ADMIN';
-                    let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentNo}">삭제</button>` : '';
-                    $list.append(`
-                        <div class="comment" id="comment-${c.commentNo}">
+    $.ajax({
+        url: `/editBoard/comment/${boardId}`,
+        type: 'GET',
+        success: function(comments) {
+            // 1. 댓글을 감싸는 전체 컨테이너를 ul로 선택 (없다면 HTML에 <ul id="commentList"></ul> 필요)
+            const $list = $('#commentList'); 
+            $list.empty();
 
-                            // <p><strong>${c.memberName}</strong> (${c.commentWriteDate})</p>
-
-                            <p><strong>${c.memberNickname}</strong> (${c.commentWriteDate})</p>
-							
+            comments.forEach(c => {
+                // 삭제 권한 확인
+                const canDelete = c.memberNo === loginMemberNo || sessionRole === 'ADMIN';
+                let deleteBtn = canDelete ? `<button class="deleteCommentBtn" data-id="${c.commentNo}">삭제</button>` : '';
+                
+                // 2. li 태그를 이용하여 댓글 행 생성
+                // 클래스명(comment-row 등)을 부여하면 CSS 잡기가 편합니다.
+                const li = `
+                    <li class="comment-row" id="comment-${c.commentNo}">
+                        <div class="comment-header">
+                            <span class="nickname"><strong>${c.memberNickname}</strong></span>
+                            <span class="write-date">(${c.commentWriteDate})</span>
+                        </div>
+                        
+                        <div class="comment-content">
                             <p>${c.commentContent}</p>
+                        </div>
+
+                        <div class="comment-footer">
                             ${deleteBtn}
                         </div>
-                    `);
-                });
-            },
-            error: function(err) {
-                console.error('댓글 로딩 실패', err);
-            }
-        });
-    }
+                    </li>
+                `;
+                
+                $list.append(li);
+            });
+        },
+        error: function(err) {
+            console.error('댓글 로딩 실패', err);
+        }
+    });
+}
 
     // 페이지 로딩 시 댓글 불러오기
     loadComments();
 
     // ===================== 댓글 작성 =====================
-    $('#addCommentBtn').click(function() {
-        const content = $('#commentContent').val().trim();
-        if(!content) return alert('댓글 내용을 입력하세요');
+    // ===================== 댓글 등록 (기본) =====================
+$('#addCommentBtn').click(function() {
+    const content = $('#commentContent').val().trim();
+    if(!content) return alert('댓글 내용을 입력하세요');
 
-        let pNo = 0;
-            try {
-                if (typeof parentCommentNo !== 'undefined') {
-                    pNo = parentCommentNo;
-                }
-            } catch (e) {
-                pNo = 0;
-            }
+    const obj = { 
+        "commentContent" : content,
+        "boardId" : boardId,
+        "parentCommentNo": 0 // 일반 댓글은 부모 0
+    };
 
-        const obj = { 
-            "commentContent" : content,
-            "boardId" : boardId,
-            "parentCommentNo": pNo
-        };
-
-        $.ajax({
-            url: `/editBoard/comment/${boardId}`,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(obj),
-            success: function(res) {
-                $('#commentContent').val('');
-                 location.reload();   //자동 새로고침      //loadComments(); 비동기식 방법
-            },
-            error: function(err) {
-                alert('댓글 작성 실패');
-                console.error(err);
-            }
-        });
-    });
-
-    // ===================== 댓글 삭제 =====================
-    window.deleteComment = function(commentNo) {
-        if (!confirm("정말 삭제하시겠습니까?")) return;
-
-        $.ajax({
-            url: `/editBoard/comment/${boardId}/${commentNo}`,
-            type: "DELETE",
-            success: function(res) {
-            if (res.success) {
-                alert(res.message);
-                location.reload();
-            } else {
-                alert(res.message);
-            }
+    $.ajax({
+        url: `/editBoard/comment/${boardId}`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(obj),
+        success: function(res) {
+            $('#commentContent').val('');
+            location.reload(); 
         },
         error: function(err) {
-            alert("댓글 삭제 중 오류가 발생했습니다.");
-            console.error(err);
+            alert('댓글 작성 실패');
         }
     });
-    };
-    //===================== 답글 작성 =======================
-   window.showInsertComment = (parentCommentNo, btn) => {
-    // 1. 이미 열려있는 답글창이 있는지 확인
+});
+
+// ===================== 댓글 삭제 =====================
+window.deleteComment = function(commentNo) {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    $.ajax({
+        url: `/editBoard/comment/${boardId}/${commentNo}`,
+        type: "DELETE",
+        success: function(res) {
+            if (res.success || res > 0) {
+                alert("삭제되었습니다.");
+                location.reload();
+            } else {
+                alert("삭제 실패");
+            }
+        }
+    });
+};
+
+// ===================== 답글(대댓글) 작성창 출력 =======================
+window.showInsertComment = (parentCommentNo, btn) => {
+    // 1. 이미 열려있는 답글창 삭제 로직
     const temp = document.getElementsByClassName("commentInsertContent");
     if(temp.length > 0){
-        if(confirm("다른 답글을 작성 중입니다. 이 댓글에 작성하시겠습니까?")){
-            temp[0].nextElementSibling.remove(); // 버튼 영역 삭제
-            temp[0].remove(); // textarea 삭제
-        } else {
-            return;
-        }
+        if(confirm("작성 중인 답글이 있습니다. 이 댓글에 작성하시겠습니까?")){
+            temp[0].nextElementSibling.remove(); 
+            temp[0].remove(); 
+        } else return;
     }
     
-    // 2. 답글 입력창(textarea) 생성
+    // 2. li 태그(부모 행)를 찾아서 그 아래에 삽입
+    const parentLi = btn.closest("li");
+    
     const textarea = document.createElement("textarea");
     textarea.classList.add("commentInsertContent");
     textarea.placeholder = "답글을 입력해주세요.";
     
-    // 3. 버튼 영역 생성 (등록/취소)
     const commentBtnArea = document.createElement("div");
     commentBtnArea.classList.add("comment-btn-area");
 
     const insertBtn = document.createElement("button");
     insertBtn.innerText = "등록";
-
-    insertBtn.onclick = function() {
-        window.insertChildComment(parentCommentNo, insertBtn);
-    };
+    insertBtn.onclick = () => window.insertChildComment(parentCommentNo, insertBtn);
 
     const cancelBtn = document.createElement("button");
     cancelBtn.innerText = "취소";
-    cancelBtn.onclick = function() {
-        window.insertCancel(cancelBtn);
-    };
+    cancelBtn.onclick = () => window.insertCancel(cancelBtn);
 
-    // 화면 삽입
     commentBtnArea.append(insertBtn, cancelBtn);
-    btn.parentElement.after(textarea);         
-    textarea.after(commentBtnArea);     
+    
+    // 리스트 항목(li) 내부 마지막에 추가
+    parentLi.append(textarea, commentBtnArea);
 };
 
-    /** * 답글 등록 */
-    window.insertChildComment = (parentCommentNo, btn) => {
+// ===================== 답글 등록 실행 =======================
+window.insertChildComment = (parentCommentNo, btn) => {
+    const textarea = btn.parentElement.previousElementSibling;
+    const content = textarea.value;
 
-        const textarea = btn.parentElement.previousElementSibling;
-        const content = textarea.value;
+    if(content.trim().length == 0){
+        alert("답글 내용을 입력해주세요.");
+        textarea.focus();
+        return;
+    }
 
-        if(content.trim().length == 0){
-            alert("답글 내용을 입력해주세요.");
-            textarea.focus();
-            return;
-        }
-
-        const obj = {
-            "commentContent": content,
-            "boardId": boardId,
-            "parentCommentNo": parentCommentNo || 0
-        };
-
-       fetch(`/editBoard/comment/${boardId}`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(obj)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("data:", data);
-            if(data.success === true || data.result > 0){
-                alert(data.message || "답글이 등록되었습니다.");
-                location.reload(); 
-            } else {
-                alert(data.message || "답글 등록 실패");
-            }
-        })
-        .catch(err => console.error("답글 등록 에러:", err));
+    const obj = {
+        "commentContent": content,
+        "boardId": boardId,
+        "parentCommentNo": parentCommentNo
     };
 
-    /** 답글 작성 취소 */
-    window.insertCancel = (btn) => {
-        btn.parentElement.previousElementSibling.remove(); // textarea 삭제
-        btn.parentElement.remove(); // 버튼 영역 삭제
-    };
+    fetch(`/editBoard/comment/${boardId}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(obj)
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        if(data.success || data > 0){
+            alert("답글이 등록되었습니다.");
+            location.reload(); 
+        } else alert("등록 실패");
+    });
+};
 
+// ===================== 댓글 수정창 출력 =======================
+window.showUpdateComment = (commentNo, btn) => {
+    const commentLi = btn.closest("li"); // 현재 댓글 li
+    const contentArea = commentLi.querySelector(".comment-content"); // 내용 영역
+    const oldContent = contentArea.innerText; // 수정 전 텍스트
 
-    //===================== 댓글 수정 =======================
-   window.showUpdateComment = (commentNo, btn) => {
-    // 부모 li 요소 찾기
-    const commentLi = btn.closest("li");
-    
-    // 댓글 내용이 담긴 요소 (클래스명은 실제 HTML에 맞게 조정하세요)
-    const contentArea = commentLi.querySelector(".comment-content");
-    const oldContent = contentArea.innerHTML; // 취소 시 복구용
-
-    // 1. 기존 내용 보관 및 textarea 생성
+    // 1. 수정용 textarea 생성
     const textarea = document.createElement("textarea");
-    textarea.value = oldContent.replaceAll("<br>", "\n"); // 줄바꿈 처리
+    textarea.classList.add("update-textarea");
+    textarea.value = oldContent;
     
-    // 2. 내용 영역 교체
+    // 2. 기존 내용 영역을 textarea로 교체
     contentArea.innerHTML = "";
     contentArea.appendChild(textarea);
 
-    // 3. 버튼 영역 변경
+    // 3. 버튼 영역 변경 (수정 전용 등록/취소 버튼)
     const buttonArea = commentLi.querySelector(".comment-btn-area");
-    const originalButtons = buttonArea.innerHTML; // 기존 버튼들 보관
-
     buttonArea.innerHTML = `
-        <button onclick="updateComment(${commentNo}, this)">등록</button>
-        <button onclick="updateCancel(this, '${oldContent.replaceAll("'", "\\'").replaceAll("\n", "")}')">취소</button>
-        `;
-    };
+        <button class="update-submit" onclick="updateComment(${commentNo}, this)">등록</button>
+        <button class="update-cancel" onclick="location.reload()">취소</button>
+    `;
+};
 
-    window.updateComment = (commentNo, btn) => {
+// ===================== 댓글 수정 실행 =======================
+window.updateComment = (commentNo, btn) => {
     const textarea = btn.closest("li").querySelector("textarea");
     const content = textarea.value;
 
@@ -222,23 +197,25 @@ $(document).ready(function () {
         "commentContent" : content
     };
 
-    fetch("/editBoard/comment", { // 서버 컨트롤러 주소에 맞게 수정
+    fetch("/editBoard/comment", { 
         method : "PUT",
         headers : {"Content-Type" : "application/json"},
         body : JSON.stringify(data)
     })
     .then(resp => resp.json())
     .then(result => {
-        if(result.success) {
-            alert("댓글이 수정되었습니다.");
+        if(result.success || result > 0) {
+            alert("수정되었습니다.");
             location.reload();
-        } else {
-            alert("수정 실패");
-        }
-    })
-    .catch(err => console.log(err));
-    };
+        } else alert("수정 실패");
+    });
+};
 
+// 답글/수정 취소
+window.insertCancel = (btn) => {
+    btn.parentElement.previousElementSibling.remove();
+    btn.parentElement.remove();
+};
     // ===================== 게시글 삭제 =====================
     $('#deleteBoardBtn').click(function() {
         if(!confirm('정말 삭제하시겠습니까?')) return;
@@ -320,4 +297,3 @@ document.querySelector("#boardLike").addEventListener("click", e => {
     });
 
 });
-
