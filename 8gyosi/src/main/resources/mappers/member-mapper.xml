@@ -36,7 +36,7 @@
   	INSERT INTO MEMBER 
   	VALUES(SEQ_MEMBER_NO.NEXTVAL, #{memberEmail}, #{memberPw}, 
   	#{memberNickname}, NULL, DEFAULT, DEFAULT, #{memberBirth}, 
-  	#{memberTel}, NULL, DEFAULT, DEFAULT, #{memberSchool})
+  	#{memberTel}, #{memberAddress}, DEFAULT, DEFAULT, #{memberSchool})
   </insert>
    
 </mapper>
