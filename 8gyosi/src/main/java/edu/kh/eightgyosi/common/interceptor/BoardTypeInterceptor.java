@@ -68,4 +68,3 @@ public class BoardTypeInterceptor implements HandlerInterceptor {
         return true; // 권한 체크 통과 시 컨트롤러 실행
     }
 }
-

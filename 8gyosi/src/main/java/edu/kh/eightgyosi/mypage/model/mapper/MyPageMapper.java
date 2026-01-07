@@ -1,11 +1,13 @@
 package edu.kh.eightgyosi.mypage.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
+import edu.kh.eightgyosi.mypage.model.dto.TimetableDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 
 @Mapper
@@ -28,6 +30,13 @@ public interface MyPageMapper {
 	 * @return
 	 */
 	int insertWrongNote(WrongNoteDTO wrongNote);
+
+	/** 시간표 조회 서비스
+	 * @param map
+	 * @return
+	 */
+	List<TimetableDTO> selectTimetable(Map<String, Object> map);
+
 
 	
 	
