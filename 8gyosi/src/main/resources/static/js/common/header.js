@@ -25,15 +25,3 @@ if (loginbtn != null) {
     location.href = `/8gyosi/login`;
   });
 }
-
-// 상단 게시판 목록 마우스 HOVER 시 띄우기 
-const mainMenu = document.querySelector("#header_board");
-const subMenu = document.querySelector('.sub_menu');
-
-mainMenu.addEventListener('mouseenster', () => {
-  subMenu.classList.add('active');
-});
-mainMenu.addEventListener('mouseleave', () => {
-  subMenu.classList.remove('active');
-
-});

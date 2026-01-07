@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
+import edu.kh.eightgyosi.mypage.model.dto.TimetableDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 
 @Mapper
@@ -55,6 +56,12 @@ public interface MyPageMapper {
 	int secession(int memberNo);
 	
 	
+	/** 시간표 조회 서비스
+	 * @param map
+	 * @return
+	 */
+	List<TimetableDTO> selectTimetable(Map<String, Object> map);
+
 
 	
 	

@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지 메인</title>
-
     <link rel="stylesheet" href="/css/myPage/myPage-main.css">
 	<th:block th:replace="~{common/common}"></th:block> 
 </head>
 <body>
 	<th:block th:replace="~{common/header}"></th:block>
-    <h3> 마이페이지 메인 테스트</h3>
-    <container id="container">
+    
+    <container id="main-container">
 
-        <container class="main-container"> <!-- 마이페이지 메인 기능 부분 -->
+        <container class="main-myPage"> <!-- 마이페이지 메인 기능 부분 -->
             
             <section class="upper"> <!--마이페이지 상단: 캘린더, todo-->
                 
@@ -67,193 +66,49 @@
                 
                 <section class="class-table main-content"> <!-- 시간표 -->
 
-                    <section id="semester-part">시간표</section>
+                    <section id="semester">시간표</section>
 
-                    <section> <!-- 시간표 상단 부분-->
+                    <section id="timetable-upper"> <!-- 시간표 상단 부분-->
                         <div id="semester-name">
-                            2026년도 2학기
+                            <div>
+                                <button id="sem-left">left</button>
+                            </div>
+                            <div id="semester-name">
+                                2026년도 2학기
+                            </div>
+                            <div>
+                                <button id="sem-right">right</button>
+                            </div>
                         </div>
                         <div id="semester-edit-area">
-                            <button id="semester-edit-btn">
-                            수정 
-                            </button>
+                            <button id="semester-edit-btn">수정</button>
                         </div>
                     </section>
 
-                    <section> <!-- 시간표 하단 부분-->
+                    <section id="timetable-lower"> <!-- 1시간표 하단 부분-->
+	                    <th:block th:each="i : ${#numbers.sequence(0,5)}">
+                            <section> <!-- 6개 생성-->
+                                <th:block th:switch="${i}"> <!-- 각 요일 제목 부분-->
+                                    <div th:case="0" th:text="MON" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                    <div th:case="1" th:text="TUE" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                    <div th:case="2" th:text="WED" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                    <div th:case="3" th:text="THU" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                    <div th:case="4" th:text="FRI" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                    <div th:case="5" th:text="SAT" th:class="'day'+${i+1}"></div> <!-- 3-->
+                                </th:block>
+                                <div class="day-lower"> 
+                                    <th:block th:each="j : ${#numbers.sequence(0,6)}">  
+                                        <div>
+                                            <span th:class="'classtime ct'+${j+1}" th:text="|${j+1}교시|"></span> <!-- 4--> <!-- 요일 당 7개 생성 -->
+                                            <span th:class="subject" th:id="|day${i+1}cls${j+1}|" th:text="${fullTimetable[i][j]}"></span>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </section>
+                        </th:block>
+					</section> 
 
-                    <div class="day mon1">
-                        
-                        <div class="day-name">MON</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="mon-ct1">1교시</div>
-                            <div class="classtime" id="mon-ct2">2교시</div>
-                            <div class="classtime" id="mon-ct3">3교시</div>
-                            <div class="classtime" id="mon-ct4">4교시</div>
-                            <div class="classtime" id="mon-ct5">5교시</div>
-                            <div class="classtime" id="mon-ct6">6교시</div>
-                            <div class="classtime" id="mon-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="mon-sb1">국어</div>
-                            <div class="subject" id="mon-sb2">국어</div>
-                            <div class="subject" id="mon-sb3">국어</div>
-                            <div class="subject" id="mon-sb4">국어</div>
-                            <div class="subject" id="mon-sb5">국어</div>
-                            <div class="subject" id="mon-sb6">국어</div>
-                            <div class="subject" id="mon-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    <div class="day tue2">
-                        
-                        <div class="day-name">TUE</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="tue-ct1">1교시</div>
-                            <div class="classtime" id="tue-ct2">2교시</div>
-                            <div class="classtime" id="tue-ct3">3교시</div>
-                            <div class="classtime" id="tue-ct4">4교시</div>
-                            <div class="classtime" id="tue-ct5">5교시</div>
-                            <div class="classtime" id="tue-ct6">6교시</div>
-                            <div class="classtime" id="tue-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="tue-sb1">국어</div>
-                            <div class="subject" id="tue-sb2">국어</div>
-                            <div class="subject" id="tue-sb3">국어</div>
-                            <div class="subject" id="tue-sb4">국어</div>
-                            <div class="subject" id="tue-sb5">국어</div>
-                            <div class="subject" id="tue-sb6">국어</div>
-                            <div class="subject" id="tue-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    <div class="day wed3">
-                        
-                        <div class="day-name">MON</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="wed-ct1">1교시</div>
-                            <div class="classtime" id="wed-ct2">2교시</div>
-                            <div class="classtime" id="wed-ct3">3교시</div>
-                            <div class="classtime" id="wed-ct4">4교시</div>
-                            <div class="classtime" id="wed-ct5">5교시</div>
-                            <div class="classtime" id="wed-ct6">6교시</div>
-                            <div class="classtime" id="wed-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="wed-sb1">국어</div>
-                            <div class="subject" id="wed-sb2">국어</div>
-                            <div class="subject" id="wed-sb3">국어</div>
-                            <div class="subject" id="wed-sb4">국어</div>
-                            <div class="subject" id="wed-sb5">국어</div>
-                            <div class="subject" id="wed-sb6">국어</div>
-                            <div class="subject" id="wed-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    <div class="day thu4">
-                        
-                        <div class="day-name">THU</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="thu-ct1">1교시</div>
-                            <div class="classtime" id="thu-ct2">2교시</div>
-                            <div class="classtime" id="thu-ct3">3교시</div>
-                            <div class="classtime" id="thu-ct4">4교시</div>
-                            <div class="classtime" id="thu-ct5">5교시</div>
-                            <div class="classtime" id="thu-ct6">6교시</div>
-                            <div class="classtime" id="thu-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="thu-sb1">국어</div>
-                            <div class="subject" id="thu-sb2">국어</div>
-                            <div class="subject" id="thu-sb3">국어</div>
-                            <div class="subject" id="thu-sb4">국어</div>
-                            <div class="subject" id="thu-sb5">국어</div>
-                            <div class="subject" id="thu-sb6">국어</div>
-                            <div class="subject" id="thu-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    <div class="day fri5">
-                        
-                        <div class="day-name">FRI</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="fri-ct1">1교시</div>
-                            <div class="classtime" id="fri-ct2">2교시</div>
-                            <div class="classtime" id="fri-ct3">3교시</div>
-                            <div class="classtime" id="fri-ct4">4교시</div>
-                            <div class="classtime" id="fri-ct5">5교시</div>
-                            <div class="classtime" id="fri-ct6">6교시</div>
-                            <div class="classtime" id="fri-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="fri-sb1">국어</div>
-                            <div class="subject" id="fri-sb2">국어</div>
-                            <div class="subject" id="fri-sb3">국어</div>
-                            <div class="subject" id="fri-sb4">국어</div>
-                            <div class="subject" id="fri-sb5">국어</div>
-                            <div class="subject" id="fri-sb6">국어</div>
-                            <div class="subject" id="fri-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    <div class="day sat6">
-                        
-                        <div class="day-name">SAT</div><!-- 각 요일 제목 부분-->
-
-                        <section>
-                        <section class="day-left"> <!-- 각 요일 왼쪽 부분(교시) -->
-                            <div class="classtime" id="sat-ct1">1교시</div>
-                            <div class="classtime" id="sat-ct2">2교시</div>
-                            <div class="classtime" id="sat-ct3">3교시</div>
-                            <div class="classtime" id="sat-ct4">4교시</div>
-                            <div class="classtime" id="sat-ct5">5교시</div>
-                            <div class="classtime" id="sat-ct6">6교시</div>
-                            <div class="classtime" id="sat-ct7">7교시</div>
-                        </section>
-                        <section></section> <!-- 빈 section-->
-                        <section class="day-right"> <!-- 각 요일 왼쪽 부분(과목) -->
-                            <div class="subject" id="sat-sb1">국어</div>
-                            <div class="subject" id="sat-sb2">국어</div>
-                            <div class="subject" id="sat-sb3">국어</div>
-                            <div class="subject" id="sat-sb4">국어</div>
-                            <div class="subject" id="sat-sb5">국어</div>
-                            <div class="subject" id="sat-sb6">국어</div>
-                            <div class="subject" id="sat-sb7">국어</div>
-                        </section>
-                        </section>
-
-                    </div>
-
-                    </section>
-
-                </section> <!-- 시간표 끝-->
-
+                </section>
             </section> <!-- 마이페이지 중단 끝 -->
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
@@ -336,7 +191,7 @@
                 </th:block>
 
             </section> <!-- 마이페이지 하단 끝 -->
-
+        
         </container>
 
         <container class="sidebar"> <!-- 프로필 및 색상 테마 수정 부분-->
@@ -366,12 +221,10 @@
 
     </container>
 	
-	
-	
 	<script th:inline="javascript">
 		
 		// Calender 관련
-		// const calenderList = [[${calender}]];
+		const calenderList = [[${calender}]];
 		console.log(calenderList);
 		
 	</script>
