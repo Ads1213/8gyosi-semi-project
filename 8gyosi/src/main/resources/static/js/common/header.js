@@ -19,13 +19,16 @@ loginbtn.addEventListener("click", (e) => {
 });
 
 // 상단 게시판 목록 마우스 HOVER 시 띄우기 
-const mainMenu = document.querySelector("#header_board");
-const subMenu = document.querySelector('.sub_menu');
+/*
+  const mainMenu = document.querySelector("#header-board");
+  const subMenu = document.querySelector(".sub_menu");
 
- mainMenu.addEventListener('mouseenster', () => {
-   subMenu.classList.add('active');
- });
- mainMenu.addEventListener('mouseleave', () => {
-   subMenu.classList.remove('active');
-   
- });
+  mainMenu.addEventListener('mouseenter', () => {
+    subMenu.classList.add('nav-show');
+    subMenu.classList.remove('nav-hidden');
+  });
+  mainMenu.addEventListener('mouseleave', () => {
+    subMenu.classList.remove('nav-show');
+    subMenu.classList.add('nav-hidden');
+  });
+  */

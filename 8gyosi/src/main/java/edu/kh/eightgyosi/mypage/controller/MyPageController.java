@@ -1,5 +1,7 @@
 package edu.kh.eightgyosi.mypage.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,9 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
+import edu.kh.eightgyosi.mypage.model.dto.TimetableDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 import edu.kh.eightgyosi.mypage.model.service.CalenderService;
 import edu.kh.eightgyosi.mypage.model.service.DiaryService;
+import edu.kh.eightgyosi.mypage.model.service.TimetableService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +45,11 @@ public class MyPageController {
 	@Autowired
 	private DiaryService diaryService; // 다이어리 서비스 필드 선언
 	
+	@Autowired
+	private TimetableService timetableService;
+	
+	// @Autowired 
+	// private ServletContext application; // 테스트용
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
@@ -60,13 +68,37 @@ public class MyPageController {
 		
 		// Model 객체 통해 조회된 결과 담고, 클래스 상단 @SessionAttributes 통해 Session 에 담기
 		model.addAttribute("calender", calender);
-		
+		// test: log.debug("boardTypeList : " + application.getAttribute("boardTypeList"));
 		// test: log.debug("결과 : " + calender);
-		
+
 		// 2. 오답노트 정보 뿌려주기
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo); 
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
 		
+		// 3. 시간표 정보 뿌려주기
+		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo);
+		
+		
+		
+		// row : day
+		// col : cls
+		String[][] tt = new String[6][7];
+		for(int i = 0; i < 6; i++) {
+			Arrays.fill(tt[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
+		}
+		
+		for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돈다
+			int row = temp.getDay() - 1; // 인덱스로 반환 (0~5)
+			int col = temp.getCls() - 1; // 인덱스로 반환 (0~6)
+			
+			if(row >= 0 && row < 6 && col >= 0 && col < 7) {
+				tt[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
+			}
+		}
+		
+		// test: log.debug(Arrays.deepToString(tt));
+		
+		model.addAttribute("fullTimetable", tt);
 		
 		return "myPage/myPage-main"; // forward	
 	}

@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>8교시 메인화면</title>
-
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>8교시 메인화면</title>
+	<link rel="stylesheet" href="/css/common/main.css">
 	<th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
 	<!-- common/header.html 을 header로 사용합니다. -->
-	  <!-- !! 모든 화면에서 해당 header를 사용해주세요. -->
+	<!-- !! 모든 화면에서 해당 header를 사용해주세요. -->
 	<th:block th:replace="~{common/header}"></th:block>
-  
-  <container id="main-container"> <!-- 메인화면 이미지 섹션 + 게시판 전체 섹션-->
+
+<container id="main-container"> <!-- 메인화면 이미지 섹션 + 게시판 전체 섹션-->
     
     <section class="main-img-section"> <!-- 메인화면 이미지 섹션 -->
-      메인화면 이미지 섹션
+		메인화면 이미지 섹션
     </section>
 
     <section class="main-board"> <!-- 메인화면 게시판 전체 섹션(6개) -->
-      
+
 		<th:block th:unless="${#lists.isEmpty(boardTop5List)}"> <!-- 상단 부분 3개 -->
 			<section class="main-board-all" id="main-board-upper"> 
 				<div th:each="i : ${#numbers.sequence(0, 2)}" class="main-board-ea">
 					
 					<div class="board-name-area"> <!-- 게시판 부분 상단 제목(글자 클릭 시 해당 게시판 이동)-->
 						<div>
-		      				<img src="#"> 
-		      				<a th:text="${boardTypeList[i].boardTypeName}" href="#" class="board-name" id="board-free-name">게시판 이름</a>
+							<img src="#"> 
+		      				<a th:text="${boardTypeList[i].boardTypeName}" th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeList[i].boardTypeNo})}" class="board-name" id="board-free-name">게시판 이름</a>
 		    			</div>
 			    		<div class="top5-text">인기글 TOP5
 						</div>
@@ -48,8 +47,8 @@
 										th:text="${board.boardTitle}">
 											게시글 제목 TEST
 										</a>
-										<div th:if="${board.isNew == 1}" th:class="new">new</div> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
-										<div th:if="${board.boardViewCount >= 5}" th:class="hot">hot</div>
+										<div th:if="${board.isNew == 1}" th:class="new">NEW</div> <!-- 게시글에 대한 아이콘(NEW, HOT 등)-->
+										<div th:if="${board.boardViewCount >= 5}" th:class="hot">HOT</div>
 			            			</div>
 									
 									<div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
@@ -86,7 +85,7 @@
 					<div class="board-name-area"> <!-- 게시판 부분 하단 제목(글자 클릭 시 해당 게시판 이동)-->
 						<div>
 		      				<img src="#"> 
-		      				<a th:text="${boardTypeList[i].boardTypeName}" href="#" class="board-name" id="board-free-name">게시판 이름</a>
+		      				<a th:text="${boardTypeList[i].boardTypeName}" th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeList[i].boardTypeNo})}" class="board-name" id="board-free-name">게시판 이름</a>
 		    			</div>
 			    		<div class="top5-text">인기글 TOP5
 						</div>

@@ -281,7 +281,7 @@
 		        
 		        (SELECT COUNT(*) 
 		         FROM "COMMENT" C
-		         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+		         WHERE C.BOARD_ID = B.BOARD_ID) AS BOARD_COMMENT_COUNT,
 		         
 		         ROW_NUMBER() OVER ( 
 		            PARTITION BY B.BOARD_TYPE_NO 

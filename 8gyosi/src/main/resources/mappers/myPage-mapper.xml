@@ -36,4 +36,12 @@
 		)
 	</insert>
 	
+	
+	<!-- 시간표 조회 -->
+	<select id="selectTimetable">
+		SELECT * FROM "TIMETABLE"
+		WHERE MEMBER_NO = #{memberNo}
+		AND SEMESTER = #{semester}
+	</select>
+	
 </mapper>
