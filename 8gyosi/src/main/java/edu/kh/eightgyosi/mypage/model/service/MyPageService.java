@@ -2,6 +2,8 @@ package edu.kh.eightgyosi.mypage.model.service;
 
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import edu.kh.eightgyosi.member.model.dto.Member;
 
 public interface MyPageService {
@@ -26,6 +28,12 @@ public interface MyPageService {
 	 * @return
 	 */
 	int secession(String memberPw, int memberNo);
+
+	/** 파일 업로드 테스트 1
+	 * @param uploadFile
+	 * @return
+	 */
+	String fileUpload1(MultipartFile uploadFile) throws Exception;
 
 
 	
