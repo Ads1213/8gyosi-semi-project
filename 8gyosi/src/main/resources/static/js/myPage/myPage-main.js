@@ -1,3 +1,59 @@
+/**/
+// 조회관련 비동기
+document.addEventListener("DOMContentLoaded", () => {
+    const diarySelectBtn = document.getElementById('diary-selectBtn');
+    
+    // 요소들을 미리 찾아둡니다.
+    const diaryDateInput = document.getElementById('diaryDate');
+    const diaryTitleInput = document.getElementById('diaryTitle');
+    const diaryContentInput = document.getElementById('diaryContent');
+
+    if (diarySelectBtn) {
+        diarySelectBtn.addEventListener('click', () => {
+            const diaryDate = diaryDateInput.value.trim();
+            
+            if(!diaryDate) {
+                alert("조회할 날짜를 입력해주세요.");
+                return;
+            }
+
+            fetch("/myPage/diary/selectDiary", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "diaryDate": diaryDate })
+            })
+            .then(resp => {
+                if(resp.ok) return resp.json();
+                // 204 No Content인 경우나 데이터가 없을 때 처리
+                return null;
+            })
+            .then(diary => {
+                // 브라우저 개발자 도구(F12) 콘솔에서 데이터가 어떻게 오는지 확인용
+                console.log("서버에서 받은 데이터:", diary);
+
+                if (diary != null) {
+                    // [중요] DTO의 필드명과 정확히 일치해야 합니다.
+                    // 만약 SQL 결과가 null이면 빈 문자열('')을 넣어줍니다.
+                    diaryTitleInput.value = diary.diaryTitle || '';
+                    diaryContentInput.value = diary.diaryContent || '';
+                    
+                    alert(diaryDate + " 일기를 불러왔습니다."); // 추후에는 이것 삭제할것
+                } else {
+                    alert("해당 날짜에 작성된 일기가 없습니다.");
+                    diaryTitleInput.value = '';
+                    diaryContentInput.value = '';
+                }
+								console.log("서버에서 받은 데이터:", diary);
+            })
+            .catch(err => {
+                console.error("에러 발생:", err);
+                alert("조회 중 오류가 발생했습니다. 콘솔을 확인하세요.");
+            });
+        });
+    }
+});
+
+
 // --------------------------------------------
 // 1. calender 관련 ------------------------------
 // 오늘 날짜 생성
@@ -173,56 +229,4 @@ function validateDelete() {
 
 
 
-// 조회관련 비동기
-document.addEventListener("DOMContentLoaded", () => {
-    const diarySelectBtn = document.getElementById('diary-selectBtn');
-    
-    // 요소들을 미리 찾아둡니다.
-    const diaryDateInput = document.getElementById('diaryDate');
-    const diaryTitleInput = document.getElementById('diaryTitle');
-    const diaryContentInput = document.getElementById('diaryContent');
-
-    if (diarySelectBtn) {
-        diarySelectBtn.addEventListener('click', () => {
-            const diaryDate = diaryDateInput.value.trim();
-            
-            if(!diaryDate) {
-                alert("조회할 날짜를 입력해주세요.");
-                return;
-            }
-
-            fetch("/myPage/diary/selectDiary", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "diaryDate": diaryDate })
-            })
-            .then(resp => {
-                if(resp.ok) return resp.json();
-                // 204 No Content인 경우나 데이터가 없을 때 처리
-                return null;
-            })
-            .then(diary => {
-                // 브라우저 개발자 도구(F12) 콘솔에서 데이터가 어떻게 오는지 확인용
-                console.log("서버에서 받은 데이터:", diary);
-
-                if (diary != null) {
-                    // [중요] DTO의 필드명과 정확히 일치해야 합니다.
-                    // 만약 SQL 결과가 null이면 빈 문자열('')을 넣어줍니다.
-                    diaryTitleInput.value = diary.diaryTitle || '';
-                    diaryContentInput.value = diary.diaryContent || '';
-                    
-                    alert(diaryDate + " 일기를 불러왔습니다.");
-                } else {
-                    alert("해당 날짜에 작성된 일기가 없습니다.");
-                    diaryTitleInput.value = '';
-                    diaryContentInput.value = '';
-                }
-            })
-            .catch(err => {
-                console.error("에러 발생:", err);
-                alert("조회 중 오류가 발생했습니다. 콘솔을 확인하세요.");
-            });
-        });
-    }
-});
 

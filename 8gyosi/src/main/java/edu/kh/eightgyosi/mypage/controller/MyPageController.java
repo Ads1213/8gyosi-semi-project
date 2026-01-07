@@ -219,7 +219,7 @@ public class MyPageController {
 			return "redirect:/myPage";
 		
 		} 
-/*		
+	
 		result = diaryService.checkWriteDate(inputDiary);
 		
 		// 해당일에 이미 작성한 이메일이 있는 경우
@@ -230,7 +230,7 @@ public class MyPageController {
 			return "redirect:/myPage";
 			
 		}else {
-*/			
+		
 			result = diaryService.insertDiary(inputDiary);
 			log.debug("저장 결과 : " + result);
 			
@@ -248,10 +248,42 @@ public class MyPageController {
 			
 		}
 			
+	}	
 			
 			
-			
+	/*
+	 * 		// 게시글 상세 조회 서비스 호출
+		// 1) Map으로 전달할 파라미터 묶기
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
 		
+		// 로그인 상태인 경우에만 memberNo를 map 추가
+		// LIKE_CHECK시 이용 (로그인한 사람이 좋아요 누른 게시글인지 체크하기 위함)
+		if(loginMember != null) {
+			map.put("memberNo", loginMember.getMemberNo());
+		}
+		
+		// 2) 서비스 호출
+		Board board = service.selectOne(map);
+		
+		//log.debug("조회된 board : " + board);
+		
+		String path = null;
+		
+		// 조회 결과가 없는 경우
+		if(board == null) {
+			path = "redirect:/board/" + boardCode; 
+			// 내가 현재 보고있는 게시판목록으로 재요청
+			ra.addFlashAttribute("message", "게시글이 존재하지 않습니다");
+			
+		} else { // 조회 결과가 있는 경우
+			//------------------ 쿠키를 이용한 조회 수 증가 시작 ------------------
+			// 비회원 또는 로그인한 회원의 글이 아닌 경우 (== 글쓴이를 뺀 다른 사람)
+	 * 
+	 * 
+	 * 
+	 * */	
 		
 		
 		
@@ -268,7 +300,10 @@ public class MyPageController {
 	@PostMapping("diary/selectDiary")
 	public DiaryDTO selectDiary(@SessionAttribute("loginMember") Member loginMember,
 	                            @RequestBody DiaryDTO inputDiary) { 
-	    
+		log.info("넘어온 날짜: " + inputDiary.getDiaryDate());
+	    log.info("로그인 회원번호: " + loginMember.getMemberNo());
+		
+		
 	    inputDiary.setMemberNo(loginMember.getMemberNo());
 	    DiaryDTO result = diaryService.selectDiary(inputDiary);
 	    

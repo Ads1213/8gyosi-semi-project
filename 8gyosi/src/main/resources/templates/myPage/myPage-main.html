@@ -260,35 +260,38 @@
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
 
-                <section> <!-- 일기장-->
+                <section id="diary-container"> <!-- 일기장-->
                     <div id="diary-name" class="diary-component"></div>
 
                     <section class="diary main-content">
-                        <div id="diary-name" class="diary-component">일기장</div>
+                        <div id="diary-header" class="diary-component">일기장</div>
+                        <div id="diary-body">
+                            <form method="POST" id="diary-form">
+                                <label>
+                                    <input type="text" name="diaryDate" id="diaryDate" th:value="${diary?.diaryDate}"
+                                        placeholder="작성일 YYYYMMDD (예: 20260106)" required>
+                                </label>
 
-                        <form method="POST" id="diary-form">
-                            <label>
-                                <input type="text" name="diaryDate" id="diaryDate" th:value="${diary?.diaryDate}"
-                                    placeholder="작성일 YYYYMMDD (예: 20260106)" required>
-                            </label>
+                                <label>
+                                    <input type="text" name="diaryTitle" id="diaryTitle" th:value="${diary?.diaryTitle}"
+                                        placeholder="제목">
+                                </label>
 
-                            <label>
-                                <input type="text" name="diaryTitle" id="diaryTitle" th:value="${diary?.diaryTitle}"
-                                    placeholder="제목">
-                            </label>
+                                <label>
+                                    <textarea name="diaryContent" id="diaryContent" placeholder="내용"
+                                        th:text="${diary?.diaryContent}"></textarea>
+                                </label>
 
-                            <label>
-                                <textarea name="diaryContent" id="diaryContent" placeholder="내용"
-                                    th:text="${diary?.diaryContent}"></textarea>
-                            </label>
+                                <div class="diary-buttons">
+                                    <button type="button" id="diary-selectBtn">조회</button>
 
-                            <div class="diary-buttons">
-                                <button type="button" id="diary-selectBtn">조회</button>
-
-                                <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장</button>
-                                <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}">삭제</button>
-                            </div>
-                        </form>
+                                    <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장</button>
+                                    <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}">삭제</button><br>
+                                    <p>* 일기장 조회 및 일기내용 삭제를 원하신다면 
+                                    작성일을 입력하고 버튼을 클릭해주세요</p>
+                                </div>
+                            </form>
+                        </div>
                     </section>
                 </section> <!-- 일기장 끝-->
 

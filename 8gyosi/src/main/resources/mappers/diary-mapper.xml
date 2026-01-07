@@ -5,11 +5,13 @@
 	<!-- 일기장 내용 저장-->
 	<insert id="insertDiary">
         INSERT INTO "DIARY" ( 
+        	DIARY_NO,
             DIARY_DATE, 
             DIARY_TITLE, 
             DIARY_CONTENT, 
             MEMBER_NO
         ) VALUES (
+        	SEQ_DIARY_NO.NEXTVAL,
 			#{diaryDate},  
 			#{diaryTitle}, 
             #{diaryContent}, 
@@ -18,27 +20,28 @@
 
 	<!-- 일기장 내용 조회 -->
 	<select id="selectDiary" resultType="DiaryDTO">
-		SELECT DIARY_TITLE, DIARY_CONTENT, MEMBER_NO, DIARY_DATE
-		FROM DIARY 
-		WHERE (DIARY_DATE = #{diaryDate})
+		SELECT DIARY_TITLE AS "diaryTitle"
+		, DIARY_CONTENT AS "diaryContent"
+		, MEMBER_NO AS "memberNo"
+		, DIARY_DATE AS "diaryDate"
+		FROM DIARY  
+		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
 	</select>
 	
 	<!-- 일기장 내용 삭제 -->
 	<delete id="deleteDiary">
 		DELETE FROM DIARY 
-		WHERE (DIARY_DATE = #{diaryDate})
+		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
 	</delete>
 	
 	
 	<!-- 일기장 작성일 중복 확인 -->
-	<select id="checkWriteDate" resultType="_int">
-		SELECT NVL2(DIARY_TITLE, 1, 0) 
+	<select id="checkWriteDate" resultType="Integer">
+		SELECT COUNT(DIARY_TITLE) 
 		FROM DIARY 
-		WHERE (DIARY_DATE = #{diaryDate})
+		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
-	
-	
 	</select>
 </mapper>

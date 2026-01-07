@@ -23,8 +23,6 @@ public class DiaryServiceImpl implements DiaryService{
 	public int insertDiary(DiaryDTO inputDiary) {
 		
 		
-		log.debug("inputDiary :: {}", "inputDiary");
-		
 		return diaryMapper.insertDiary(inputDiary);
 	}
 	
