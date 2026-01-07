@@ -1,104 +1,145 @@
+/*
+색상표
+*/
+.COLORPALLETE{
+    color:#D9DED1;
+    color:#F2EADD;
+    color:#A2B7A8;
+    color:#506E66;
+    color:#373E3B;
+    color:#FCD1A0;
+    color:#f8a814
+}
+
+*{box-sizing:border-box;}
+
 /*========================== header ================================*/
 header {
-    background-color: #5c86e0;
-    height: 60px; /* 적절한 높이 */
+    background-color: #373E3B;
+    height: 50px; /* 적절한 높이 */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5%;
-    color: white;
+    padding: 0 3;
+    color: #D9DED1;
     position: relative;
 }
 
-header > section:first-child{
+#logo-area{
     flex-basis: 5%;
+    height:100%;
 }
-
 header > section:nth-child(2){
     flex-basis: 65%;
+    height:100%;
 }
-header > section:nth-child(3){
-    flex-basis: 10%;
-}
-header > section:nth-child(4){
-    flex-basis: 10%;
-}
-header > section:nth-child(5){
-    flex-basis: 10%;
-}
-
-.profile-img-circle {
-    width: 30px;        
-    height: 30px;        
-    border-radius: 50%;  
-    overflow: hidden;     
-    border: 2px solid rgb(255, 255, 255); 
-}
-
-.profile-img-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;   
-    object-position: center; 
-}
-
-
-/* 게시판 메뉴가 포함된 섹션 */
-#drop-board {
-    height: 30px; 
+#btn-area{
+    flex-basis: 25%;
     display: flex;
+    padding:0;
+    margin:0;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+}
+header > section{
+    padding:0px;
+    margin:0px;
+}
+
+#when-login-area{
+    display: flex;
+    padding:0px;
+    margin:0px;
+    justify-content: center;
     align-items: center;
 }
 
-#header_menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+#when-login-area > a{
+    border-radius: 50%;  
+    overflow: hidden;     
+    background-color: #FCD1A0;
+    width:100%;
+    height:80px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer !important;
+    position:relative;
 }
 
-#header_board {
-    position: relative; 
-    padding: 15px 0; 
-}
-
-
-
-.sub_menu {
-    display: flex; 
-    position: absolute;
-    height: 50px;
-    top: 100%; 
-    right: -400px;
-    min-width:1000px; 
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    z-index: 1000;
-    border-radius: 4px;
+#btn-area > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
-
-.sub_menu.active {
-    display: block;
+.board-header{
+    /* 게시판 글자 벗어날 시 hover 범위 벗어나는 것에 대한 해결 부분*/ 
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.sub_menu li a {
-    color: #5a82e5;
-    padding: 10px 20px;
-    display: block;
+#board-nav{
+    display: none;
+    width:40%;
+    height:auto;
+    top: 100%; 
+    right: 0;
+    min-width:800px;
+    max-width:90vw; 
+    background-color: #506E66;
+    list-style: none;
+
+    padding: 0px;
+    margin: 0px;
+
+    position:absolute;
+    overflow: hidden;
+ 
+}
+
+.board-header:hover ul#board-nav{
+    display:flex;
+}
+
+#board-header-name:hover{
+    color:#A2B7A8;
+    background-color: #D9DED1;
+} 
+
+#board-nav a{
+    padding:1.2em;
     text-decoration: none;
-    font-size: 16px;
-    opacity: 0.8;
+    font-size: 13px;    
+    color : #D9DED1;
+    padding:0px;
+    margin:0px;
+    padding: 1.2em 0;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height:100%;
 }
 
-.sub_menu li a:hover {
-    opacity: 1;
-    background-color: #5c86e0;
-    color: white;
-    border-radius: 15px;
+#board-nav li{
+    text-align:center;
+    gap:20px;
+    padding:0px;
+    margin:0px;
+    flex:1;
+    display:flex;
+    height:100%;
 }
+
+header section a:hover {
+    color:#f8a814;
+}
+
 /*---------------------------------------------------*/
 
 #homeLogo {
@@ -120,10 +161,7 @@ header section a {
     text-decoration: none;
 }
 
-header section a:hover {
-    opacity: 1;
-    font-size: 20px;
-}
+
 
 
 
@@ -134,7 +172,7 @@ header section:last-of-type {
 }
 
 header section a {
-    color: white;
+    color: #D9DED1;
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
@@ -150,9 +188,9 @@ header section a {
     top:20%;
     left:40%;
     display: hidden;
-    border: 1px solid rgb(227, 230, 232);
+    border: 1px solid #D9DED1;
     position:fixed;
-    background-color: white;
+    background-color: #D9DED1;
 	border-radius:15px;
 }
 
@@ -170,7 +208,7 @@ header section a {
 }
 
 #login-window > div:first-child{
-	background-color: #5c86e0;
+	background-color: #373E3B;
 	text-align: center;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;

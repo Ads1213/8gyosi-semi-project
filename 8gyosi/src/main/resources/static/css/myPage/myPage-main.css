@@ -1,10 +1,20 @@
 *{box-sizing:border-box;}
 
-#container{
+.COLORPALLETE{
+    color:#D9DED1;
+    color:#F2EADD;
+    color:#A2B7A8;
+    color:#506E66;
+    color:#373E3B;
+    color:#FCD1A0;
+    color:#f8a814
+}
+
+#main-container{
     display: flex;
     justify-content: center;
 }
-.main-container{
+.main-myPage{
     border:1px solid black;
     margin:20px;
     width:65%;
@@ -14,10 +24,11 @@
     border-radius: 15px;
 }
 
-.main-container > section{
+.main-myPage > section{
     border: 1px solid skyblue;
     width: auto;
     margin:10px;
+    padding:15px;
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -26,7 +37,7 @@
 .main-content{
     border-radius: 15px;
     margin:10px;
-    border:1px solid green;
+    border:1px solid #506E66;
 }
 
 .calender{
@@ -48,92 +59,118 @@
 /*------------ 구분선 ---------------*/
 /* 시간표 부분 */
 .class-table{
-    width:95%;
-    height:auto;
     display:flex;
-    padding:8px;
     flex-direction: column;
-}
-
-.class-table > section{
-    border:1px solid grey;
-    border-radius: 15px;
-    padding: 8px;
-}
-
-.class-table > section:nth-child(1){
-    margin:5px;
-    height:30px;
-    border:none;
-    text-align: center;
-}
-
-.class-table > section:nth-child(2){
-    padding:8px;
-    margin:5px;
-    display:flex;
-    justify-content: space-between;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.class-table > section:nth-child(3){
-    display:flex;
-    justify-content: space-between;
-    width:100%;
-    margin: 5px;
-}
-
-.day{
-    width:15%;
-    border: 1px solid hotpink;
-    display: flex;
-    flex-direction: column;
-    border-radius: 15px;
-}
-
-.day > section{
-    display: flex;
     justify-content: center;
+    align-items: center;
+    padding:0px;
+    width:97%;
+    margin:0px;
 }
 
-.day-left{
-    width:35%;
+#semester{
     display: flex;
     flex-direction: column;
-}
-
-.day-left + section{
-    width:15%;
-}
-
-.day-right{
-    width:35%;
-    display: flex;
-    flex-direction: column;
-}
-
-.classtime{
-    height: 35px;
-    text-align: center;
-}
-
-.subject{
-    height:35px;
-    text-align: center;
-}
-
-.day-name{
-    text-align: center;
-    background-color: rgb(64, 64, 155);
+    top:100%;
+    background-color: #506E66;
     color:white;
+    height:1.8em;
+    font-size:26px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    height:35px;
-    font-size:20px;
-    padding-top:2px;
-    margin-bottom: 5px;
+    width:100%;
+    text-align: center;
+    align-items: center;
 }
+#timetable-upper{
+    display: flex;
+    flex-direction: column;
+}
+#semester-name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:15px;
+}
+#semester-edit-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:10px;
+}
+#timetable-lower{ /*1*/
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width:100%;
+    gap:18px;
+}
+#timetable-lower > section{ /*2*/
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding:0px;
+    margin:0px;
+    width:95%;
+    border-radius: 15px;
+    border: 1px solid #A2B7A8;
+}
+.day1, .day2, .day3, .day4, .day5, .day6{ /*3*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #506E66;
+    color:#F2EADD;
+    margin:3px;
+    padding:3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    font-size:18px;
+    width:35%;
+    line-height: 200%;
+    
+}
+#timetable-lower > section > section:nth-child(2){ /*5*/
+    flex-basis: 10%;
+}
+.day-lower{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:0px;
+    width:100%;
+}
+.day-lower > div{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding:4px;
+    margin:0px;
+    width:100%;
+}
+.subject, .classtime, .empty-ct{
+    height:35px;
+    text-align: center;
+    line-height: 200%;
+}
+.classtime{
+    width: 30%;
+}
+.empty-ct{
+    width:15%;
+}
+.subject{
+    width:55%;
+    color:#f8a814;
+}
+
+
 /*------------ 구분선 ---------------*/
 
 /*------------ 구분선 ---------------*/
@@ -367,7 +404,7 @@
     justify-content: center;
     width:95%;
     padding:0px;
-    margin:0px;
+    margin:0px;https://github.com/KH-SEMI-KYO6IN/semi_8gyosi/pull/50/conflict?name=8gyosi%252Fsrc%252Fmain%252Fresources%252Ftemplates%252FmyPage%252FmyPage-main.html&ancestor_oid=e007c068dcaf1c5b55ddaa2f199cc7382b9127da&base_oid=7d1b99f6065922793b1cf4e7348c0d7f24ad44cb&head_oid=0063bff02a3e146100d272606a2a29c347b8e3c9
     height: 90%;
 }
 #wrong-note-list > ul > li{
@@ -390,8 +427,6 @@
     color:rgba(15, 168, 206, 0.808);
     margin-right:15px;
 }
-
-
 .wn-li-empty{
     color:rgb(71, 65, 66) !important; /* important 로 다른 css 보다 우선적용*/
 }
