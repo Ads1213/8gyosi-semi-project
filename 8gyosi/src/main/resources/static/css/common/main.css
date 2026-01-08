@@ -8,7 +8,6 @@
 .main-img-section{
     width:100%;
     height:600px;
-    border: 1px solid black;
 }
 
 .main-board{
@@ -22,18 +21,17 @@
     width:auto;
     height:50%;
     padding:10px;
-    border: 1px solid pink;
     margin-top:10px;
 }
 
 .main-board-ea{
     width:32%;
     height:100%;
-    border: 1px solid blue;
+    border: 1px solid rgb(171, 171, 206);
     margin:10px;
+    padding-bottom: 10px;
     display: flex;
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
+    border-radius: 22px;
     flex-direction:column;
 }
 
@@ -130,5 +128,3 @@
 	background-color: rgb(255, 55, 45);
 	color:white;
 }
-
-

@@ -221,6 +221,7 @@ public class BoardController {
 			
 			model.addAttribute("board", board);
 			
+			
 			if( !board.getBoardImages().isEmpty()) {
 				
 				BoardImage thumbnail = null;

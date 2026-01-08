@@ -22,9 +22,12 @@
 
         <!-- 게시글 정보 -->
         <div class="board-info">
-            <span th:text="${board.memberNickname}"></span>
-            <span th:text="${board.boardCreateDate}"></span>
             <span>조회수 <span th:text="${board.boardViewCount}"></span></span>
+            <div>
+                <span th:text="${board.memberNickname}"></span>
+                <span> | </span>
+                <span th:text="${board.boardCreateDate}"></span>
+            </div>  
         </div>
 
         <!-- 내용 -->
@@ -32,46 +35,62 @@
             <div th:utext="${board.boardContent}"></div>
         </div>
 
+       
+        <!-- 첨부 파일 -->
+        <div class="file-wrapper">
+            <h4>첨부 파일</h4>
+            <ul>
+				<li th:each="file : ${board.boardFiles}">
+				    <a th:href="@{'/editBoard/' + ${board.boardTypeNo} + '/file/' + ${file.uploadfileNo}}"
+				       th:text="${file.uploadfileOrigin}"
+				       download></a>
+				</li>
+            </ul>
+        </div>
+
         <!-- 첨부 이미지 -->
         <div class="file-wrapper">
             <div th:each="img : ${board.boardImages}">
-                <img th:src="@{'/images/' + ${img.imgRename}}" class="preview">
-            </div>
-        </div>
-
-        <!-- 첨부 파일 -->
-        <div class="file-wrapper">
-            <div th:each="file : ${board.boardFiles}">
-                <a th:href="@{'/files/' + ${file.fileRename}}"
-                   th:text="${file.fileOriginName}" target="_blank"></a>
+                <img th:src="${img.imgPath}" class="preview">
             </div>
         </div>
 
         <!-- 좋아요 -->
-        <div class="toolbar">   
+        <div class="like-area">   
             <i class="fa-heart" id="boardLike" 
                th:class="${board.likeCheck == 1} ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
                 th:data-board-id="${board.boardId}"></i>
             <span th:text="*{likeCount}">0</span>
         </div>
 
-        <!-- 수정 / 삭제 (작성자 or 관리자) -->
-        <!--<div class="toolbar"
+       <!-- 수정 / 삭제 (작성자 or 관리자) -->
+        <div class="toolbar"
              th:if="${session.loginMember != null
              and (session.loginMember.memberNo == board.memberNo)}">
-             <!-- or session.loginMember.role.name() == 'ADMIN')}"> -->
 
-            <!--<a th:href="@{/board/{id}/edit(id=${board.boardId})}">수정</a>
-           
-        </div>-->
+            <!-- 수정 링크 -->
+            <a th:href="@{/editBoard/{boardTypeNo}/{boardId}/update(boardTypeNo=${board.boardTypeNo}, boardId=${board.boardId})}">
+                수정
+            </a>
+
+            <!-- 삭제 form -->
+            <form th:action="@{/editBoard/{boardTypeNo}/{boardId}/delete(boardTypeNo=${board.boardTypeNo}, boardId=${board.boardId})}"
+                  method="post" style="display:inline;"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <input type="hidden" name="cp" th:value="${param.cp != null ? param.cp : 1}" />
+                <button type="submit">삭제</button>
+            </form>
+
+        </div>
 
         <!-- 댓글 영역 -->
         <section id="commentSection">
             <h3>댓글</h3>
 
             <!-- 댓글 작성 -->
-             <div th:if="${session.loginMember != null}">
+             <div id="commentContent-area" th:if="${session.loginMember != null}">
                 <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                <div></div>
                 <button id="addCommentBtn">댓글 작성</button>
             </div>
 
@@ -91,6 +110,7 @@
 
                     <th:block th:if="*{commentDelFl} == 'N'">
                         <p class="comment-writer">
+                            <i id="commentIcon" class="fa-brands fa-replyd fa-lg" style="color: #74C0FC;"></i>
                             <span th:text="*{memberNickname}">닉네임</span>
                             <span class="comment-date" th:text="*{commentWriteDate}">작성일</span>
                         </p>
@@ -99,14 +119,12 @@
         
                         <!-- 버튼 영역 -->
                         <div class="comment-btn-area">
-                            <button th:onclick="|showInsertComment(*{commentNo}, this)|">답글</button>
-        
+                            <button type="button" class="replyBtn" th:data-comment-no="*{commentNo}">답글</button>
+
                             <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == comment.memberNo}">
-                                <button th:onclick="|showUpdateComment(*{commentNo}, this)|">수정</button>
-                                <button th:onclick="|deleteComment(*{commentNo})|">삭제</button>
+                                <button type="button" class="updateBtn" th:data-comment-no="*{commentNo}">수정</button>
+                                <button type="button" class="deleteBtn" th:data-comment-no="*{commentNo}">삭제</button>
                             </th:block>
-                            <!-- 로그인 회원과 댓글 작성자가 같은 경우 -->
-        
                         </div>
                     </th:block>
 
@@ -122,8 +140,7 @@
     let likeCheck = /*[[${board.likeCheck}]]*/ 0;
     const boardId = /*[[${board.boardId}]]*/ 0;
     const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0; 
-   const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER';
-   
+    const sessionRole = /*[[${session.loginMember?.role}]]*/ 'USER'; 
 </script>
 
 <script th:src="@{/js/board/boardDetail.js}"></script>
