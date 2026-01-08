@@ -7,32 +7,24 @@
   <title>board-list</title>
 
   <th:block th:replace="~{common/common}"></th:block>
-
   <link rel="stylesheet" href="/css/board/boardList-style.css">
-
-  <!-- font awesome 라이브러리 추가 + key 등록-->
   <script src="https://kit.fontawesome.com/0968aeef36.js" crossorigin="anonymous"></script>
-
 </head>
-<boady>
+<body>
 <main>
   <th:block th:replace="~{common/header}"></th:block>
+
+  <!-- Flash 메시지 영역 -->
+  <div th:if="${message}" 
+       style="display:block; background: #fffae6; color: #333; font-weight:bold; padding:10px; border:1px solid #ffc107; margin-bottom:20px; text-align:center;">
+      <p th:text="${message}"></p>
+  </div>
+
   <section class="board-wrapper">
     <section class="board-list">
-      <!--
-      <ul>
-        <li><a href="#">자유 게시판</a></li>
-        <li><a href="#">질문 게시판</a></li>
-        <li><a href="#">급식표 게시판</a></li>
-        <li><a href="#">입시정보 게시판</a></li>
-        <li><a href="#">문제풀이 게시판</a></li>
-        <li><a href="#">공지사항</a></li>
-      </ul>
-      cf. # 게시판 번호 부여시 아래와 같은 형식으로 변경할것 
-      -->
       <th:block th:each="boardType : ${application.boardTypeList}">
-        <h1 class="board-name" th:if="${boardType.boardTypeNo} == ${boardTypeNo}" th:text="${boardType.boardTypeName}">
-          게시판 이름</h1>
+        <h1 class="board-name" th:if="${boardType.boardTypeNo} == ${boardTypeNo}" 
+            th:text="${boardType.boardTypeName}">게시판 이름</h1>
       </th:block>
     </section>
 
@@ -51,51 +43,30 @@
         </thead>
 
         <tbody>
-          <!-- # 게시글이 존재하지 않을 때 -->
           <th:block th:if="${#lists.isEmpty(boardList)}">
             <tr>
-              <th colspan="6">게시글이 존재하지 않습니다.</th>
+              <th colspan="7">게시글이 존재하지 않습니다.</th>
             </tr>
           </th:block>
 
           <th:block th:unless="${#lists.isEmpty(boardList)}">
-            <!-- 게시글이 존재할 때-->
-            <tr th:each="board, iterStat : ${boardList}" th:object="${board}">
-              <!-- 게시글 번호(NO)-->
+            <tr th:each="board : ${boardList}" th:object="${board}">
               <td th:text="*{boardId}">게시글 번호</td>
-
-              <!-- 작성자 닉네임-->
-
-              <!--<td th:text="${board.memberNickname}">닉네임</td>-->
-
               <td th:text="*{memberNickname}">닉네임</td>
 
-
-              <!-- 게시글 제목-->
-              <!-- 검색 X -->
+              <!-- 게시글 제목 -->
               <td th:unless="${param.key}">
-                <a 
-                  th:href="@{/board/{boardTypeNo}/{boardId} (boardTypeNo=${boardTypeNo}, boardId=*{boardId}, cp=${pagination.currentPage})}"
-                  th:text="*{boardTitle}">게시글 제목</a>
+                <a th:href="@{/board/{boardTypeNo}/{boardId} (boardTypeNo=${boardTypeNo}, boardId=*{boardId}, cp=${pagination.currentPage})}"
+                   th:text="*{boardTitle}">게시글 제목</a>
               </td>
-
-              <!-- 검색 O -->
               <td th:if="${param.key}">
-                <a 
-                  th:href="@{/board/{boardTypeNo}/{boardId} (boardTypeNo=${boardTypeNo}, boardId=*{boardId}, cp=${pagination.currentPage}, key=${param.key}, query=${param.query})}"
-                  th:text="*{boardTitle}">게시글 제목</a>
+                <a th:href="@{/board/{boardTypeNo}/{boardId} (boardTypeNo=${boardTypeNo}, boardId=*{boardId}, cp=${pagination.currentPage}, key=${param.key}, query=${param.query})}"
+                   th:text="*{boardTitle}">게시글 제목</a>
               </td>
 
-              <!-- 댓글 수-->
               <td th:text="*{boardCommentCount}">0</td>
-
-              <!-- 추천 수-->
               <td th:text="*{boardLikeCount}">0</td>
-
-              <!-- 조회수 -->
               <td th:text="*{boardViewCount}">0</td>
-
-              <!-- 게시글 작성일자 -->
               <td th:text="*{boardCreateDate}">2025-12-22</td>
             </tr>
           </th:block>
@@ -103,98 +74,50 @@
       </table>
     </div>
 
-    <!-- ====================페이지 네이션(여기부터)============== -->
-    <!-- 게시글이 있을 때만 페이지네이션이 보이게 할 예정 -->
-
+    <!-- 페이지네이션 -->
     <div class="pagination-area" th:unless="${#lists.isEmpty(boardList)}">
-
-      <!-- 일반 목록 조회 (검색 X )-->
+      <!-- 일반 목록 -->
       <ul class="pagination" th:unless="${param.key}" th:object="${pagination}">
-
-        <!-- 첫 페이지로 이동 -->
         <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=1)}">&lt;&lt;</a></li>
-
-        <!-- 이전 목록 마지막 번호로 이동 -->
         <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{prevPage})}">&lt;</a></li>
 
-        <!-- 특정 페이지로 이동 -->
-
         <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-
-          <!-- 현재 보고있는 페이지 -->
           <li th:if="${i} == *{currentPage}">
             <a class="current" th:text="${i}">현재페이지</a>
           </li>
-
-          <!-- 보고있지 않은 페이지 -->
           <li th:unless="${i} == *{currentPage}">
             <a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=${i})}" th:text="${i}">이동할 페이지</a>
           </li>
         </th:block>
 
-        <!-- 다음 목록 시작 번호로 이동 -->
         <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{nextPage})}">&gt;</a></li>
-
-        <!-- 끝 페이지로 이동 -->
         <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
       </ul>
 
-
-      <!-- 검색인 경우 -->
+      <!-- 검색 목록 -->
       <ul class="pagination" th:if="${param.key}" th:object="${pagination}">
+        <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=1, key=${param.key}, query=${param.query})}">&lt;&lt;</a></li>
+        <li><a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{prevPage}, key=${param.key}, query=${param.query})}">&lt;</a></li>
 
-        <!-- 첫 페이지로 이동 -->
-        <li><a
-            th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=1, key=${param.key}, query=${param.query})}">&lt;&lt;</a>
-        </li>
-
-        <!-- 이전 목록 마지막 번호로 이동 -->
-        <li><a
-            th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{prevPage}, key=${param.key}, query=${param.query})}">&lt;</a>
-        </li>
-
-        <!-- 특정 페이지로 이동 -->
         <th:block th:if="*{startPage lt endPage}" th:each="i : *{#numbers.sequence(startPage, endPage)}">
-
-          <!-- 현재 보고있는 페이지 -->
           <li th:if="${i} == *{currentPage}">
             <a class="current" th:text="${i}">현재페이지</a>
           </li>
-
-          <!-- 보고있지 않은 페이지 -->
           <li th:unless="${i} == *{currentPage}">
-            <a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=${i}, key=${param.key}, query=${param.query})}"
-              th:text="${i}">이동할 페이지</a>
+            <a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=${i}, key=${param.key}, query=${param.query})}" 
+               th:text="${i}">이동할 페이지</a>
           </li>
         </th:block>
-
-        <!-- 일치하는 게시글이 없을 경우 -->
-        <th:block th:unless="*{startPage lt endPage}">
-          <li>
-            <a class="current">1</a>
-          </li>
-        </th:block>
-
-        <!-- 다음 목록 시작 번호로 이동 -->
-        <li><a
-            th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{nextPage}, key=${param.key}, query=${param.query})}">&gt;</a>
-        </li>
-
-        <!-- 끝 페이지로 이동 -->
-        <li><a
-            th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeNo}, cp=*{maxPage}, key=${param.key}, query=${param.query})}">&gt;&gt;</a>
-        </li>
       </ul>
     </div>
 
-
-    <!-- ====================페이지 네이션(이 위까지)============== -->
-
+	<!-- 글쓰기 버튼 -->
 	<div class="btn-area" th:if="${session.loginMember != null}">
-	    <a th:href="@{/editBoard/{typeNo}/insert(typeNo=${boardTypeNo})}" class="btn">글쓰기</a>
+	    <a href="#"
+	       th:onclick="${boardTypeNo == 6 and session.loginMember.role.name() != 'ADMIN'} ? 'alert(\'공지사항은 관리자만 작성 가능합니다.\'); return false;' : null"
+	       th:href="${boardTypeNo != 6 or session.loginMember.role.name() == 'ADMIN'} ? @{/editBoard/{boardTypeNo}/insert(boardTypeNo=${boardTypeNo})} : '#' "
+	       class="btn">글쓰기</a>
 	</div>
-	
-	<!--butoon이 경로지정안되어있어 변경하였고 로그인되었을때 보이게 만들었어요 //철구-->
 
 
     <!-- 검색창 -->
@@ -207,21 +130,15 @@
       </select>
 
       <input type="text" name="query" id="searchQuery" placeholder="검색어를 입력해주세요.">
-
-      <!-- # 확인 fontawsome 돋보기 갖고오는것 확인 -->
-      <!-- 검색 버튼-->
       <button id="searchBtn" class="fa-solid fa-magnifying-glass"></button>
-
     </form>
   </section>
-
 
   <script th:inline="javascript">
     const boardTypeNo = /*[[${boardTypeNo}]]*/ "게시판 코드 번호";
   </script>
 
-  <!-- footer -->
   <th:block th:replace="~{common/footer}"></th:block>
 </main>
-</boady>
+</body>
 </html>

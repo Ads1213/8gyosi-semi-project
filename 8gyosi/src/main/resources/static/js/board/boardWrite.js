@@ -1,8 +1,18 @@
-/* ===================== Summernote ===================== */
+/* ===================== Summernote 초기화 ===================== */
 $(document).ready(function () {
     $('#boardContent').summernote({
         height: 400,
         lang: 'ko-KR',
+        fontNames: ['Arial', 'Nanum Gothic', 'Courier New', 'Times New Roman'],
+        fontNamesIgnoreCheck: ['Nanum Gothic'],
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['fontname', 'fontsize']],  // 폰트 선택 드롭다운
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen', 'codeview']]
+        ],
         callbacks: {
             onImageUpload: function (files) {
                 for (let file of files) {
