@@ -44,21 +44,24 @@ public class BoardTypeInterceptor implements HandlerInterceptor {
         Object loginObj = request.getSession().getAttribute("loginMember");
         if (loginObj instanceof Member member) {
             String uri = request.getRequestURI(); // 예: /editBoard/6/insert
-
+            
             @SuppressWarnings("unchecked")
             List<BoardType> boardTypeList = (List<BoardType>) application.getAttribute("boardTypeList");
 
             try {
                 String[] parts = uri.split("/");
-                if (parts.length > 2) {
-                    int boardTypeNo = Integer.parseInt(parts[2]);
-
-                    // 관리자 전용 게시판인지 확인
-                    if (service.isAdminOnlyCategory(boardTypeNo) && member.getRole() != Member.Role.ADMIN) {
-                        // 일반 회원이면 접근 차단
-                        response.sendRedirect(request.getContextPath() + "/editBoard/" + boardTypeNo);
-                        return false;
-                    }
+                if(parts.length > 2 && "editBoard".equals(parts[1]))
+	                {
+	                if (parts.length > 2) {
+	                    int boardTypeNo = Integer.parseInt(parts[2]);
+	
+	                    // 관리자 전용 게시판인지 확인
+	                    if (service.isAdminOnlyCategory(boardTypeNo) && member.getRole() != Member.Role.ADMIN) {
+	                        // 일반 회원이면 접근 차단
+	                        response.sendRedirect(request.getContextPath() + "/editBoard/" + boardTypeNo);
+	                        return false;
+	                    }
+	                }
                 }
             } catch (NumberFormatException e) {
                 log.warn("URI에서 boardTypeNo 파싱 실패: {}", uri);

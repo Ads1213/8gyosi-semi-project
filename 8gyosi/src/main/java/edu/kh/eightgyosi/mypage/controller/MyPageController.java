@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ import edu.kh.eightgyosi.mypage.model.service.DiaryService;
 import edu.kh.eightgyosi.mypage.model.service.MyPageService;
 import edu.kh.eightgyosi.mypage.model.service.TimetableService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,6 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("myPage")
 @Slf4j
 public class MyPageController {
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
 	private CalenderService calService; // 캘린더 서비스 필드 선언
@@ -57,6 +61,10 @@ public class MyPageController {
 	
 	@Autowired
 	private TimetableService timetableService;
+
+    MyPageController(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 	
 	// @Autowired 
 	// private ServletContext application; // 테스트용
@@ -65,13 +73,14 @@ public class MyPageController {
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
+	 * @param semester : selectTimetable() 메서드를 통해 생성된 데이터
 	 * @return
 	 */
 	@GetMapping("")
-	public String mainPage(@SessionAttribute("loginMember") Member loginMember, Model model) {
+	public String mainPage(@SessionAttribute("loginMember") Member loginMember, Model model, HttpSession session) {
 
 		// 1. 회원의 캘린더 정보 뿌려주기
-
+		
 		int memberNo = loginMember.getMemberNo();
 
 		// 회원의 캘린더 정보 list로 얻어오기
@@ -86,31 +95,46 @@ public class MyPageController {
 		// 2. 오답노트 정보 뿌려주기
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo);
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
-
+		
+		// 예외처리 
+		
+		
 		// 3. 시간표 정보 뿌려주기
-		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo);
+		String semester = (String) session.getAttribute("semester");
+		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo, semester);
 		
-		
-		
-		// row : day
-		// col : cls
-		String[][] tt = new String[6][7];
-		for(int i = 0; i < 6; i++) {
-			Arrays.fill(tt[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
-		}
-		
-		for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돈다
-			int row = temp.getDay() - 1; // 인덱스로 반환 (0~5)
-			int col = temp.getCls() - 1; // 인덱스로 반환 (0~6)
+		// 예외처리 : 조회된 데이터 없을 때
+		if(timetableDTOLists.size() == 0) {
+			boolean isTimetableEmpty = true;
+			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
 			
-			if(row >= 0 && row < 6 && col >= 0 && col < 7) {
-				tt[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
+		// 있다면 이중배열 이용하여 시간표 정보 가공 후 전달	
+		}else if(timetableDTOLists.size() != 0) {
+			
+			// row : day
+			// col : cls
+			String[][] tt = new String[6][7];
+			for(int i = 0; i < 6; i++) {
+				Arrays.fill(tt[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
 			}
+			
+			for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돈다
+				int row = temp.getDay() - 1; // 인덱스로 반환 (0~5)
+				int col = temp.getCls() - 1; // 인덱스로 반환 (0~6)
+				
+				if(row >= 0 && row < 6 && col >= 0 && col < 7) {
+					tt[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
+				}
+			}
+			// model에 담기
+			model.addAttribute("fullTimetable", tt);
+			
+			// 학기(2025-2) 등 정보 저장하여 담기
+			 // 조회된 데이터가 있다면 학기 정보는 모두 동일하므로 아무 인덱스의 정보를 보내주어도 무방
+			String semesterStr = timetableDTOLists.get(0).getSemester();
+			model.addAttribute("semesterStr", semesterStr);
+			
 		}
-		
-		// test: log.debug(Arrays.deepToString(tt));
-		
-		model.addAttribute("fullTimetable", tt);
 		
 		return "myPage/myPage-main"; // forward	
 	}
@@ -175,6 +199,34 @@ public class MyPageController {
 		return path;
 	}
 	
+	/** 시간표 등록 서비스
+	 * @param loginMember 
+	 * @param map
+	 * @return
+	 */
+	@PostMapping("timetable/insert")
+	
+	public int insertTimetable(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> map) {
+		int memberNo = loginMember.getMemberNo();
+		return timetableService.insertTimetable(map, memberNo);
+	}
+	
+	@PostMapping("timetable/select")
+	@ResponseBody // 메서드 상단에 선언함으로써 브라우저로부터 전달되는 데이터를 처리만 하는 메서드임을 명시
+	public String selectTimetable(@RequestBody Map<String, Object> map, HttpSession session){
+		
+		
+		// 여기서 (String) 으로 강제형변환 했다가 오류났었음
+		String year = String.valueOf(map.get("year"));
+		String period = String.valueOf(map.get("period"));
+		String semester = year+"-"+period;
+		
+		session.setAttribute("semester", semester);
+		// test : log.debug("다다다"+semester);
+		return "성공";	// 여기서 return 은 단순히 브라우저로 전달할 뿐 실질적인 메서드 기능은 semester를 model 에 담는 역할만 한다
+	}
+	
+
 	
 // ------------------------------------------------------------------------------	
 	

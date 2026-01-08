@@ -62,6 +62,8 @@ public interface MyPageMapper {
 	 */
 	List<TimetableDTO> selectTimetable(Map<String, Object> map);
 
+	int insertTimetable(Map<String, Object> allMap);
+
 
 	
 	

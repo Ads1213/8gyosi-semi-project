@@ -70,14 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-
 // --------------------------------------------
 // 1. calender 관련 ------------------------------
 // 오늘 날짜 생성
 let today = new Date();
 let year = today.getFullYear();
 let month = today.getMonth() + 1;
-
+// test: console.log(today);
 // tbody 변수 저장
 let tbody = document.querySelector(".calender-table-body");
 
@@ -183,6 +182,7 @@ function callCalender() {
 
 };
 
+// 캘린더 스케쥴 부분
 function calenderSchedule() {
 	// tbody 내 전체 td list 로 저장(총 42개)
 	const allTdList = Array.from(tbody.querySelectorAll("td"));
@@ -196,7 +196,7 @@ function calenderSchedule() {
 		// console.log("tdday :" , tdDay);
 		let compareDate = new Date(year, month, tdDay);
 
-		console.log(calenderList);
+		//console.log(calenderList);
 
 		// 서버에서 넘어온 calenderList 돌기
 		for (const schedule of calenderList) {
@@ -208,7 +208,7 @@ function calenderSchedule() {
 
 			if (startDate.getFullYear() == year && startDate.getMonth() + 1 == month && startDate.getDate() == tdDay) {
 
-				console.log(startDate.getDate());
+				//console.log(startDate.getDate());
 				const div = document.createElement("div")
 				allTdList[i].append(div);
 				div.classList.add("calender-td-content");
@@ -219,30 +219,197 @@ function calenderSchedule() {
 	}
 
 }
+// 시간표 부분----------------------------------------------
+// --------------------------------------------------------
 
-// --------------------------------------------
-// 2. diary 관련 ------------------------------
-function validateDelete() {
-	const diaryDate = document.getElementById("diaryDate");
-	const dateValue = diaryDate.value.trim();
-	const datePattern = /^\d{8}$/;
+// 1. 서버로부터 전달된 학기 정보 저장하여 html로 출력
 
-	// 1. 날짜 검증
-	if (!datePattern.test(dateValue)) {
-		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
-		diaryDate.focus();
-		return false; // 서버 전송 차단
-	}
+// 1-1. 서버로부터 전달된 정보가 없다면
+let semesterYear = Number(semesterStr.substring(0,4)); // 2026
+let semesterPeriod = Number(semesterStr.substring(5,6)); // 1
+const tagSemesterYear = document.querySelector("#semesterYear");
+const tagSemesterPeriod = document.querySelector("#semesterPeriod");
+viewSemester();
 
-	// 2. 삭제 확인창
-	const isConfirm = confirm("정말 삭제하시겠습니까?");
-
-	if (isConfirm) {
-		return true;  // ★ 이 값이 반환되어야 Java 컨트롤러(@PostMapping)가 실행됩니다.
-	} else {
-		return false; // 취소 시 서버 전송 차단
-	}
+function viewSemester(){
+	tagSemesterYear.innerText = semesterYear;
+	tagSemesterPeriod.innerText = semesterPeriod;
 }
+
+// ------
+
+// 2. 수정버튼 누를 시 수정화면으로 전환
+const ttEdit = document.querySelector("#semester-edit-btn");
+
+ttEdit.addEventListener("click",() => {
+	const saveBtn = document.createElement("button");
+	saveBtn.innerText="저장";
+	document.querySelector("#semester-edit-area").append(saveBtn);
+	
+	changeSubjectInput();
+	const obj2 = changeSemester();
+
+	saveBtn.addEventListener("click",()=>{
+		saveTimetable(obj2);
+		location.reload();
+	});
+
+});
+
+// function. 수정버튼 누를 시 연도, 학기 부분 select 창으로 변화 후 전달
+function changeSemester(){
+	const select_year = document.createElement("select");
+	const select_period = document.createElement("select");
+
+	// 학기 부분
+	select_period.type="text";
+	select_period.placeholder = semesterPeriod;
+
+	const p_opt_1 = document.createElement("option");
+	p_opt_1.value = 1;
+	p_opt_1.innerText = 1;
+	const p_opt_2 = document.createElement("option");
+	p_opt_2.value = 2;
+	p_opt_2.innerText = 2;
+	select_period.append(p_opt_1, p_opt_2);
+
+	select_period.id="select-semesterPeriod";
+	tagSemesterPeriod.replaceWith(select_period);
+
+	// 연도 부분
+	select_year.type="text";
+	select_year.placeholder=semesterYear;
+
+	for(let i = -3; i < 4; i++){
+		const y_opt = document.createElement("option");
+		y_opt.value	= semesterYear + i;
+		y_opt.innerText = semesterYear + i;
+		select_year.append(y_opt);
+	}
+
+	select_year.id="input-semesterYear";
+	tagSemesterYear.replaceWith(select_year);
+
+	const y = select_year.value;
+	const p = select_period.value;
+	
+	const obj2 = {"tyear" : y, "tperiod" : p};
+	return obj2;
+}
+
+// function. 등록버튼 누를 시 input 창으로 변화(변화만 함)
+function changeSubjectInput(){
+
+	// 모든 과목 영역 선택(.subject)
+	const allSubject = document.querySelectorAll(".subject");
+	// 반복문으로 하나씩 돌며 바꾸기
+	allSubject.forEach(sub_span => { // 현재 span 태그 변수명
+		const sub_input = document.createElement("input");
+		sub_input.type="text";
+		sub_input.value=sub_span.innerText; // 현재값
+		sub_input.id=sub_span.id;
+		sub_input.className="subject-input";
+		sub_span.replaceWith(sub_input); // 교체
+	});
+}
+
+// 저장버튼 누를 시 비동기 요청으로 저장
+function saveTimetable(obj2){
+
+	// 비동기요청으로 보낼 json에 담길 빈 객체 선언
+	const obj1 = {};
+	// 모든 input 선택
+	const all_sub_input = document.querySelectorAll(".subject-input");
+	// 하나씩 돌면서 저장 obj 에 저장 -> { "12" : "12", ....}
+	all_sub_input.forEach(temp => {
+		if(temp.value == "미설정") return;
+		let tday = temp.id.substring(3,4); // 해당 input id의 day 추출 day1cls2 > 1
+		let tcls = temp.id.substring(7,8); // 해당 input id의 cls 추출 day1cls2 > 2
+		obj1[tday+tcls] = temp.value;
+	});
+
+	// 스프레드 사용
+	 // > key, value 가 저장된 객체를 모아 요소를 풀어놓은 다음 
+	 // 하나의 key value로 구성된 객체에 저장
+	 // 사용법 : ...[변수]
+	const obj3 = {...obj2, ...obj1};
+	console.log(obj3);
+	// test : console.log(obj3);
+	fetch("myPage/timetable/insert", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(obj3)
+	})
+	.then(resp => resp.text())
+	.then(result => {
+		if(result == 0) alert("저장 실패");
+		else alert("저장 성공!");
+	});
+	
+}
+
+// 시간표 부분 왼쪽 오른쪽 조회 처리
+const sem_left = document.querySelector("#sem-left");
+const sem_right = document.querySelector("#sem-right");
+const flagYear = semesterYear;
+
+sem_left.addEventListener("click", () => {
+	console.log("전",semesterPeriod,semesterYear);
+	if(flagYear - semesterYear > 4 || semesterYear - flagYear > 4){
+		alert("조회할 수 있는 년도는 최대 3년입니다");
+		return;
+	}
+	if(semesterPeriod == 1) {
+		semesterYear -= 1;
+		semesterPeriod = 2;
+	}else if(semesterPeriod == 2){
+		semesterPeriod = 1;
+	}
+	
+	console.log("후",semesterPeriod,semesterYear);
+	
+	fetch("/myPage/timetable/select", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(
+			{"year": semesterYear, "period": semesterPeriod})
+	})
+	.then(resp => {
+		if(resp.ok){
+			location.href="/myPage";}
+		else{alert("조회 실패");}});
+	
+});
+
+sem_right.addEventListener("click", () => {
+	console.log("전",semesterPeriod,semesterYear);
+	if(flagYear - semesterYear > 4 || semesterYear - flagYear > 4){
+		alert("조회할 수 있는 년도는 최대 3년입니다");
+		return;
+	}
+	if(semesterPeriod == 1) {
+		semesterPeriod = 2;
+	}else if(semesterPeriod == 2){
+		semesterYear += 1;
+		semesterPeriod = 1;
+	}
+
+	console.log("후",semesterPeriod,semesterYear);
+	
+	fetch("/myPage/timetable/select", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(
+			{"year": semesterYear, "period": semesterPeriod})
+	})
+	.then(resp => {
+		if(resp.ok){
+			location.href="/myPage";} // resp.json()으로 응답에 대한 결과를 처리해주어야 한다
+		else{alert("조회 실패");}});
+
+});
+
+
 
 
 
