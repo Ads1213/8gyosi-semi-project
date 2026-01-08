@@ -53,6 +53,12 @@ public class EditBoardController {
             return "redirect:/login";
         }
 
+        // 관리자만 작성 가능 체크 (공지사항 = 6)
+        if (boardTypeNo == 6 && loginMember.getRole() != Member.Role.ADMIN) {
+            ra.addFlashAttribute("message", "공지사항은 관리자만 작성 가능합니다.");
+            return "redirect:/board/" + boardTypeNo;
+        }
+
         model.addAttribute("boardTypeNo", boardTypeNo);
         model.addAttribute("categoryList", service.getCategoryList());
 
@@ -74,15 +80,15 @@ public class EditBoardController {
             ra.addFlashAttribute("message", "로그인이 필요합니다.");
             return "redirect:/login";
         }
-
-        board.setBoardTypeNo(boardTypeNo);
-        board.setMemberNo(loginMember.getMemberNo());
-
-        if (service.isAdminOnlyCategory(boardTypeNo)
-                && loginMember.getRole() != Member.Role.ADMIN) {
+        
+        // 관리자만 작성 가능 체크 (공지사항 = 6)
+        if (boardTypeNo == 6 && loginMember.getRole() != Member.Role.ADMIN) {
             ra.addFlashAttribute("message", "공지사항은 관리자만 작성 가능합니다.");
             return "redirect:/board/" + boardTypeNo;
         }
+
+        board.setBoardTypeNo(boardTypeNo);
+        board.setMemberNo(loginMember.getMemberNo());
 
         int boardId = service.boardInsert(board, images, files);
 
@@ -116,18 +122,19 @@ public class EditBoardController {
             return "redirect:/board/" + boardTypeNo + "?cp=" + cp;
         }
 
+        // 관리자만 수정 가능 (공지사항 = 6)
+        if (boardTypeNo == 6 && loginMember.getRole() != Member.Role.ADMIN) {
+            ra.addFlashAttribute("message", "공지사항은 관리자만 수정 가능합니다.");
+            return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
+        }
+
         if (!hasPermission(board, loginMember)) {
             ra.addFlashAttribute("message", "수정 권한이 없습니다.");
             return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
         }
 
-        // ==================== null-safe 처리 ====================
-        // 서비스에서 항상 빈 리스트 반환하도록 개선 → null 체크 제거 가능
-        
-        
         board.setBoardImages(service.selectBoardImages(boardId));
         board.setBoardFiles(service.selectBoardFiles(boardId));
-        // ================================================
 
         model.addAttribute("board", board);
         model.addAttribute("categoryList", service.getCategoryList());
@@ -156,15 +163,16 @@ public class EditBoardController {
             return "redirect:/login";
         }
 
+        // 관리자만 수정 가능 (공지사항 = 6)
+        if (boardTypeNo == 6 && loginMember.getRole() != Member.Role.ADMIN) {
+            ra.addFlashAttribute("message", "공지사항은 관리자만 수정 가능합니다.");
+            return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
+        }
+
         board.setBoardId(boardId);
         board.setBoardTypeNo(boardTypeNo);
         board.setMemberNo(loginMember.getMemberNo());
 
-        // ==================== null-safe parseIds ====================
-        // 기존: null 반환 → service에서 null 체크 필요
-        // 변경: 항상 빈 리스트 반환 → null-safe
-      //게시글에 파일이없거나 이미지가 없으면 null이들어가게되는데 null이 들어가면 500서버에러가 뜸 
-        //그래서 빈 리스트로 바꾸면 안전하게 처리됨
         List<Integer> deleteImageList = parseIds(deleteImageStr);
         List<Integer> deleteFileList = parseIds(deleteFileStr);
 
@@ -197,6 +205,12 @@ public class EditBoardController {
         Board board = service.selectBoard(boardId);
         if (board == null || !hasPermission(board, loginMember)) {
             ra.addFlashAttribute("message", "삭제 권한이 없습니다.");
+            return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
+        }
+
+        // 관리자만 삭제 가능 (공지사항 = 6)
+        if (boardTypeNo == 6 && loginMember.getRole() != Member.Role.ADMIN) {
+            ra.addFlashAttribute("message", "공지사항은 관리자만 삭제 가능합니다.");
             return "redirect:/board/" + boardTypeNo + "/" + boardId + "?cp=" + cp;
         }
 
@@ -246,7 +260,6 @@ public class EditBoardController {
             return ResponseEntity.notFound().build();
         }
 
-     // Windows 전용 실제 저장 경로 (하드코딩임)
         String serverBasePath = "C:\\uploadFiles\\board";
         Path path = Paths.get(serverBasePath, file.getUploadfileStrg());
         Resource resource = new UrlResource(path.toUri());
@@ -275,10 +288,11 @@ public class EditBoardController {
 
     /* ==================== 문자열 → 정수 리스트 (null-safe) ==================== */
     private List<Integer> parseIds(String str) {
-        // 변경: null이나 빈 문자열이면 항상 빈 리스트 반환 → null-safe
         if (str == null || str.isBlank()) return List.of();
         return Arrays.stream(str.split(","))
                 .map(Integer::parseInt)
                 .toList();
     }
 }
+
+
