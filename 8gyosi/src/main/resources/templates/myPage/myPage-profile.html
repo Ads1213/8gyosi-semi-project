@@ -7,6 +7,7 @@
   <title>내 프로필 수정 화면</title>
 
   <link rel="stylesheet" href="/css/myPage/myPage-profile.css">
+  
   <th:block th:replace="~{common/common}"></th:block>
 </head>
 
@@ -15,7 +16,7 @@
 
   <section class="myPage-content">
 
-    <th:block th:replace="~{myPage/sideMenu}"></th:block>
+    <th:block th:replace="~{myPage/myPage-sideMenu}"></th:block>
 
     <section class="myPage-main">
       <h1 class="myPage-title">프로필</h1>
@@ -25,14 +26,17 @@
             상대 경로 : profile
           목표 경로 : localhost/myPage/profile POST-->
 
-      <form action="profile" method="POST" name="myPageFrm" id="profile" enctype="multipart/form-data">
+      <form action="profile" method="POST" name="myPageFrm" id="profile" 
+            enctype="multipart/form-data">
+
         <div class="profile-image-area">
 
-          <img th:with="user=#{user.default.image}" th:src="${session.loginMember.profileImg ?: user}"
+          <img th:with="user=#{user.default.image}" 
+          th:src="${session.loginMember.profileImg ?: user}"
             id="profileImg" />
 
+            <span id="deleteImage">x</span>
         </div>
-        <span id="deleteImage">x</span>
 
         <div class="profile-btn-area">
           <label for="imageInput">이미지 선택</label>
@@ -62,8 +66,11 @@
 
 
 
-  <script src="/js/myPage/myPage-profile.js"></script>
+  <!-- 공용 footer -->
   <th:block th:replace="~{common/footer}"></th:block>
+
+  <!-- 마이페이지 js -->
+  <script src="/js/myPage/myPage-update.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import edu.kh.eightgyosi.board.model.service.EditBoardService;
 import edu.kh.eightgyosi.common.interceptor.BoardTypeInterceptor;
-
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -16,14 +15,15 @@ import lombok.RequiredArgsConstructor;
  */
 @Configuration
 @RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+public class InterceptorConfig implements WebMvcConfigurer {
 
     private final EditBoardService editBoardService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new BoardTypeInterceptor(editBoardService))
-                .addPathPatterns("/editBoard/**") // editBoard 요청 인터셉트
-                .excludePathPatterns("/css/**", "/js/**", "/images/**"); // 정적 리소스 제외
+                .addPathPatterns("/**") 
+                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico",
+                					"/myPage/**"); // 정적 리소스 제외
     }
 }

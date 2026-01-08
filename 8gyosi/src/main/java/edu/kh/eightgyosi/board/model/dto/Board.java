@@ -1,6 +1,6 @@
 package edu.kh.eightgyosi.board.model.dto;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -46,11 +46,10 @@ public class Board {
     private int memberNo;
 
     /** 첨부 이미지 리스트 */
-    private List<BoardImage> boardImages;
+    private List<BoardImage> boardImages = new ArrayList<>();
 
     /** 첨부 파일 리스트 */
-    private List<BoardFile> boardFiles;
-    
+    private List<BoardFile> boardFiles = new ArrayList<>();
 
     /** 게시글 작성자 프로필 이미지*/
     private String profileImg;
@@ -67,7 +66,7 @@ public class Board {
     
 	private int boardCommentCount; // 댓글 수
 	private int boardLikeCount; // 좋아요 수
-	private List<BoardComment> boardComments;
+	private List<BoardComment> boardComments = new ArrayList<>();;
 	private String boardTypeName;
 
 	

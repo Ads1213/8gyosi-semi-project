@@ -1,11 +1,12 @@
-<!-- 왼쪽 사이드 메뉴 조각(fragment) 
-  -> 필요한 곳에서
-   th:replace="~{조각경로}" / th:insert="~{조각경로}" 
--->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Page</title>
+</head>
 
 <section class="left-side">
-  사이드 메뉴
-
   <ul class="list-group">
     <li>
       <a href="/myPage/profile">프로필</a>
@@ -30,8 +31,5 @@
     <li>
       <a href="/myPage/fileList">업로드 파일 목록</a>
     </li>
-
-
   </ul>
-
 </section>

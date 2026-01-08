@@ -30,12 +30,14 @@ public class FileConfig implements WebMvcConfigurer {
     @Value("${spring.servlet.multipart.max-file-size}")
     private long maxFileSize;
 
-    // ==================== 경로 설정 ====================
+//  ==================== 프로필 이미지 관련 경로 ====================
     @Value("${my.profile.resource-handler}")
     private String profileResourceHandler; 
+    // /myPage/profile/**
 
     @Value("${my.profile.resource-location}")
-    private String profileResourceLocation; 
+    private String profileResourceLocation;
+    // file:///C:/uploadFiles/profile/
 
     @Value("${my.board.resource-handler}")
     private String boardResourceHandler;
@@ -51,6 +53,8 @@ public class FileConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler(profileResourceHandler)
                 .addResourceLocations(profileResourceLocation);
+        // -> 클라이언트가 /myPage/profile/** 패턴으로 이미지 요청할 때
+        // 서버 폴더 경로 중 C:/uploadFiles/profile/로 연결
 
         registry.addResourceHandler(boardResourceHandler)
                 .addResourceLocations(boardResourceLocation);
@@ -103,6 +107,20 @@ public class FileConfig implements WebMvcConfigurer {
 
     public long getMaxFileSize() {
         return maxFileSize;
+    }
+    
+    @Value("${my.board.web-path}")
+    private String boardWebPath;
+
+    @Value("${my.board.folder-path}")
+    private String boardFolderPath;
+
+    public String getBoardWebPath() {
+        return boardWebPath;
+    }
+
+    public String getBoardFolderPath() {
+        return boardFolderPath;
     }
 }
 

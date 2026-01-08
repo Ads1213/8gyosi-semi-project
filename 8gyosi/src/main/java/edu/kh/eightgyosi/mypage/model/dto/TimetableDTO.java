@@ -9,13 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DiaryDTO {
+public class TimetableDTO {
 	
-	// DIARY 테이블과 동일
-	private int diaryNo;
-	private String diaryDate;
-	private String diaryTitle;
-	private String diaryContent;
+	private int timetableId;
+	private String semester;
 	private int memberNo;
+	private String dayClassSubject;
+	
+	private int day;
+	private int cls;
+	private String subject;
+	
 	
 }
