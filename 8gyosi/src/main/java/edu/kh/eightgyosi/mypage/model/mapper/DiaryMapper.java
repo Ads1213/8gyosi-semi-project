@@ -1,5 +1,8 @@
 package edu.kh.eightgyosi.mypage.model.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
@@ -42,6 +45,13 @@ public interface DiaryMapper {
 	 * @return
 	 */
 	int updateQuotes(FontDTO inputQuotes);
+
+
+	/**회원 동기부여 글꼴 조회 SQL
+	 * @param memberNo
+	 * @return
+	 */
+	FontDTO selectquotesFontList(int memberNo);
 	
 	
 

@@ -1,5 +1,8 @@
 package edu.kh.eightgyosi.mypage.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
 import edu.kh.eightgyosi.mypage.model.dto.FontDTO;
@@ -42,6 +45,18 @@ public interface DiaryService {
 	 * @return
 	 */
 	int updateQuotes(FontDTO inputQuotes);
+
+
+
+
+	/** 회원 동기부여 글꼴 조회 서비스
+	 * @param memberNo
+	 * @return
+	 */
+	FontDTO selectquotesFontList(int memberNo);
+
+
+
 	
 
 

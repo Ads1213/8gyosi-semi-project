@@ -1,6 +1,7 @@
 package edu.kh.eightgyosi.mypage.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,4 +57,14 @@ public class DiaryServiceImpl implements DiaryService{
 		return diaryMapper.updateQuotes(inputQuotes);
 	}
 	
+	// 회원 동기부여 글꼴 조회 서비스
+
+	@Override
+	public FontDTO selectquotesFontList(int memberNo) {
+		// TODO Auto-generated method stub
+		return diaryMapper.selectquotesFontList(memberNo);
+	}
 }
+
+
+

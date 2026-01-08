@@ -51,5 +51,9 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</insert>
 	
-	
+	<select id="selectquotesFontList">
+		SELECT QUOTES_CONTENT "quotesContent", QUOTES_FONT_SIZE "fontSize", QUOTES_FONT_FAMILY "fontFamily"
+		FROM MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
 </mapper>
