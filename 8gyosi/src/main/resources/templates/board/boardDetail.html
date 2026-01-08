@@ -64,7 +64,7 @@
        <!-- 수정 / 삭제 (작성자 or 관리자) -->
         <div class="toolbar"
              th:if="${session.loginMember != null
-             and (session.loginMember.memberNo == board.memberNo)}">
+             and (session.loginMember.memberNo == board.memberNo)}"> -->
 
             <!-- 수정 링크 -->
             <a th:href="@{/editBoard/{boardTypeNo}/{boardId}/update(boardTypeNo=${board.boardTypeNo}, boardId=${board.boardId})}">

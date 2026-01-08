@@ -92,4 +92,14 @@
 		WHERE MEMBER_NO = ${memberNo}
 	</update>
 	
+	<!-- 시간표 등록 : 다중행 삽입-->
+	<insert id="insertTimetable" parameterType="java.util.HashMap">
+		INSERT INTO "TIMETABLE"
+		(TIMETABLE_ID, SEMESTER, MEMBER_NO, DAY_CLASS_SUBJECT) 
+		VALUES
+		<foreach item="temp" collection="allMap" separator=",">
+			(SEQ_TIMETABLE_ID.NEXTVAL, #{semester}, #{memberNo}, #{dayClassSubject})
+		</foreach>
+	</insert>
+	
 </mapper>

@@ -74,6 +74,7 @@ public interface MyPageMapper {
 	 * @return
 	 */
 	int profile(Member member);
+	int insertTimetable(Map<String, Object> allMap);
 
 
 	

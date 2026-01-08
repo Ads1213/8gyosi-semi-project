@@ -171,6 +171,11 @@
     width:55%;
     color:#f8a814;
 }
+.subject-input{
+    width:55%;
+    border:none;
+    background-color: #A2B7A8;
+}
 
 
 /*------------ 구분선 ---------------*/
