@@ -7,31 +7,35 @@
 }
 
 html, body {
-  height: 100%;
+  margin: 0;
 }
 
 body {
   background-color: #F1F4F9;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  flex: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin: 60px auto 50px auto;
   display: flex;
   justify-content: center;
-  padding: 40px 0;
+  align-items: center;
   background-color: white;
-  border-radius: 3em;
-  border: 3px black;
+  border-radius: 12px;
 }
 
 .write-box {
-  width: 90%;
+  width: 1230px;
   min-height: 75vh;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-bottom: 50px;
 }
 
 /* 제목 영역 */
@@ -47,8 +51,23 @@ body {
   font-size: 14px;
 }
 
+.board-info, .file-wrapper, .like-area, #commentSection {
+  margin: 0 15px 0 15px;
+  padding: 15px;
+}
+
+/*닉네임 조회수 날짜 */
+.board-info {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+
 /* 본문 */
 .content-wrapper {
+  padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -83,8 +102,18 @@ body {
 }
 
 /* 좋아요 */
+#boardLike{
+  font-size: 1em;
+  color: red;
+  cursor: pointer;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.08));  
+}
 
 /* 댓글 */
+#commentSection{
+  border-top: 1px solid #ccc;
+}
+
 .comment-wrapper {
   margin-top: 20px;
   border-top: 1px solid #ccc;
@@ -95,45 +124,58 @@ body {
   padding: 6px 0;
   border-bottom: 1px dashed #ccc;
 }
-/**/
-/* 댓글 리스트 기본 스타일 */
+
+/* 댓글 */
 .commentList {
-    list-style: none;
+  list-style: none;
 }
 
+#commentIcon{
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);  
+}
 .comment-row {
     border-bottom: 1px solid #eee;
     padding: 15px 10px;
 }
-#commentContent {
-    width: 70%;
-    min-height: 80px;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+#commentContent-area {
+  display: flex;
+  justify-content: center;
 }
+
+#commentContent {
+  width: 900px;
+  min-height: 80px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
+}
+
 #addCommentBtn {
-  height: 100%;
-  padding: 4px 10px;
+  height: 80px;
+  width: 75px;
+  margin: 10px 0 0 3%;
+  padding: 10px;
   margin-right: 5px;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   background-color: #5f86e5;
   color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
 }
 
-
-
-/* 답글(대댓글) 스타일: 부모 댓글보다 들여쓰기 */
+/* 답글  */
 .child-comment {
     margin-left: 40px;
     background-color: #f9f9f9;
-    border-left: 3px solid #ddd;
+
 }
 
-/* 수정 및 답글용 textarea */
+/* 수정 및 답글용 입력창 */
 .commentInsertContent, .update-textarea {
     width: 100%;
     min-height: 80px;
@@ -142,10 +184,27 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+/* 답글 수정 삭제 버튼 스타일 */
+.comment-btn-area button, .saveBtn, .cancelBtn, .addReplyBtn {
+  margin: 5px 5px 0 0;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  background-color: #5f86e5;
+  border-radius: 3px;
+  color: white;
+  border: none;
+}
 
-.comment-btn-area button {
-    margin-right: 5px;
-    cursor: pointer;
+/* 답글 텍스트 영역 */
+.reply-textarea, .edit-textarea {
+    width: 900px;
+  min-height: 80px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
 }
 
 

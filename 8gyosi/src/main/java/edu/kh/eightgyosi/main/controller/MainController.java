@@ -31,8 +31,6 @@ public class MainController {
 		model.addAttribute("boardTop5List", boardTop5List);
 		
 		return "common/main"; // forward
-		
-
 	}
 	
 	/** @author dasol

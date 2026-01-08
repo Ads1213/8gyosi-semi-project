@@ -10,7 +10,7 @@ body {
 
 /*========================== footer ================================*/
 footer {
-
+    width: 100%;
     background-color: #D9E1F0;
     padding: 30px;
     display: flex;

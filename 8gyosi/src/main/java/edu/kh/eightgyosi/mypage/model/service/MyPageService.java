@@ -35,6 +35,20 @@ public interface MyPageService {
 	 */
 	String fileUpload1(MultipartFile uploadFile) throws Exception;
 
+	/** 파일 업로드 테스트 2
+	 * @param uploadFile
+	 * @param memberNo
+	 * @return
+	 */
+	int fileUpload2(MultipartFile uploadFile, int memberNo) throws Exception;
+
+	/** 프로필 이미지 변경 서비스
+	 * @param profileImg
+	 * @param loginMember
+	 * @return
+	 */
+	int profile(MultipartFile profileImg, Member loginMember) throws Exception;
+
 
 	
 
