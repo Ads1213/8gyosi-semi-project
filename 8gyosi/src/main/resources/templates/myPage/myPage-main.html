@@ -12,7 +12,6 @@
 
 <body>
     <th:block th:replace="~{common/header}"></th:block>
-    <h3> 마이페이지 메인 테스트</h3>
     <container id="container">
 
         <container class="main-container"> <!-- 마이페이지 메인 기능 부분 -->
@@ -260,38 +259,39 @@
 
             <section class="lower"> <!--마이페이지 하단: 일기장, 오답노트 -->
 
-                <section id="diary-container"> <!-- 일기장-->
-                    <div id="diary-name" class="diary-component"></div>
+                <section class="diary main-content"><!-- 일기장-->
+                    <section id="diary-header" class="diary-component">
+                        <div id="diary-name" class="diary-component">일기장</div>
+                    </section>
 
-                    <section class="diary main-content">
-                        <div id="diary-header" class="diary-component">일기장</div>
-                        <div id="diary-body">
-                            <form method="POST" id="diary-form">
-                                <label>
-                                    <input type="text" name="diaryDate" id="diaryDate" th:value="${diary?.diaryDate}"
-                                        placeholder="작성일 YYYYMMDD (예: 20251225)" required>
-                                </label>
+                    <section id="diary-body">
+                        <form method="POST" id="diary-form">
+                            <label>
+                                <input type="text" name="diaryDate" id="diaryDate" th:value="${diary?.diaryDate}"
+                                    placeholder="작성일 YYYYMMDD (예: 20251225)" required>
+                            </label>
 
-                                <label>
-                                    <input type="text" name="diaryTitle" id="diaryTitle" th:value="${diary?.diaryTitle}"
-                                        placeholder="제목">
-                                </label>
+                            <label>
+                                <input type="text" name="diaryTitle" id="diaryTitle" th:value="${diary?.diaryTitle}"
+                                    placeholder="제목">
+                            </label>
 
-                                <label>
-                                    <textarea name="diaryContent" id="diaryContent" placeholder="내용"
-                                        th:text="${diary?.diaryContent}"></textarea>
-                                </label>
+                            <label>
+                                <textarea name="diaryContent" id="diaryContent" placeholder="내용"
+                                    th:text="${diary?.diaryContent}"></textarea>
+                            </label>
 
-                                <div class="diary-buttons">
-                                    <button type="button" id="diary-selectBtn">조회</button>
+                            <div class="diary-buttons">
+                                <button type="button" id="diary-selectBtn">조회</button>
 
-                                    <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장</button>
-                                    <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}">삭제</button><br>
-                                    <p>* 일기장 조회 및 일기내용 삭제를 원하신다면 
-                                    작성일을 입력하고 버튼을 클릭해주세요</p>
+                                <button type="submit" th:formaction="@{/myPage/diary/insertDiary}">저장</button>
+                                <button type="submit" th:formaction="@{/myPage/diary/deleteDiary}">삭제</button><br>
+                                <div id="diary-footer">
+                                    <p>* 일기장 조회 및 일기내용 삭제를 원하신다면
+                                        작성일을 입력하고 버튼을 클릭해주세요</p>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </section>
                 </section> <!-- 일기장 끝-->
 
@@ -370,18 +370,36 @@
                     <a href="myPage/info">수정</a>
                 </div>
             </section>
-            <section class="select-theme">
-                <section>
-                    테마색 지정
-                </section>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+            <section class="quotes-card">
+                <div class="quotes-header">동기부여</div>
+
+                <div id="quotes-menu-container">
+                    <form method="post" id="quotes-form" th:action="@{/myPage/changeFont}">
+                        <div class="input-group">
+                            <textarea id="quotes-content" name="content" placeholder="동기부여글을 입력해주세요"></textarea>
+                        </div>
+
+                        <div class="controls-row">
+
+                            <input type="number" id="font-size" name="fontSize" placeholder="크기(px)">
+
+                            <div class="input-group font-select">
+                                <select id="menu-font-menu" name="fontFamily">
+                                    <option value="'Malgun Gothic', sans-serif">맑은 고딕 (기본)</option>
+                                    <option value="Dotum, sans-serif">돋움</option>
+                                    <option value="Gulim, sans-serif">굴림</option>
+                                    <option value="Arial, sans-serif">Arial (영문 추천)</option>
+                                    <option value="'Batang', serif">바탕체</option>
+                                    <option value="'Gungsuh', serif">궁서체</option>
+                                    <option value="'Times New Roman', serif">Times New Roman</option>
+                                    <option value="cursive">필기체 스타일</option>
+                                    <option value="fantasy">화려한 스타일</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="save-btn">저장</button>
+                        </div>
+                    </form>
+                </div>
             </section>
         </container>
 
@@ -391,9 +409,17 @@
 
     <script th:inline="javascript">
 
+        // font 관련
+        const serverFontSize = [[${fontSize}]] || 16;
+        const serverFontFamily = [[${fontFamily}]] || "'Malgun Gothic', sans-serif";
+        const serverContent = [[${content}]] || "";
+
+
         // Calender 관련
         // const calenderList = [[${calender}]];
         console.log(calenderList);
+
+
 
     </script>
 

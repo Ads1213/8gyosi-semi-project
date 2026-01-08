@@ -2,6 +2,7 @@ package edu.kh.eightgyosi.mypage.model.service;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
+import edu.kh.eightgyosi.mypage.model.dto.FontDTO;
 
 public interface DiaryService {
 
@@ -33,6 +34,15 @@ public interface DiaryService {
 	 */
 	int checkWriteDate(DiaryDTO inputDiary);
 
+
+
+
+	/** 회원 동기부여 수정 메서드
+	 * @param inputQuotes
+	 * @return
+	 */
+	int updateQuotes(FontDTO inputQuotes);
+	
 
 
 }

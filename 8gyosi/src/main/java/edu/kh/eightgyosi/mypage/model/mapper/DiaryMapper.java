@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
+import edu.kh.eightgyosi.mypage.model.dto.FontDTO;
 
 @Mapper
 public interface DiaryMapper {
@@ -33,6 +34,16 @@ public interface DiaryMapper {
 	 * @return
 	 */
 	int checkWriteDate(DiaryDTO inputDiary);
+
+
+
+	/** 회원 동기부여글 수정 SQL
+	 * @param inputQuotes
+	 * @return
+	 */
+	int updateQuotes(FontDTO inputQuotes);
+	
+	
 
 
 

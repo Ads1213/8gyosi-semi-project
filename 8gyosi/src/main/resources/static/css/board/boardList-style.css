@@ -7,7 +7,6 @@ body {
 }
 
 main {
-  width: 1440px;
   margin: auto; /* 좌우 가운데 정렬을 위해서 */
   background-color: #F1F4F9;
   overflow: hidden;

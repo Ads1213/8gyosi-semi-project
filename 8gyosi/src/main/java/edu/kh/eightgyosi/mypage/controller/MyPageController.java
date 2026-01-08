@@ -3,8 +3,6 @@ package edu.kh.eightgyosi.mypage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -22,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
+import edu.kh.eightgyosi.mypage.model.dto.FontDTO;
 import edu.kh.eightgyosi.mypage.model.dto.WrongNoteDTO;
 import edu.kh.eightgyosi.mypage.model.service.CalenderService;
 import edu.kh.eightgyosi.mypage.model.service.DiaryService;
@@ -201,8 +199,13 @@ public class MyPageController {
 		
 		String message = null;	
 		int memberNo = loginMember.getMemberNo();
+		String inputDiaryDate = inputDiary.getDiaryDate().strip(); // **** 트러블 슈팅에 이용
+		
+		inputDiary.setDiaryDate(inputDiaryDate);
 		inputDiary.setMemberNo(memberNo);
+		
 	    int result = 0;
+	    
 
 
 		// 입력할 날짜가 비어있는 경우
@@ -285,9 +288,29 @@ public class MyPageController {
 	 * 
 	 * */	
 		
+
+	/** 동기부여 글 스타일변경
+	 * @param loginMember
+	 * @param inputFont
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("changeFont")
+	public FontDTO changeFont(@SessionAttribute("loginMember") Member loginMember,
+            @RequestBody FontDTO inputQuotes) {	
 		
-		
+			inputQuotes.setMemberNo(loginMember);
+			
+			int memberNo = loginMember.getMemberNo();		
+				
+			int result = diaryService.updateQuotes(inputQuotes);
+						
+			
+			return inputQuotes;
+
+	}
 	
+
 	
 	/** 일기 내용 조회
 	 * @param loginMember
@@ -301,10 +324,12 @@ public class MyPageController {
 	public DiaryDTO selectDiary(@SessionAttribute("loginMember") Member loginMember,
 	                            @RequestBody DiaryDTO inputDiary) { 
 		log.info("넘어온 날짜: " + inputDiary.getDiaryDate());
-	    log.info("로그인 회원번호: " + loginMember.getMemberNo());
 		
-		
+		int memberNo = loginMember.getMemberNo();
+		String inputDiaryDate = inputDiary.getDiaryDate().strip(); // **** 트러블 슈팅에 이용
+		inputDiary.setDiaryDate(inputDiaryDate);
 	    inputDiary.setMemberNo(loginMember.getMemberNo());
+	    
 	    DiaryDTO result = diaryService.selectDiary(inputDiary);
 	    
 	    log.debug("조회 결과: " + result);
@@ -331,8 +356,9 @@ public class MyPageController {
 		
 		String message = null;		
 		int memberNo = loginMember.getMemberNo();
+		String inputDiaryDate = inputDiary.getDiaryDate().strip(); // **** 트러블 슈팅에 이용
+		inputDiary.setDiaryDate(inputDiaryDate);
 		inputDiary.setMemberNo(memberNo);
-
 		
 		int result = diaryService.deleteDiary(inputDiary);
 		    
@@ -349,6 +375,11 @@ public class MyPageController {
 	}
  		
 
+	
+	
+	
+	
+	
 // seongjong
 	
 	/** 마이페이지 프로필 수정 화면으로 이동

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
+import edu.kh.eightgyosi.mypage.model.dto.FontDTO;
 import edu.kh.eightgyosi.mypage.model.mapper.DiaryMapper;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +31,8 @@ public class DiaryServiceImpl implements DiaryService{
 	// 일기장 내용 불러오기 서비스
 	@Override
 	public DiaryDTO selectDiary(DiaryDTO inputDiary) {
+		log.info(inputDiary.toString());
+		
 		return diaryMapper.selectDiary(inputDiary);
 	}
 
@@ -44,4 +48,12 @@ public class DiaryServiceImpl implements DiaryService{
 	public int checkWriteDate(DiaryDTO inputDiary) {
 		return diaryMapper.checkWriteDate(inputDiary);
 	}
+	
+	
+	// 회원 동기부여 글 수정 메서드
+	@Override
+	public int updateQuotes(FontDTO inputQuotes) {
+		return diaryMapper.updateQuotes(inputQuotes);
+	}
+	
 }

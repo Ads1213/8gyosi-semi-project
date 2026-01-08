@@ -18,8 +18,10 @@
 
 	<!-- 일기장 내용 조회 -->
 	<select id="selectDiary" resultType="DiaryDTO">
-		SELECT DIARY_TITLE AS diaryTitle,
-		DIARY_CONTENT AS diaryContent
+		SELECT DIARY_TITLE "diaryTitle",
+		DIARY_CONTENT "diaryContent",
+		MEMBER_NO "memberNo",
+		DIARY_DATE "diaryDate"
 		FROM DIARY  
 		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
@@ -40,4 +42,14 @@
 		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
 		AND (MEMBER_NO = #{memberNo})
 	</select>
+	
+	
+	
+	<insert id="insertQuotes" >
+		UPDATE MEMBER
+		SET QUOTES_CONTENT = #{quotesContent}, QUOTES_FONT_SIZE = #{fontSize}, QUOTES_FONT_FAMILY = #{fontFamily}
+		WHERE MEMBER_NO = #{memberNo};
+	</insert>
+	
+	
 </mapper>
