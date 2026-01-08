@@ -72,10 +72,7 @@ public class MyPageController {
         this.boardController = boardController;
     }
 	
-	// @Autowired 
-	// private ServletContext application; // 테스트용
-	
-	
+
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
@@ -299,6 +296,8 @@ public class MyPageController {
 			@ModelAttribute DiaryDTO inputDiary,
 	        RedirectAttributes ra) { 
 		
+		log.debug("입력합 : " + inputDiary);
+		
 		String message = null;	
 		int memberNo = loginMember.getMemberNo();
 		String inputDiaryDate = inputDiary.getDiaryDate().strip(); // **** 트러블 슈팅에 이용
@@ -400,13 +399,14 @@ public class MyPageController {
 	@PostMapping("changeFont")
 	public FontDTO changeFont(@SessionAttribute("loginMember") Member loginMember,
             @RequestBody FontDTO inputQuotes) {	
-		
-			inputQuotes.setMemberNo(loginMember);
 			
 			int memberNo = loginMember.getMemberNo();		
+		
+			inputQuotes.setMemberNo(memberNo);
 				
 			int result = diaryService.updateQuotes(inputQuotes);
 						
+			log.debug("inputQuotes : " + inputQuotes);
 			
 			return inputQuotes;
 
@@ -414,9 +414,17 @@ public class MyPageController {
 	
 
 	
+	/** 일기장 조회 메서드
+	 * @param loginMember
+	 * @param inputDiary
+	 * @param model
+	 * @param ra
+	 * @return
+	 */
 	@PostMapping("diary/selectDiary")
-	public String selectDiary(@SessionAttribute("loginMember") Member loginMember,
-	        @ModelAttribute DiaryDTO inputDiary,
+	@ResponseBody
+	public DiaryDTO selectDiary(@SessionAttribute("loginMember") Member loginMember,
+			@RequestBody DiaryDTO inputDiary,
 	        Model model, 
 	        RedirectAttributes ra) { 
 	    
@@ -428,10 +436,11 @@ public class MyPageController {
 	    if(diary != null) {
 
 	        model.addAttribute("diary", diary);
-	        return "redirect:/myPage";  
+	        return diary;  
+	        
 	    } else {
 	        ra.addFlashAttribute("message", "해당 날짜에 작성된 일기가 없습니다.");
-	        return "redirect:/myPage"; 
+	        return diary; 
 	    }
 	}
 

@@ -45,10 +45,10 @@
 	
 	
 	
-	<insert id="insertQuotes" >
+	<insert id="updateQuotes" >
 		UPDATE MEMBER
 		SET QUOTES_CONTENT = #{quotesContent}, QUOTES_FONT_SIZE = #{fontSize}, QUOTES_FONT_FAMILY = #{fontFamily}
-		WHERE MEMBER_NO = #{memberNo};
+		WHERE MEMBER_NO = #{memberNo}
 	</insert>
 	
 	
