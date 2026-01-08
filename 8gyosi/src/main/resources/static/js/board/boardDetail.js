@@ -199,8 +199,6 @@ $(document).ready(function () {
     document.querySelector("#boardLike").addEventListener("click", e => {
         const currentId = e.currentTarget.dataset.boardId || boardId;
         
-
-    // 로그인 상태가 아닌 경우 동작 X
     if (loginMemberNo == null) {
         alert("로그인 후 이용해주세요.");
         return;
@@ -212,7 +210,6 @@ $(document).ready(function () {
         "likeCheck": likeCheck
     };
 
-    // 좋아요 INSERT/DELETE 비동기 요청
     fetch("/board/like", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -227,6 +224,7 @@ $(document).ready(function () {
             }
             const likeCountSpan = document.getElementById("likeCount");
             const heartIcon = document.getElementById("boardLike");
+
             // 좋아요 체크/해제 변경
             if (likeCheck == 0) { // 해체 상태일때
                 heartIcon.classList.replace('fa-regular', 'fa-solid');

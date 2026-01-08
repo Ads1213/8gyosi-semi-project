@@ -35,60 +35,6 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	/*
-	@GetMapping("{boardCode:[0-9]+}/{boardNo:[0-9]+}")
-	public String BoardDetail(@PathVariable("boardCode") int boardCode,
-							  @RequestParam(value="cp", required = false, defaultValue = "1") int cp,
-							  Model model){
-		
-		
-		return "board/BoardDetail";
-	}
-	*/
-	
-//	@GetMapping("")
-//	public String BoardList() {
-//		return "board/boardList";
-//		
-//	}
-
-	/** 게시글 목록 조회 BOARD CONTROLLER
-	 * @return
-	 * {boardCodeNo:[0-9]+}
-	 */
-	// @GetMapping("{boardTypeNo:[0-9]+}")
-
-	/*
-	public String selectBoardList(@PathVariable("boardTypeNo") int boardTypeNo,
-							@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-							Model model,
-							@RequestParam Map<String, Object> paramMap) {
-		
-		Map<String, Object> map = null;
-		
-		// 검색이 아닌 경우 --> 
-		if(paramMap.get("key") == null) {
-			
-			map = service.selectBoardList(boardTypeNo, cp);
-			
-		} else { // 검색인 경우(검색한 게시글 목록 조회)
-			paramMap.put("boardTypeNo", boardTypeNo);
-			// -> paramMap은 {key=w, query=짱구, boardCode=1}
-			
-			// 검색(내가 검색하고 싶은 게시글 목록 조회) 서비스 호출
-			map = service.searchList(paramMap, cp);
-			
-		}
-		
-		// model에 결과 값 등록
-		model.addAttribute("pagination", map.get("pagination"));
-		model.addAttribute("boardList", map.get("boardList"));
-		
-		log.debug("pagination :: {}", map.get("pagination"));
-		
-		return "board/boardList";	
-	}*/
-	
 	@GetMapping("{boardTypeNo:[0-9]+}")
 	public String selectBoardList(@PathVariable("boardTypeNo") int boardTypeNo,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model,
@@ -126,7 +72,6 @@ public class BoardController {
 							HttpServletRequest req,
 							HttpServletResponse resp) {
 		
-		//Map<String, Integer> map =  new HashMap<>();
 		Map<String, Object> map =  new HashMap<>();
 		map.put("boardTypeNo", boardTypeNo);
 		map.put("boardId", boardId);
@@ -135,10 +80,7 @@ public class BoardController {
 			map.put("memberNo", loginMember.getMemberNo());
 		}
 		
-		//Board board = service.selectOne(map);
 		Board board = service.selectOne(map);
-		
-	    log.debug("현재 board :: {}", board);
 		
 		String path = null;
 		

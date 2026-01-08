@@ -21,7 +21,7 @@ body {
 .container {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  margin: 50px auto 50px auto;
+  margin: 60px auto 50px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,22 +140,23 @@ body {
 
 #commentContent-area {
   display: flex;
+  justify-content: center;
 }
 
 #commentContent {
-    width: 770px;
-    min-height: 80px;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
+  width: 900px;
+  min-height: 80px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
 }
 
 #addCommentBtn {
   height: 80px;
   width: 75px;
-  margin: 10px 0;
+  margin: 10px 0 0 3%;
   padding: 10px;
   margin-right: 5px;
   cursor: pointer;
@@ -183,9 +184,9 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
-.comment-btn-area button {
-  margin-right: 5px;
+/* 답글 수정 삭제 버튼 스타일 */
+.comment-btn-area button, .saveBtn, .cancelBtn, .addReplyBtn {
+  margin: 5px 5px 0 0;
   width: 30px;
   height: 25px;
   cursor: pointer;
@@ -193,6 +194,17 @@ body {
   border-radius: 3px;
   color: white;
   border: none;
+}
+
+/* 답글 텍스트 영역 */
+.reply-textarea, .edit-textarea {
+    width: 900px;
+  min-height: 80px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);  
 }
 
 
