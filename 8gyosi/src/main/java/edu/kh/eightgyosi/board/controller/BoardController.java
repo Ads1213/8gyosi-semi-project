@@ -104,12 +104,9 @@ public class BoardController {
 		if(loginMember != null) {
 			map.put("memberNo", loginMember.getMemberNo());
 		}
-
-		// 게시글 조회
+		
 		Board board = service.selectOne(map);
-
-		log.debug("현재 board :: {}", board);
-
+		
 		String path = null;
 
 		if(board == null) {
