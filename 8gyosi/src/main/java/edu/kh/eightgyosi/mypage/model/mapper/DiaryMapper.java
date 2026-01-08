@@ -47,11 +47,12 @@ public interface DiaryMapper {
 	int updateQuotes(FontDTO inputQuotes);
 
 
-	/**회원 동기부여 글꼴 조회 SQL
+
+	/** 회원 동기부여 글꼴 조회 SQL
 	 * @param memberNo
 	 * @return
 	 */
-	FontDTO selectquotesFontList(int memberNo);
+	FontDTO selectquotesFont(int memberNo);
 	
 	
 

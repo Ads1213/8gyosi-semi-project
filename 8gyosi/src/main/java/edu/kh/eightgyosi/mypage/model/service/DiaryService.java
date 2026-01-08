@@ -48,12 +48,11 @@ public interface DiaryService {
 
 
 
-
 	/** 회원 동기부여 글꼴 조회 서비스
 	 * @param memberNo
 	 * @return
 	 */
-	FontDTO selectquotesFontList(int memberNo);
+	FontDTO selectquotesFont(int memberNo);
 
 
 

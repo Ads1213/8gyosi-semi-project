@@ -58,11 +58,10 @@ public class DiaryServiceImpl implements DiaryService{
 	}
 	
 	// 회원 동기부여 글꼴 조회 서비스
-
 	@Override
-	public FontDTO selectquotesFontList(int memberNo) {
+	public FontDTO selectquotesFont(int memberNo) {
 		// TODO Auto-generated method stub
-		return diaryMapper.selectquotesFontList(memberNo);
+		return diaryMapper.selectquotesFont(memberNo);
 	}
 }
 
