@@ -23,6 +23,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new BoardTypeInterceptor(editBoardService))
                 .addPathPatterns("/**") 
-                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico"); // 정적 리소스 제외
+                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico",
+                					"/myPage/**"); // 정적 리소스 제외
     }
 }

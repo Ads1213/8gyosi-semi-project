@@ -74,4 +74,22 @@
 		AND SEMESTER = #{semester}
 	</select>
 	
+	<!-- 파일 정보를 DB에 삽입 -->
+	<insert id="insertUploadFile">
+		INSERT INTO PROFILE_UPLOAD_FILE
+		VALUES(SEQ_FILE_NO.NEXTVAL, 
+				#{filePath}, 
+				#{fileOriginalName}, 
+				#{fileRename}, 
+				SYSDATE, 
+				#{memberNo})
+	</insert>
+	
+	<!-- 프로필 이미지 변경 -->
+	<update id="profile">
+		UPDATE MEMBER
+		SET PROFILE_IMG = #{profileImg}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
 </mapper>

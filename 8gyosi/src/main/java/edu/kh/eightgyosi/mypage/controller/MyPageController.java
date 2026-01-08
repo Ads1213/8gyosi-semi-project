@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -347,7 +345,7 @@ public class MyPageController {
 	}
 	
 	
- 		
+	// seongjong
 
 //--------------------------------------------------------------------------------------------------------------
 
@@ -429,12 +427,12 @@ public class MyPageController {
 		return "redirect:info"; // 재요청 경로 : /myPage/info GET 요청
 	}
 
-	// 비밀번호 변경 화면 이동
-	//	@GetMapping("changePw")
-	//	public String changePw() {
-	//
-	//		return "myPage/myPage-changePw";
-	//	}
+	 // 비밀번호 변경 화면 이동
+	@GetMapping("changePw")
+	public String changePw() {
+	
+		return "myPage/myPage-changePw";
+	}
 
 	// 비밀번호 변경
 	@PostMapping("changePw")
@@ -466,22 +464,12 @@ public class MyPageController {
 		return "redirect:" + path;
 	}
 
-	/**
-	 * 회원 프로필
-	 * 
-	 * @return
-	 */
-	@GetMapping("profile")
-	public String profile() {
-
-		return "myPage/myPage-profile";
+	// 회원 탈퇴 화면 이동
+	@GetMapping("secession")
+	public String secession() {
+		
+		return "myPage/myPage-secession";
 	}
-
-	//	// 회원 탈퇴 화면 이동
-	//	@GetMapping("secession")
-	//	public String secession() {
-	//		return "myPage/myPage-secession";
-	//	}
 
 	/** 회원 탈퇴
 	 * @param memberPw
@@ -522,12 +510,13 @@ public class MyPageController {
 		return "redirect:" + path;
 	}
 
-	//	// 파일 테스트 화면으로 이동
-	//	@GetMapping("fileTest")
-	//	public String fileTest() {
-	//		return "myPage/myPage-fileTest";
-	//	}
-	//	
+	// 파일 테스트 화면으로 이동
+	@GetMapping("fileTest")
+	public String fileTest() {
+		
+		return "myPage/myPage-fileTest";
+	}
+	
 	/*
 	 * Spring에서 파일을 처리하는 방법
 	 * 
@@ -564,19 +553,70 @@ public class MyPageController {
 		return "redirect:/myPage/fileTest";
 	}
 	
-
-// seongjong
-	
-
-	
-	
-
-	
 	//	// 파일 테스트 화면으로 이동
 	//	@GetMapping("fileTest")
 	//	public String fileTest() {
 	//		return "myPage/myPage-fileTest";
 	//	}
+	
+	@PostMapping("file/test2") // /myPage/file/test2
+	public String fileUpload2(@RequestParam("uploadFile") MultipartFile uploadFile,
+							@SessionAttribute("loginMember") Member loginMember,
+							RedirectAttributes ra) {
+		
+		try {
+			
+			// 로그인한 회원의 번호 얻어오기 (누가 업로드 했는가)
+			int memberNo = loginMember.getMemberNo();
+			
+			// 업로드된 파일 정보를 DB에 INSERT 후 결과 행의 갯수 반환 받아옴
+			int result = myPageService.fileUpload2(uploadFile, memberNo);
+			
+			String message = null;
+			
+			if(result > 0) {
+				message = "파일 업로드 성공";
+			} else {
+				message = "파일 업로드 실패";
+			}
+			
+			ra.addFlashAttribute("message", message);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("파일 업로드 테스트2 중 예외발생");
+		}
+		
+		return "redirect:/myPage/fileTest";
+	}
+	
+	@GetMapping("profile") // /myPage/profile
+	public String profile() {
+		
+		return "myPage/myPage-profile";
+	}
+	
+	@PostMapping("profile") // /myPage/profile
+	public String profile(@RequestParam("profileImg") MultipartFile profileImg,
+						@SessionAttribute("loginMember") Member loginMember,
+						RedirectAttributes ra) throws Exception {
+	
+		// 서비스 호출
+		int result = myPageService.profile(profileImg, loginMember);
+		
+		String message = null;
+		
+		if(result > 0) {
+			message = "변경 성공";
+		} else {
+			message = "변경 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:profile"; // 리다이렉트 - /myPage/profile GET 요청
+	}
 	
 	// 파일 목록 조회 화면 이동
 	@GetMapping("fileList")
