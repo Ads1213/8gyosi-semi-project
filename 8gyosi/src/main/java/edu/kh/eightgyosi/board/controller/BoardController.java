@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import edu.kh.eightgyosi.board.model.dto.Board;
 import edu.kh.eightgyosi.board.model.dto.BoardImage;
 import edu.kh.eightgyosi.board.model.service.BoardService;
+import edu.kh.eightgyosi.board.model.service.EditBoardService;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,8 @@ public class BoardController {
 
 	@Autowired
 	private BoardService service;
+	@Autowired
+	private EditBoardService editService;
 	
 	
 	@GetMapping("{boardTypeNo:[0-9]+}")
@@ -73,7 +76,8 @@ public class BoardController {
 							HttpServletRequest req,
 							HttpServletResponse resp) {
 		
-		Map<String, Integer> map =  new HashMap<>();
+		//Map<String, Integer> map =  new HashMap<>();
+		Map<String, Object> map =  new HashMap<>();
 		map.put("boardTypeNo", boardTypeNo);
 		map.put("boardId", boardId);
 		
@@ -81,7 +85,10 @@ public class BoardController {
 			map.put("memberNo", loginMember.getMemberNo());
 		}
 		
+		//Board board = service.selectOne(map);
 		Board board = service.selectOne(map);
+		
+	    log.debug("현재 board :: {}", board);
 		
 		String path = null;
 		
@@ -99,7 +106,7 @@ public class BoardController {
 				
 				for(Cookie temp : cookies) {
 					
-					// 쿠키 중에 "readBoardNo" 가 존재할 때
+					// 쿠키 중에 "readBoardId" 가 존재할 때
 					if(temp.getName().equals("readBoardId")) {
 						c = temp;
 						break;
@@ -185,10 +192,12 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@PostMapping("like")
+	@PostMapping("like") //  /board/like (POST) 요청 매핑
 	public int boardLike(@RequestBody Map<String, Integer> map) {
 		return service.boardLike(map);
 	}
+	
+
 
 	
 }

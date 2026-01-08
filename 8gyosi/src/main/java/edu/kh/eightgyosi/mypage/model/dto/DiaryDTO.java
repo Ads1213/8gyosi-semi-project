@@ -17,6 +17,5 @@ public class DiaryDTO {
 	private String diaryTitle;
 	private String diaryContent;
 	private int memberNo;
-
 	
 }

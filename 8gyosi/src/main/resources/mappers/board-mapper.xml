@@ -216,7 +216,12 @@
 		MEMBER_NO, MEMBER_NICKNAME, PROFILE_IMG,
 		TO_CHAR(BOARD_CREATE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') BOARD_CREATE_DATE,
 		TO_CHAR(BOARD_UPDATE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') BOARD_UPDATE_DATE,
-		(SELECT COUNT(*) FROM "BOARD_LIKE" WHERE BOARD_ID = #{boardId}) LIKE_COUNT
+		(SELECT COUNT(*) FROM "BOARD_LIKE" WHERE BOARD_ID = #{boardId}) LIKE_COUNT,
+		
+		(SELECT COUNT(*) FROM "BOARD_LIKE" 
+     	WHERE BOARD_ID = #{boardId} 
+     	AND MEMBER_NO = #{memberNo}) AS LIKE_CHECK
+     	
 		FROM "BOARD"
 		JOIN "MEMBER" USING(MEMBER_NO)
 		JOIN "BOARD_TYPE" USING(BOARD_TYPE_NO)
@@ -236,7 +241,7 @@
 		FROM "BOARD"
 		WHERE BOARD_ID = #{boardId}
 	</select>
-	
+
 		<!-- 좋아요 해제 SQL(DELETE)  -->
 	<delete id="deleteBoardLike">
 		DELETE FROM "BOARD_LIKE"
@@ -249,6 +254,13 @@
 		INSERT INTO "BOARD_LIKE" 
 		VALUES(#{memberNo}, #{boardId})
 	</insert>
+	<!-- 좋아요 조회 -->
+	<select id="checkBoardLike">
+   		 SELECT COUNT(*) FROM "BOARD_LIKE"
+    	WHERE MEMBER_NO = #{memberNo}
+    	AND BOARD_ID = #{boardId}
+	</select>
+	
 
 	<!-- 게시글 좋아요 갯수 조회(SELECT) -->
 	<select id="selectLikeCount">
@@ -281,7 +293,7 @@
 		        
 		        (SELECT COUNT(*) 
 		         FROM "COMMENT" C
-		         WHERE C.BOARD_ID = B.BOARD_ID) AS COMMENT_COUNT,
+		         WHERE C.BOARD_ID = B.BOARD_ID) AS BOARD_COMMENT_COUNT,
 		         
 		         ROW_NUMBER() OVER ( 
 		            PARTITION BY B.BOARD_TYPE_NO 

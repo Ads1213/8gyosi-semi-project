@@ -30,7 +30,7 @@
 	<!-- 일기장 내용 삭제 -->
 	<delete id="deleteDiary">
 		DELETE FROM DIARY 
-		WHERE (TRIM(DIARY_DATE) = #{diaryDate})
+		WHERE (DIARY_DATE = TRIM(#{diaryDate}))
 		AND (MEMBER_NO = #{memberNo})
 	</delete>
 	

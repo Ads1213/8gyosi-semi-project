@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.kh.eightgyosi.chatting.model.dto.ChattingRoom;
+import edu.kh.eightgyosi.chatting.model.dto.Message;
 import edu.kh.eightgyosi.member.model.dto.Member;
 
 @Mapper
@@ -40,6 +40,18 @@ public interface ChattingMapper {
 	 * @param integer
 	 * @return
 	 */
+	List<Message> selectMessageList(Object chattingRoomNo);
 
+	/** 채팅 메시지 읽음 처리 SQL
+	 * @param paramMap
+	 * @return
+	 */
+	int updateReadFlag(Map<String, Object> paramMap);
+
+	/** 채팅 입력 SQL
+	 * @param msg
+	 * @return
+	 */
+	int insertMessage(Message msg);
 
 }

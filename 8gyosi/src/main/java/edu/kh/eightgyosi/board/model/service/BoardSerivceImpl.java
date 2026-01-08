@@ -58,7 +58,7 @@ public class BoardSerivceImpl implements BoardService{
 	@Override
 	public Map<String, Object> searchList(Map<String, Object> paramMap, int cp) {
 		
-		// 1. 지정된 게시판(boardCode)에서
+		// 1. 지정된 게시판(boardTypeNo)에서
 		//    검색조건에 맞으면서
 		// 	  삭제되지 않은 게시글 수를 조회
 		int listCount = mapper.getSearchCount(paramMap);
@@ -85,7 +85,7 @@ public class BoardSerivceImpl implements BoardService{
 	
 	// 게시글 상세 조회
 		@Override
-		public Board selectOne(Map<String, Integer> map) {
+		public Board selectOne(Map<String, Object> map) {
 			return mapper.selectOne(map);
 		}
 
@@ -104,21 +104,17 @@ public class BoardSerivceImpl implements BoardService{
 
 		@Override
 		public int boardLike(Map<String, Integer> map) {
-			
-			int result = 0;
-			
-			// 1. 좋아요가 체크된 상태인 경우(likeCheck == 1)
-			if( map.get("likeCheck") == 1 ) {
+		    int result = 0;
+		    System.out.println("전달된 map 내용: " + map);
+		    if( map.get("likeCheck") == 1 ) {
 				
 				result = mapper.deleteBoardLike(map);
 				
 			} else {			
-			// 2. 좋아요가 해제된 상태인 경우(likeCheck == 0)
 				result = mapper.insertBoardLike(map);
 				
 			}
 			
-			// 3. INSERT/DELETE 성공했다면 해당 게시글의 좋아요갯수 조회해서 반환
 			if(result > 0) {
 				return mapper.selectLikeCount(map.get("boardId"));
 			}
@@ -143,5 +139,10 @@ public class BoardSerivceImpl implements BoardService{
 		public List<Board> selectBoardTop5List() {
 			return mapper.selectBoardTop5List();
 		}
-		
+
+		@Override
+		public Board selectBoardDetail(Map<String, Object> map) {
+			return mapper.selectBoardDetail(map);
+		}
+
 }

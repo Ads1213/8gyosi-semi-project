@@ -17,24 +17,22 @@
             C.MEMBER_NO,
             M.MEMBER_NICKNAME,
             C.COMMENT_CONTENT,
-            C.WRITE_DATE,
+            C.COMMENT_WRITE_DATE,
             C.PARENT_COMMENT_NO,
             C.COMMENT_DEL_FL
         FROM "COMMENT" C
         JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
         WHERE C.BOARD_ID = #{boardId}
-        ORDER BY C.PARENT_COMMENT_NO NULLS FIRST, C.WRITE_DATE
+        ORDER BY C.PARENT_COMMENT_NO NULLS FIRST, C.COMMENT_WRITE_DATE
     </select>
 
     <!-- 댓글/대댓글 등록 -->
     <insert id="insertComment" parameterType="BoardComment">
         INSERT INTO "COMMENT"
         VALUES(SEQ_COMMENT_NO.NEXTVAL, #{commentContent}, DEFAULT, DEFAULT, #{boardId}, #{memberNo}, 
-        
 		<if test="parentCommentNo != 0">
 			#{parentCommentNo}
-		</if>
-		
+		</if>	
 		<if test="parentCommentNo == 0">
 			NULL
 		</if>
@@ -45,13 +43,24 @@
     <select id="selectComment" parameterType="int" resultType="BoardComment">
         SELECT *
         FROM "COMMENT"
-        WHERE COMMENT_ID = #{commentId}
+        WHERE COMMENT_NO = #{commentNo}
     </select>
 
     <!-- 댓글/대댓글 삭제 -->
-    <delete id="deleteComment" parameterType="int">
-        DELETE FROM "COMMENT"
-        WHERE COMMENT_ID = #{commentId}
+    <delete id="deleteComment">
+        UPDATE "COMMENT"
+		SET COMMENT_DEL_FL = 'Y',
+		COMMENT_CONTENT = '삭제된 댓글입니다.'
+		WHERE COMMENT_NO = #{commentNo}
+		AND MEMBER_NO = #{memberNo}
     </delete>
+    
+    <!--  댓글 수정 -->
+    <update id="updateComment">
+	    UPDATE "COMMENT" SET
+    	COMMENT_CONTENT = #{commentContent}
+   		 WHERE COMMENT_NO = #{commentNo}
+	 </update>
+    
 
 </mapper>

@@ -1,5 +1,8 @@
 package edu.kh.eightgyosi.board.model.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -41,6 +44,11 @@ public class BoardImage {
     
     /** 서버 저장 파일명 */
     private String imgStoredName;
+    
+    /** null-safe 빈 리스트 반환 (Controller에서 사용) */
+    public static List<BoardImage> emptyList() {
+        return new ArrayList<>();
+    }
     
     
 }

@@ -1,62 +1,60 @@
 <head>
 	<link rel="stylesheet" href="/css/common/header.css">
 </head>
+
 <script src="https://kit.fontawesome.com/1162b5b0f6.js" crossorigin="anonymous"></script>
+
 <header>
-  <section>
-    <!-- 클릭 시 메인 페인지로 이동하는 로고 -->
-    <a href="/">
-      <img src="/images/logo.png" alt="메인 로고" id="homeLogo">
-    </a>
-  </section>
 
-	<!-- 안 쓰는 섹션-->
-	<section></section>
 
-	<section id="drop-board">
-		<ul id="header_menu">
-			<li id="header_board">
-				<a href="#">게시판</a>
-				<ul class="sub_menu">
-					<li><a href="/board/1">자유 게시판</a></li>
-					<li><a href="/board/2">질문 게시판</a></li>
-					<li><a href="/board/3">급식표 게시판</a></li>
-					<li><a href="/board/4">입시정보 게시판</a></li>
-					<li><a href="/board/5">문제풀이 게시판</a></li>
-					<li><a href="/board/6">공지사항</a></li>
-				</ul>
-			</li>
-		</ul>	
-	</section>
-	
 	<section>
-		<a href="/chatting">채팅</a>
+		<!-- 클릭 시 메인 페인지로 이동하는 로고 -->
+		<a href="/">
+			<img src="/images/logo.png" alt="메인 로고" id="homeLogo">
+		</a>
 	</section>
 
-	<!-- 로그인이 되어 있지 않은 경우 해당 코드 실행-->
-	<section>
-		<th:block th:if="${session.loginMember == null}">
-			<section>
-				<a href="#" id="login-link">로그인</a>
-			</section>
-		</th:block>
-	</section>
-	
-	<!-- 로그인이 되어 있는 경우 -->
-	<th:block th:if="${session.loginMember != null}">
-		<div class="profile-img-circle">
-			<a href="/myPage">
-		    <img src="#" alt="프로필 이미지">
-			</a>
+	<section></section> 
+
+  	<section id="btn-area">
+
+		<div class="board-header">
+			<div>
+				<a href="#">게시판</a><!-- 2. 안 쓰는 섹션-->
+			</div>
+			<ul id="board-nav">
+				<li th:each="boardType : ${application.boardTypeList}">
+				<a th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardType.boardTypeNo})}" 
+				th:text="${boardType.boardTypeName}" id="board-header-name"></a></li>
+			</ul>
 		</div>
-		<section>
-			<a href="/8gyosi/logout" id="logout-link">로그아웃</a>
-		</section>
-	</th:block>
+
+		<div> <!--3. 채팅 -->
+			<a href="/chatting/list">채팅</a>
+		</div>
+
+		<!-- 4. 로그인이 되어 있지 않은 경우 -->
+		<th:block th:if="${session.loginMember == null}">
+			<div>
+				<a href="#" id="login-link">로그인</a>
+			</div>
+		</th:block>
+
+		<!-- 5. 로그인이 되어 있는 경우 -->
+		<th:block th:if="${session.loginMember != null}">
+			<div id="when-login-area">
+				<a href="/myPage">test</a>
+			</div>
+			<div>
+				<a href="/8gyosi/logout" id="logout-link">로그아웃</a>
+			</div>
+		</th:block>
+
+	</section>
 
 	<!-- 로그인 창 부분 -->
 	<div id="login-window" class="hidden">
-		
+
 		<div>
 			<div>8교시</div>
 			<button id="login-window-close">&times;</button>
@@ -89,16 +87,23 @@
 
 		</section>
 	</div>
-	
-	<script th:inline="javascript">
-	  const message =  /*[[${message}]]*/ "전달 받은 message";
 
-	  if(message != null) alert(message);
-	</script>
 	
-    <script src="/js/common/header.js"></script>
-
-	<!-- daosl -->
+	<script src="/js/common/header.js"></script>
 	<script src="/js/main.js"></script>
+
+	
 </header>
+
+  <!-- 알림창을 띄우는 공통 스크립트 로직은 footer 에 넣는게 효과적 : dasol -->
+	<!-- redirect Attribute 에 담길 전역 message 부분 선언-->
+	<script th:inline="javascript">
+		const message =  /*[[${message}]]*/ "전달 받은 message";
+		if(message != null) alert(message);
+	</script>
+
+</header>
+
+
+
 

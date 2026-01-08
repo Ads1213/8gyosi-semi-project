@@ -51,7 +51,7 @@ public class ChattingServiceImpl implements ChattingService{
 		
 		return 0;
 	}
-/*
+	
 	// 채팅 메시지 조회 서비스
 	@Override
 	public List<Message> selectMessageList(Map<String, Object> paramMap) {
@@ -76,6 +76,6 @@ public class ChattingServiceImpl implements ChattingService{
 	public int insertMessage(Message msg) {
 		return mapper.insertMessage(msg);
 	}
-*/		
+	
 	
 }
