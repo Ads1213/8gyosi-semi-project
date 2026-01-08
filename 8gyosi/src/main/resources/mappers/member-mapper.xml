@@ -38,5 +38,7 @@
   	#{memberNickname}, NULL, DEFAULT, DEFAULT, #{memberBirth}, 
   	#{memberTel}, NULL, DEFAULT, DEFAULT, #{memberSchool})
   </insert>
+  
+  
    
 </mapper>

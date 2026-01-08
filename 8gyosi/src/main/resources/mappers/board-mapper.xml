@@ -3,7 +3,7 @@
 <mapper namespace="edu.kh.eightgyosi.board.model.mapper.BoardMapper"> 
 
 	<!-- 게시판 종류 조회 -->
-	<select id="selectBoardTypeList" resultType="map">
+	<select id="selectBoardTypeList">
 		SELECT BOARD_TYPE_NO "boardTypeNo",
 		BOARD_TYPE_NAME "boardTypeName"
 		FROM "BOARD_TYPE"

@@ -8,6 +8,7 @@
     width: 1000px;
     margin: 50px auto;
     gap: 30px;
+    min-height: 800px;
 }
 
 /* =========================================
