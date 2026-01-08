@@ -23,35 +23,35 @@ function validateDelete() {
 }
 
 // 동기부여글 관련 ------------------------------
-quotesForm.addEventListener('submit', function(e) {
-    e.preventDefault(); // 페이지 새로고침 방지
+// quotesForm.addEventListener('submit', function(e) {
+//     e.preventDefault(); // 페이지 새로고침 방지
 
-    // 1. 데이터를 URL 파라미터 형식으로 만듭니다.
-    const fontSize = fontSizeInput.value;
-    const fontFamily = fontSelect.value;
-    const content = contentInput.value;
+//     // 1. 데이터를 URL 파라미터 형식으로 만듭니다.
+//     const fontSize = fontSizeInput.value;
+//     const fontFamily = fontSelect.value;
+//     const content = contentInput.value;
 
-    // 2. URL 생성 (쿼리 스트링 방식)
-    const url = `/myPage/changeFont?fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}&content=${encodeURIComponent(content)}`;
+//     // 2. URL 생성 (쿼리 스트링 방식)
+//     const url = `/myPage/changeFont?fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}&content=${encodeURIComponent(content)}`;
 
-    // 3. 비동기 요청 전송
-    fetch(url, {
-        method: 'GET' // 서버 컨트롤러가 @GetMapping이면 GET, @PostMapping이면 POST
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('설정이 저장되었습니다!');
-            // 성공 시 화면에 즉시 적용 (이미 실시간으로 바뀌고 있겠지만 다시 한번 확인)
-            displayArea.style.fontSize = fontSize + "px";
-            displayArea.style.fontFamily = fontFamily;
-        } else {
-            alert('저장에 실패했습니다.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
+//     // 3. 비동기 요청 전송
+//     fetch(url, {
+//         method: 'GET' // 서버 컨트롤러가 @GetMapping이면 GET, @PostMapping이면 POST
+//     })
+//     .then(response => {
+//         if (response.ok) {
+//             alert('설정이 저장되었습니다!');
+//             // 성공 시 화면에 즉시 적용 (이미 실시간으로 바뀌고 있겠지만 다시 한번 확인)
+//             displayArea.style.fontSize = fontSize + "px";
+//             displayArea.style.fontFamily = fontFamily;
+//         } else {
+//             alert('저장에 실패했습니다.');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//     });
+// });
 
 
 // --------------------------------------------
@@ -310,6 +310,7 @@ let semesterYear = Number(semesterStr.substring(0,4)); // 2026
 let semesterPeriod = Number(semesterStr.substring(5,6)); // 1
 const tagSemesterYear = document.querySelector("#semesterYear");
 const tagSemesterPeriod = document.querySelector("#semesterPeriod");
+console.log("dddddddddddddddd",semesterYear,semesterPeriod);
 viewSemester();
 
 function viewSemester(){

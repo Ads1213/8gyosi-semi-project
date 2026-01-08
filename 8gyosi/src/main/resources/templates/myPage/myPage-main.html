@@ -305,27 +305,23 @@
         const calenderList = [[${calender}]];
         console.log(calenderList);
 
+
+		// 시간표 관련
+        // 서버로부터 전달된 정보가 없다면 현재 날짜 전달
         let tempToday = new Date();
         let tempYear = tempToday.getFullYear();
         let tempMonth = tempToday.getMonth() + 1;
 
-		// 시간표 관련
-        // 서버로부터 전달된 정보가 없다면 현재 날짜 전달
-        if(semesterStr == undefined){
-
+        let semesterStr = [[${semesterStr != null ? semesterStr : 'null'}]];
+        
+        if([[${semesterStr}]] === null){
             if (tempMonth <= 2 || tempMonth >= 9) {
 				tempYear -= 1;
-				semesterStr = String(tempYear) + "-2"; 
-                const semesterStr = [[${semesterStr}]];
+				semesterStr = String(tempYear) + "-2";
 			}else {
 				semesterStr = String(tempYear) + "-1";
-                const semesterStr = [[${semesterStr}]];
                 // semesterStr = `${tempYear}-2`;
 			}
-
-        }else if(semesterStr != undefined){
-            // 학기 정보 저장됨(js에서 가공 후 html에서 출력할 예정)
-            const semesterStr = [[${semesterStr}]];
         }
 
         console.log(semesterStr);
