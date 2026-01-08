@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import edu.kh.eightgyosi.board.model.dto.BoardType;
 import edu.kh.eightgyosi.board.model.service.EditBoardService;
