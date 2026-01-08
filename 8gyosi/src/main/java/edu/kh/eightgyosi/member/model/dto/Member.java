@@ -24,6 +24,9 @@ public class Member {
 	private String memberDelFl;		// 회원 탈퇴 여부(Y, N)
 	private int authority;			// 권한( 1: 일반 2: 관리자 )
 	private String memberBg;		// 회원 테마
+	private String quotestContent;
+	private int quotesFontSize;
+	private String quotesFontFamily;
 	// 다솔
 	 /** 관리자 여부 enum */
     public enum Role {
