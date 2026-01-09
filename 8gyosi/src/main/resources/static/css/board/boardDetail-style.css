@@ -1,3 +1,12 @@
+.COLORPALLETE{
+    color:#D9DED1;
+    color:#F2EADD;
+    color:#A2B7A8;
+    color:#506E66;
+    color:#373E3B;
+    color:#FCD1A0;
+    color:#f8a814
+}
 /* boardWrite-style.css 기반, boardDetail 전용 */
 * { 
   box-sizing: border-box;
@@ -11,7 +20,7 @@ html, body {
 }
 
 body {
-  background-color: #F1F4F9;
+  background-color: #F2EADD;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,10 +53,10 @@ body {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background-color: #5f86e5;
+  background-color: #506E66;
   gap: 10px;
   border-radius: 4px 4px 0 0;
-  color: white;
+  color: #D9DED1;
   font-size: 14px;
 }
 

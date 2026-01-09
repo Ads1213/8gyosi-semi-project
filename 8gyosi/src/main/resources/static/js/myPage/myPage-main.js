@@ -305,17 +305,16 @@ function calenderSchedule() {
 
 // 1. 서버로부터 전달된 학기 정보 저장하여 html로 출력
 
-// 1-1. 서버로부터 전달된 정보가 없다면
-let semesterYear = Number(semesterStr.substring(0,4)); // 2026
-let semesterPeriod = Number(semesterStr.substring(5,6)); // 1
+let timetableYear = Number(semesterStr.substring(0,4)); // 2026
+let timetableSemester = Number(semesterStr.substring(5,6)); // 1
 const tagSemesterYear = document.querySelector("#semesterYear");
 const tagSemesterPeriod = document.querySelector("#semesterPeriod");
-console.log("dddddddddddddddd",semesterYear,semesterPeriod);
+
 viewSemester();
 
 function viewSemester(){
-	tagSemesterYear.innerText = semesterYear;
-	tagSemesterPeriod.innerText = semesterPeriod;
+	tagSemesterYear.innerText = timetableYear;
+	tagSemesterPeriod.innerText = timetableSemester;
 }
 
 // ------
@@ -345,8 +344,8 @@ function changeSemester(){
 
 	// 학기 부분
 	select_period.type="text";
-	select_period.placeholder = semesterPeriod;
-
+	select_period.placeholder = timetableSemester;
+	
 	const p_opt_1 = document.createElement("option");
 	p_opt_1.value = 1;
 	p_opt_1.innerText = 1;
@@ -360,12 +359,12 @@ function changeSemester(){
 
 	// 연도 부분
 	select_year.type="text";
-	select_year.placeholder=semesterYear;
+	select_year.placeholder = Number(today.getFullYear());
 
 	for(let i = -3; i < 4; i++){
 		const y_opt = document.createElement("option");
-		y_opt.value	= semesterYear + i;
-		y_opt.innerText = semesterYear + i;
+		y_opt.value	= Number(today.getFullYear()) + i;
+		y_opt.innerText = Number(today.getFullYear()) + i;
 		select_year.append(y_opt);
 	}
 
@@ -388,7 +387,11 @@ function changeSubjectInput(){
 	allSubject.forEach(sub_span => { // 현재 span 태그 변수명
 		const sub_input = document.createElement("input");
 		sub_input.type="text";
-		sub_input.value=sub_span.innerText; // 현재값
+		if(sub_span.innerText.trim() === "미설정"){
+			sub_input.value="";
+		}else{
+			sub_input.value=sub_span.innerText.trim(); // 현재값
+		}
 		sub_input.id=sub_span.id;
 		sub_input.className="subject-input";
 		sub_span.replaceWith(sub_input); // 교체
@@ -433,61 +436,92 @@ function saveTimetable(obj2){
 // 시간표 부분 왼쪽 오른쪽 조회 처리
 const sem_left = document.querySelector("#sem-left");
 const sem_right = document.querySelector("#sem-right");
-const flagYear = semesterYear;
+const flagYear = timetableYear;
 
-sem_left.addEventListener("click", () => {
-	console.log("전",semesterPeriod,semesterYear);
-	if(flagYear - semesterYear > 4 || semesterYear - flagYear > 4){
-		alert("조회할 수 있는 년도는 최대 3년입니다");
-		return;
-	}
-	if(semesterPeriod == 1) {
-		semesterYear -= 1;
-		semesterPeriod = 2;
-	}else if(semesterPeriod == 2){
-		semesterPeriod = 1;
+sem_left.addEventListener("click", (e) => {
+	
+	let nextYear = timetableYear;
+	let nextSemester = timetableSemester;
+
+	if(timetableSemester == 1){
+		nextYear -= 1;
+		nextSemester = 2;
+	}else{
+		nextSemester = 1;
 	}
 	
-	console.log("후",semesterPeriod,semesterYear);
-	
-	fetch("/myPage/timetable/select", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(
-			{"year": semesterYear, "period": semesterPeriod})
-	})
+	if(Math.abs(flagYear - nextYear) > 2) {
+        alert("조회할 수 있는 년도는 최대 3년입니다");
+        e.preventDefault();
+        return;
+    }
+
+	timetableYear = nextYear;
+    timetableSemester = nextSemester;
+	viewSemester();
+
+	let param = new URLSearchParams({
+		year : timetableYear,
+		semester : timetableSemester
+	}).toString();
+
+	fetch(`/myPage/timetable/select?${param}`)
 	.then(resp => {
-		if(resp.ok){
-			location.href="/myPage";}
-		else{alert("조회 실패");}});
+		if(resp.ok) return resp.json();
+	})
+	.then(data => { 
+		for(let i = 0; i < 6; i++){
+			for(let j = 0; j < 7; j++){
+				const sub_tag = document.querySelector(`#day${i+1}cls${j+1}`);
+				sub_tag.innerText = data.fullTimetable[i][j];
+			}
+		}
+		
+	});
 	
 });
 
-sem_right.addEventListener("click", () => {
-	console.log("전",semesterPeriod,semesterYear);
-	if(flagYear - semesterYear > 4 || semesterYear - flagYear > 4){
-		alert("조회할 수 있는 년도는 최대 3년입니다");
-		return;
-	}
-	if(semesterPeriod == 1) {
-		semesterPeriod = 2;
-	}else if(semesterPeriod == 2){
-		semesterYear += 1;
-		semesterPeriod = 1;
+sem_right.addEventListener("click", (e) => {
+
+	let nextYear = timetableYear;
+	let nextSemester = timetableSemester;
+
+	if(nextSemester == 1){
+		nextSemester = 2;
+	}else{
+		nextYear += 1;
+		nextSemester = 1;
 	}
 
-	console.log("후",semesterPeriod,semesterYear);
-	
-	fetch("/myPage/timetable/select", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(
-			{"year": semesterYear, "period": semesterPeriod})
-	})
+	if(Math.abs(flagYear - nextYear) > 3) {
+        alert("조회할 수 있는 년도는 최대 3년입니다");
+        e.preventDefault();
+        return;
+    }
+
+	timetableYear = nextYear;
+    timetableSemester = nextSemester;
+	viewSemester();
+
+	// 쿼리스트링 설정
+	let param = new URLSearchParams({
+		year : timetableYear,
+		semester : timetableSemester
+	}).toString();
+
+	fetch(`/myPage/timetable/select?${param}`)
 	.then(resp => {
-		if(resp.ok){
-			location.href="/myPage";} // resp.json()으로 응답에 대한 결과를 처리해주어야 한다
-		else{alert("조회 실패");}});
+		if(resp.ok) return resp.json();
+	})
+	.then(data => { 
+		for(let i = 0; i < 6; i++){
+			for(let j = 0; j < 7; j++){
+				const sub_tag = document.querySelector(`#day${i+1}cls${j+1}`);
+				sub_tag.innerText = data.fullTimetable[i][j];
+			}
+		}
+
+	});
 
 });
 

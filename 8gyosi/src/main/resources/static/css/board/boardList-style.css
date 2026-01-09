@@ -1,3 +1,13 @@
+.COLORPALLETE{
+    color:#D9DED1;
+    color:#F2EADD;
+    color:#A2B7A8;
+    color:#506E66;
+    color:#373E3B;
+    color:#FCD1A0;
+    color:#f8a814
+}
+
 *{
   box-sizing: border-box;
 }
@@ -8,13 +18,13 @@ body {
 
 main {
   margin: auto; /* 좌우 가운데 정렬을 위해서 */
-  background-color: #F1F4F9;
+  background-color: #D9DED1;
   overflow: hidden;
   
 }
 
 .board-wrapper{
-    background-color: white;
+    background-color: #f1f3ee;
     max-width: 1200px;
     margin: auto;
     margin-top: 50px;
@@ -38,13 +48,13 @@ main {
 .board-name {    
     display: flex;
     list-style: none;
-    background: #5c86e0;
+    background: #506E66;
     height: 60px;
     align-items: center;
     margin:0px;
     border-top-left-radius: 12px;
     border-top-left-radius: 12px;
-    color: white;
+    color: #f1f3ee;
     padding-left: 20px;
 
 }
@@ -88,6 +98,13 @@ main {
     padding: 20px 30px;
     max-width: 1200px;
 }
+.list-wrapper td a{
+    color: #373E3B;
+    text-decoration: none;
+}
+.list-wrapper td a:hover{
+    color: #f8a814;
+}
 
 table {
     width: 100%;
@@ -96,16 +113,16 @@ table {
 }
 
 table thead th {
-    color: #5c86e0;
+    color: #373E3B;
     padding: 15px 5px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid #A2B7A8;
     font-size: 15px;
     font-weight: 600;
 }
 
 table tbody td {
     padding: 15px 5px;
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid #d7e4da;
     text-align: center;
     font-size: 14px;
     color: #444;
