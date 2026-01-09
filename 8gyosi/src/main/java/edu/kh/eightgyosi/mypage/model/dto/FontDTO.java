@@ -16,5 +16,5 @@ public class FontDTO {
 	private int fontSize;
 	private String fontFamily;
 	
-	private Member memberNo;
+	private int memberNo;
 }
