@@ -50,6 +50,7 @@ public interface MyPageService {
 	int profile(MultipartFile profileImg, Member loginMember) throws Exception;
 
 
+
 	
 
 }
