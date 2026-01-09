@@ -107,9 +107,8 @@
 		(TIMETABLE_ID, SEMESTER, MEMBER_NO,
 		DAY_CLASS_SUBJECT)
 		VALUES
-		<foreach item="temp" collection="allMap" separator=",">
-			(SEQ_TIMETABLE_ID.NEXTVAL, #{semester}, #{memberNo},
-			#{dayClassSubject})
+		<foreach item="temp" collection="list" separator=",">
+			(SEQ_TIMETABLE_ID.NEXTVAL, #{semester}, #{memberNo}, #{temp})
 		</foreach>
 	</insert>
 

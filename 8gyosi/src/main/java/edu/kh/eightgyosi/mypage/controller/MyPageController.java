@@ -2,6 +2,7 @@ package edu.kh.eightgyosi.mypage.controller;
 
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,6 @@ import edu.kh.eightgyosi.mypage.model.service.DiaryService;
 import edu.kh.eightgyosi.mypage.model.service.MyPageService;
 import edu.kh.eightgyosi.mypage.model.service.TimetableService;
 import edu.kh.eightgyosi.mypage.model.service.WrongNoteService;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -80,7 +80,7 @@ public class MyPageController {
 	 * @return
 	 */
 	@GetMapping("")
-	public String mainPage(@SessionAttribute("loginMember") Member loginMember, Model model, HttpSession session) {
+	public String mainPage(@SessionAttribute("loginMember") Member loginMember, Model model) {
 
 		// 1. 회원의 캘린더 정보 뿌려주기
 		
@@ -99,46 +99,56 @@ public class MyPageController {
 		List<WrongNoteDTO> wrongNoteDTOLists = wroService.selectWrongNote(memberNo);
 		model.addAttribute("wrongNoteDTOLists", wrongNoteDTOLists);
 		
-		// 예외처리 
-		
-		
 		// 3. 시간표 정보 뿌려주기
-		String semester = (String) session.getAttribute("semester");
-		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo, semester);
+		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo);
 		
+		// 3-1. 만약 조회된 데이터가 없어서 1객체에 semester 하나만 든 값이 전달되었다면 
+		// == 0번째 인덱스 중 semester 제외한 아무 값을 조회해 비었을 시
 		boolean isTimetableEmpty = false;
-		// 예외처리 : 조회된 데이터 없을 때
-		if(timetableDTOLists.size() == 0) {
-			isTimetableEmpty = true;
-			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
+		
+		if(timetableDTOLists.get(0).getDayClassSubject() == null) {
 			
-		// 있다면 이중배열 이용하여 시간표 정보 가공 후 전달	
-		}else if(timetableDTOLists.size() != 0) {
-			
+			// 이중 배열 생성(해당 이중 배열이 timetable 채워줄 예정)
 			// row : day
 			// col : cls
-			String[][] tt = new String[6][7];
+			
+			String[][] timetableDoubleArray = new String[6][7]; 
 			for(int i = 0; i < 6; i++) {
-				Arrays.fill(tt[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
+				Arrays.fill(timetableDoubleArray[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
 			}
 			
-			for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돈다
+			// model 에 담아 전달
+			model.addAttribute("fullTimetable", timetableDoubleArray);
+			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
+			// 사실 isTimetableEmpty 값이 false 일 경우 타임리프에서 모두 미설정으로 처리되긴 한다.
+			
+			// 조회된 데이터가 없더라도 semester 정보는 있기에 전달한다.
+			String semesterStr = timetableDTOLists.get(0).getSemester();
+			model.addAttribute("semesterStr", semesterStr);
+		
+		} else { // 3-2. 조회된 결과 있다면
+			String[][] timetableDoubleArray = new String[6][7];
+			for(int i = 0; i < 6; i++) {
+				Arrays.fill(timetableDoubleArray[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
+			}
+			
+			for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돌면서 과목이 있을 때만 "미설정" 대신 해당 과목 채워넣기
 				int row = temp.getDay() - 1; // 인덱스로 반환 (0~5)
 				int col = temp.getCls() - 1; // 인덱스로 반환 (0~6)
 				
 				if(row >= 0 && row < 6 && col >= 0 && col < 7) {
-					tt[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
+					timetableDoubleArray[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
 				}
 			}
-			// model에 담기
-			model.addAttribute("fullTimetable", tt);
-			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
 			
-			// 학기(2025-2) 등 정보 저장하여 담기
-			 // 조회된 데이터가 있다면 학기 정보는 모두 동일하므로 아무 인덱스의 정보를 보내주어도 무방
+			// model 에 담아 전달
+			model.addAttribute("fullTimetable", timetableDoubleArray);
+			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
+			log.debug(timetableDTOLists.toString());
+			// 학기(2025-2) 정보 저장하여 담기
+			// 조회된 데이터가 있다면 학기 정보는 모두 동일하므로 아무 인덱스의 정보를 보내주어도 무방
 			String semesterStr = timetableDTOLists.get(0).getSemester();
 			model.addAttribute("semesterStr", semesterStr);
-			
 		}
 		
 		return "myPage/myPage-main"; // forward	
@@ -210,26 +220,81 @@ public class MyPageController {
 	 * @return
 	 */
 	@PostMapping("timetable/insert")
-	
+	@ResponseBody
 	public int insertTimetable(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> map) {
 		int memberNo = loginMember.getMemberNo();
 		return timetableService.insertTimetable(map, memberNo);
 	}
 	
-	@PostMapping("timetable/select")
-	@ResponseBody // 메서드 상단에 선언함으로써 브라우저로부터 전달되는 데이터를 처리만 하는 메서드임을 명시
-	public String selectTimetable(@RequestBody Map<String, Object> map, HttpSession session){
+	/** 시간표 조회 서비스(비동기)
+	 * @param loginMember
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("timetable/select")
+	public Map<String, Object> selectTimetable(@SessionAttribute("loginMember") Member loginMember, 
+											  @RequestParam Map<String, Object> map,
+											  Model model){
 		
 		
 		// 여기서 (String) 으로 강제형변환 했다가 오류났었음
 		String year = String.valueOf(map.get("year"));
-		String period = String.valueOf(map.get("period"));
+		String period = String.valueOf(map.get("semester"));
 		String semester = year+"-"+period;
 		
-		session.setAttribute("semester", semester);
-		// test : log.debug("다다다"+semester);
-		return "성공";	// 여기서 return 은 단순히 브라우저로 전달할 뿐 실질적인 메서드 기능은 semester를 model 에 담는 역할만 한다
+		int memberNo = loginMember.getMemberNo();
+		
+		map.put("memberNo", memberNo);
+		map.put("semester", semester);
+		
+		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo, semester);
+		
+		// 3-1. 만약 조회된 데이터가 없을 때
+		Map<String, Object> fetchMap = new HashMap<String, Object>();
+		
+		// 조회된 결과가 없을 경우 처리
+		if(timetableDTOLists.size() == 0) {
+			
+			String[][] timetableDoubleArray = new String[6][7]; 
+			for(int i = 0; i < 6; i++) {
+				Arrays.fill(timetableDoubleArray[i], "미설정"); 
+			}
+			
+			fetchMap.put("fullTimetable", timetableDoubleArray);
+			log.debug(fetchMap.toString());
+			return fetchMap;
+			// 비동기 요청에서는 전달받은 semester 그대로 전달
+			// model.addAttribute("semesterStr", semester);
+		
+		} else { // 3-2. 조회된 결과 있다면
+			String[][] timetableDoubleArray = new String[6][7];
+			for(int i = 0; i < 6; i++) {
+				Arrays.fill(timetableDoubleArray[i], "미설정"); // 모든 행(i, day, 요일) 에 미설정 채워넣기 
+			}
+			
+			for(TimetableDTO temp : timetableDTOLists) { // 가져온 DTO 객체 하나씩 돌면서 과목이 있을 때만 "미설정" 대신 해당 과목 채워넣기
+				int row = temp.getDay() - 1; // 인덱스로 반환 (0~5)
+				int col = temp.getCls() - 1; // 인덱스로 반환 (0~6)
+				
+				if(row >= 0 && row < 6 && col >= 0 && col < 7) {
+					timetableDoubleArray[row][col] = temp.getSubject(); // 이중 배열 특정 칸에 가져온 과목 넣기
+				}
+				
+			}
+			
+			// model 에 담아 전달
+			fetchMap.put("fullTimetable", timetableDoubleArray);
+			log.debug(fetchMap.toString());
+			
+			return fetchMap;
+			// 비동기 요청에서는 전달받은 semester 그대로 전달
+			// model.addAttribute("semesterStr", semester);
+		}
+			
 	}
+		
+	
 	
 
 	

@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>8교시 메인화면</title>
 	<link rel="stylesheet" href="/css/common/main.css">
+	<script src="https://kit.fontawesome.com/1162b5b0f6.js" crossorigin="anonymous"></script>
 	<th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
@@ -15,7 +16,7 @@
 <container id="main-container"> <!-- 메인화면 이미지 섹션 + 게시판 전체 섹션-->
     
     <section class="main-img-section"> <!-- 메인화면 이미지 섹션 -->
-		메인화면 이미지 섹션
+		<img src="/images/mainImg2.png" id="mainImg">
     </section>
 
     <section class="main-board"> <!-- 메인화면 게시판 전체 섹션(6개) -->
@@ -40,7 +41,7 @@
 									순위
 								</div> <!-- 순위 -->
 								
-								<section> <!-- 순위별 게시글 정보 부분-->
+								<section id="top5each"> <!-- 순위별 게시글 정보 부분-->
 									<div class="board-rank-part-upper">
 										<a th:href="@{/board/{boardTypeNo}/{boardId}(boardTypeNo=${boardTypeList[i].boardTypeNo}, boardId=${board.boardId}, cp=${(board.mainCp - 1) / 10 + 1})}"
 										th:text="${board.boardTitle}">
@@ -51,21 +52,21 @@
 			            			</div>
 									
 									<div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-										<div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-											<img src="#">
-											조회 : 
+										<span class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
+											
+											<i class="fa-regular fa-eye"></i>
 											<div th:text="${board.boardViewCount}"></div>
-										</div>
-										<div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-											<img src="#">
-											댓글 수 :
+										</span>
+										<span class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
+											
+											<i class="fa-regular fa-comment"></i>
 											<div th:text="${board.boardCommentCount}"></div>
-										</div>
-										<div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-											<img src="#">
-											작성일자 : 
+										</span>
+										<span class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
+											
+											<i class="fa-regular fa-clock"></i>
 											<div th:text="${board.boardCreateDate}"></div>
-										</div>
+										</span>
 									</div>
 								</section>
 								
@@ -83,7 +84,6 @@
 					
 					<div class="board-name-area"> <!-- 게시판 부분 하단 제목(글자 클릭 시 해당 게시판 이동)-->
 						<div>
-		      				<img src="#"> 
 		      				<a th:text="${boardTypeList[i].boardTypeName}" th:href="@{/board/{boardTypeNo}(boardTypeNo=${boardTypeList[i].boardTypeNo})}" class="board-name" id="board-free-name">게시판 이름</a>
 		    			</div>
 			    		<div class="top5-text">인기글 TOP5
@@ -98,7 +98,7 @@
 									순위
 								</div> <!-- 순위 -->
 								
-								<section> <!-- 순위별 게시글 정보 부분-->
+								<section id="top5each"> <!-- 순위별 게시글 정보 부분-->
 									<div class="board-rank-part-upper">
 										<a th:href="@{/board/{boardTypeNo}/{boardId}(boardTypeNo=${boardTypeList[i].boardTypeNo}, boardId=${board.boardId}, cp=${(board.mainCp - 1) / 10 + 1})}"
 										th:text="${board.boardTitle}">
@@ -109,21 +109,21 @@
 			            			</div>
 									
 									<div class="board-rank-part-lower"> <!-- 게시글 제목 하단 정보 표시 부분(조회수 등)-->
-										<div class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
-											<img src="#">
-											조회 : 
-											<div th:text="${board.boardViewCount}"></div>
-										</div>
-										<div class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
-											<img src="#">
-											댓글 수 :
+										<span class="board-rank-part-view"> <!-- 게시글 제목 하단 조회수 -->
+											
+											<i class="fa-regular fa-eye"></i>
+											<sth:text="${board.boardViewCount}"></sth:text=>
+										</span>
+										<span class="board-rank-part-comment"> <!-- 게시글 제목 하단 댓글수 -->
+											
+											<i class="fa-regular fa-comment"></i>
 											<div th:text="${board.boardCommentCount}"></div>
-										</div>
-										<div class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
-											<img src="#">
-											작성일자 : 
+										</span>
+										<span class="board-rank-part-writedate"> <!-- 게시글 제목 하단 게시일자 -->
+											
+											<i class="fa-regular fa-clock"></i>
 											<div th:text="${board.boardCreateDate}"></div>
-										</div>
+										</span>
 									</div>
 								</section>
 								
