@@ -1,84 +1,7 @@
 /**/
 //  diary 관련 ------------------------------
-function validateDelete() {
-	const diaryDate = document.getElementById("diaryDate");
-	const dateValue = diaryDate.value.trim();
-	const datePattern = /^\d{8}$/;
-
-	// 1. 날짜 검증
-	if (!datePattern.test(dateValue)) {
-		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
-		diaryDate.focus();
-		return false; // 서버 전송 차단
-	}
-
-	// 2. 삭제 확인창
-	const isConfirm = confirm("정말 삭제하시겠습니까?");
-
-	if (isConfirm) {
-		return true;  
-	} else {
-		return false; 
-	}
-}
-
-// 동기부여글 관련 ------------------------------
-// quotesForm.addEventListener('submit', function(e) {
-//     e.preventDefault(); // 페이지 새로고침 방지
-
-//     // 1. 데이터를 URL 파라미터 형식으로 만듭니다.
-//     const fontSize = fontSizeInput.value;
-//     const fontFamily = fontSelect.value;
-//     const content = contentInput.value;
-
-//     // 2. URL 생성 (쿼리 스트링 방식)
-//     const url = `/myPage/changeFont?fontSize=${fontSize}&fontFamily=${encodeURIComponent(fontFamily)}&content=${encodeURIComponent(content)}`;
-
-//     // 3. 비동기 요청 전송
-//     fetch(url, {
-//         method: 'GET' // 서버 컨트롤러가 @GetMapping이면 GET, @PostMapping이면 POST
-//     })
-//     .then(response => {
-//         if (response.ok) {
-//             alert('설정이 저장되었습니다!');
-//             // 성공 시 화면에 즉시 적용 (이미 실시간으로 바뀌고 있겠지만 다시 한번 확인)
-//             displayArea.style.fontSize = fontSize + "px";
-//             displayArea.style.fontFamily = fontFamily;
-//         } else {
-//             alert('저장에 실패했습니다.');
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// });
-
-
 // --------------------------------------------
-function validateDelete() {
-	const diaryDate = document.getElementById("diaryDate");
-	const dateValue = diaryDate.value.trim();
-	const datePattern = /^\d{8}$/;
-
-	// 1. 날짜 검증
-	if (!datePattern.test(dateValue)) {
-		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
-		diaryDate.focus();
-		return false; // 서버 전송 차단
-	}
-
-	// 2. 삭제 확인창
-	const isConfirm = confirm("정말 삭제하시겠습니까?");
-
-	if (isConfirm) {
-		return true;  // ★ 이 값이 반환되어야 Java 컨트롤러(@PostMapping)가 실행됩니다.
-	} else {
-		return false; // 취소 시 서버 전송 차단
-	}
-}
-
-
-// 2. diary 관련 ------------------------------
+// 2. Diary 관련 ------------------------------
 function validateDelete() {
 	const diaryDate = document.getElementById("diaryDate");
 	const dateValue = diaryDate.value.trim();
@@ -105,7 +28,7 @@ function validateDelete() {
 
 
 
-// 조회관련 비동기
+// Diary 조회관련 비동기
 document.addEventListener("DOMContentLoaded", () => {
 	const diarySelectBtn = document.getElementById('diary-selectBtn');
 
@@ -150,6 +73,83 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 });
+
+
+// 동기부여글 관련 ------------------------------
+const quotesForm = document.getElementById("quotes-form");
+
+if (quotesForm) {
+    quotesForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // 중요: 폼이 직접 제출되어 페이지 이동되는 걸 막음
+
+        // 1. 데이터 수집 (FontDTO 필드명과 일치시켜야 함)
+        const fontData = {
+            quotesContent: document.getElementById("quotes-content").value,
+            fontSize: document.getElementById("font-size").value,
+            fontFamily: document.getElementById("menu-font-menu").value
+        };
+
+        // 2. 비동기 요청 전송
+        fetch("/myPage/changeFont", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }, // "나 JSON 보낸다!"고 알림
+            body: JSON.stringify(fontData) // 객체를 JSON 문자열로 변환
+        })
+        .then(resp => {
+            if (resp.ok) return resp.json();
+            throw new Error("저장 실패");
+        })
+        .then(result => {
+		// result는 서버에서 return한 FontDTO 객체입니다.
+		alert("동기부여 글과 스타일이 저장되었습니다!");
+		
+		const textArea = document.getElementById("quotes-content");
+
+		// 1. 글꼴 크기 반영 (반드시 'px' 단위를 붙여야 합니다)
+		if (result.fontSize) {
+			textArea.style.fontSize = result.fontSize + "px";
+		}
+
+		// 2. 글꼴 종류 반영
+		if (result.fontFamily) {
+			textArea.style.fontFamily = result.fontFamily;
+		}
+		
+		// 3. 내용 반영 (필요 시)
+		textArea.value = result.quotesContent;
+
+		console.log("변경 완료:", textArea.style.fontSize, textArea.style.fontFamily);
+	})
+        .catch(err => console.error("에러:", err));
+    });
+}
+
+
+
+// --------------------------------------------
+function validateDelete() {
+	const diaryDate = document.getElementById("diaryDate");
+	const dateValue = diaryDate.value.trim();
+	const datePattern = /^\d{8}$/;
+
+	// 1. 날짜 검증
+	if (!datePattern.test(dateValue)) {
+		alert("YYYYMMDD 형식의 8자리 작성일을 숫자로만 입력해주세요.");
+		diaryDate.focus();
+		return false; // 서버 전송 차단
+	}
+
+	// 2. 삭제 확인창
+	const isConfirm = confirm("정말 삭제하시겠습니까?");
+
+	if (isConfirm) {
+		return true;  // ★ 이 값이 반환되어야 Java 컨트롤러(@PostMapping)가 실행됩니다.
+	} else {
+		return false; // 취소 시 서버 전송 차단
+	}
+}
+
+
 
 // --------------------------------------------
 // 1. calender 관련 ------------------------------
