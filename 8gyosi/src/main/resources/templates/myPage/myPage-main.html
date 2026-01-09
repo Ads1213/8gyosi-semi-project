@@ -10,12 +10,12 @@
 </head>
 
 <body>
-	<th:block th:replace="~{common/header}"></th:block>
-    
+    <th:block th:replace="~{common/header}"></th:block>
+
     <container id="main-container">
 
         <container class="main-myPage"> <!-- 마이페이지 메인 기능 부분 -->
-            
+
             <section class="upper"> <!--마이페이지 상단: 캘린더, todo-->
 
                 <section class="calender main-content"> <!-- 캘린더 -->
@@ -77,7 +77,7 @@
                             <div id="semester-name">
                                 <span id="semesterYear"></span> <!-- 년도 -->
                                 <span>년도</span>
-								<span id="semesterPeriod"></span> <!-- 학기 -->
+                                <span id="semesterPeriod"></span> <!-- 학기 -->
                                 <span>학기</span>
                             </div>
                             <div>
@@ -102,17 +102,19 @@
                                         <div th:case="4" th:text="FRI" th:class="'day'+${i+1}"></div> <!-- 3-->
                                         <div th:case="5" th:text="SAT" th:class="'day'+${i+1}"></div> <!-- 3-->
                                     </th:block>
-                                    <div class="day-lower"> 
-                                        <th:block th:each="j : ${#numbers.sequence(0,6)}">  
+                                    <div class="day-lower">
+                                        <th:block th:each="j : ${#numbers.sequence(0,6)}">
                                             <div>
-                                                <span th:class="'classtime ct'+${j+1}" th:text="|${j+1}교시|"></span> <!-- 4--> <!-- 요일 당 7개 생성 -->
-                                                <span th:class="subject" th:id="|day${i+1}cls${j+1}|" th:text="${fullTimetable[i][j]}"></span>
+                                                <span th:class="'classtime ct'+${j+1}" th:text="|${j+1}교시|"></span>
+                                                <!-- 4--> <!-- 요일 당 7개 생성 -->
+                                                <span th:class="subject" th:id="|day${i+1}cls${j+1}|"
+                                                    th:text="${fullTimetable[i][j]}"></span>
                                             </div>
                                         </th:block>
                                     </div>
                                 </section>
                             </th:block>
-                        </section> 
+                        </section>
                     </th:block>
 
                     <!-- 전달된 값이 없는 경우-->
@@ -128,17 +130,19 @@
                                         <div th:case="4" th:text="FRI" th:class="'day'+${i+1}"></div> <!-- 3-->
                                         <div th:case="5" th:text="SAT" th:class="'day'+${i+1}"></div> <!-- 3-->
                                     </th:block>
-                                    <div class="day-lower"> 
-                                        <th:block th:each="j : ${#numbers.sequence(0,6)}">  
+                                    <div class="day-lower">
+                                        <th:block th:each="j : ${#numbers.sequence(0,6)}">
                                             <div>
-                                                <span th:class="'classtime ct'+${j+1}" th:text="|${j+1}교시|"></span> <!-- 4--> <!-- 요일 당 7개 생성 -->
-                                                <span th:class="subject" th:id="|day${i+1}cls${j+1}|" th:text="미설정"></span>
+                                                <span th:class="'classtime ct'+${j+1}" th:text="|${j+1}교시|"></span>
+                                                <!-- 4--> <!-- 요일 당 7개 생성 -->
+                                                <span th:class="subject" th:id="|day${i+1}cls${j+1}|"
+                                                    th:text="미설정"></span>
                                             </div>
                                         </th:block>
                                     </div>
                                 </section>
                             </th:block>
-                        </section> 
+                        </section>
                     </th:block>
 
                 </section> <!-- 시간표 끝 -->
@@ -244,7 +248,7 @@
                 </th:block>
 
             </section> <!-- 마이페이지 하단 끝 -->
-        
+
         </container>
 
         <container class="sidebar"> <!-- 프로필 및 색상 테마 수정 부분-->
@@ -263,7 +267,10 @@
                 <div id="quotes-menu-container">
                     <form method="post" id="quotes-form" th:action="@{/myPage/changeFont}">
                         <div class="input-group">
-                            <textarea id="quotes-content" name="content" placeholder="동기부여글을 입력해주세요"></textarea>
+                            <textarea id="quotes-content" 
+                                th:text="${quotes?.quotesContent}"
+                                th:style="'font-size:' + ${quotes?.fontSize ?: 16} + 'px; font-family:' + ${quotes?.fontFamily ?: 'inherit'} + ';'">
+                            </textarea><b>
                         </div>
 
                         <div class="controls-row">
@@ -283,12 +290,12 @@
                                     <option value="fantasy">화려한 스타일</option>
                                 </select>
                             </div>
-                            <button type="submit" class="save-btn">저장</button>
+                            <button type="submit" class="save-btn">적용</button>
                         </div>
                     </form>
                 </div>
             </section>
-            
+
         </container>
 
     </container>
@@ -296,36 +303,32 @@
     <script th:inline="javascript">
 
         // font 관련
-        const serverFontSize = [[${fontSize}]] || 16;
-        const serverFontFamily = [[${fontFamily}]] || "'Malgun Gothic', sans-serif";
-        const serverContent = [[${content}]] || "";
+        const serverFontSize = [[${ fontSize }]] || 16;
+        const serverFontFamily = [[${ fontFamily }]] || "'Malgun Gothic', sans-serif";
+        const serverContent = [[${ content }]] || "";
 
 
         // Calender 관련
-        const calenderList = [[${calender}]];
+        const calenderList = [[${ calender }]];
         console.log(calenderList);
 
+
+        // 시간표 관련
+        // 서버로부터 전달된 정보가 없다면 현재 날짜 전달
         let tempToday = new Date();
         let tempYear = tempToday.getFullYear();
         let tempMonth = tempToday.getMonth() + 1;
 
-		// 시간표 관련
-        // 서버로부터 전달된 정보가 없다면 현재 날짜 전달
-        if(semesterStr == undefined){
+        let semesterStr = [[${ semesterStr != null ? semesterStr : 'null'}]];
 
+        if ([[${ semesterStr }]] === null) {
             if (tempMonth <= 2 || tempMonth >= 9) {
-				tempYear -= 1;
-				semesterStr = String(tempYear) + "-2"; 
-                const semesterStr = [[${semesterStr}]];
-			}else {
-				semesterStr = String(tempYear) + "-1";
-                const semesterStr = [[${semesterStr}]];
+                tempYear -= 1;
+                semesterStr = String(tempYear) + "-2";
+            } else {
+                semesterStr = String(tempYear) + "-1";
                 // semesterStr = `${tempYear}-2`;
-			}
-
-        }else if(semesterStr != undefined){
-            // 학기 정보 저장됨(js에서 가공 후 html에서 출력할 예정)
-            const semesterStr = [[${semesterStr}]];
+            }
         }
 
         console.log(semesterStr);
@@ -335,4 +338,5 @@
     <th:block th:replace="~{common/footer}"></th:block>
 
 </body>
+
 </html>

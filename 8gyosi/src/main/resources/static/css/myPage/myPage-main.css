@@ -73,16 +73,9 @@
     font-size:26px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-<<<<<<< HEAD
-    height:35px;
-    font-size:22px;
-    padding-top:2px;
-    margin-bottom: 5px;
-=======
     width:100%;
     text-align: center;
     align-items: center;
->>>>>>> 670303f39adb2fdbed72349b5160533315431ec1
 }
 #timetable-upper{
     display: flex;
@@ -473,9 +466,11 @@
     text-decoration: none;
     color:white;
 }
+
 #wrong-note-content > div:first-child > a:visited{
     color:white;
 }
+
 #wrong-note-list{
     flex-basis: 100%;
     width:100%;
@@ -484,6 +479,7 @@
     align-items: center;
     justify-content: center;
 }
+
 #wrong-note-list > ul{
     display: flex;
     flex-direction: column;
@@ -492,9 +488,10 @@
     justify-content: center;
     width:95%;
     padding:0px;
-    margin:0px;https://github.com/KH-SEMI-KYO6IN/semi_8gyosi/pull/50/conflict?name=8gyosi%252Fsrc%252Fmain%252Fresources%252Ftemplates%252FmyPage%252FmyPage-main.html&ancestor_oid=e007c068dcaf1c5b55ddaa2f199cc7382b9127da&base_oid=7d1b99f6065922793b1cf4e7348c0d7f24ad44cb&head_oid=0063bff02a3e146100d272606a2a29c347b8e3c9
+    margin:0px;
     height: 90%;
 }
+
 #wrong-note-list > ul > li{
     border:1px solid green;
     width:95%;
@@ -518,7 +515,6 @@
 .wn-li-empty{
     color:rgb(71, 65, 66) !important; /* important 로 다른 css 보다 우선적용*/
 }
-<<<<<<< HEAD
 
 
 /*동기부여글 부분*/
@@ -553,41 +549,57 @@
     border: 1px solid #ccc;
     margin-bottom: 10px;
     padding: 10px;
-    box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+    box-sizing: border-box; 
     resize: none;
 }
 
-/* ⭐ 핵심: 컨트롤 요소들을 한 줄로 가로 정렬 */
 .controls-row {
-    display: flex;       /* 가로 정렬 */
-    gap: 5px;            /* 요소 사이의 미세한 간격 */
-    width: 100%;         /* 전체 너비 사용 */
+    display: flex;       
+    gap: 8px;            
+    width: 100%;         
+    align-items: stretch; 
 }
 
-/* ⭐ 핵심: 크기입력, 글꼴그룹, 버튼을 동일한 크기로 설정 */
-.controls-row > #font-size,
-.controls-row > .font-select,
+.controls-row > #font-size {
+    flex: 1;             
+    width: 0;            
+    height: 38px;        
+    margin: 0;          
+}
+.controls-row > .font-select {
+    flex: 2;             
+    width: 0;            
+    height: 38px;        
+    margin: 0;           
+}
 .controls-row > .save-btn {
-    flex: 1;             /* 가로 공간을 1:1:1로 균등하게 나눔 */
-    height: 38px;        /* 높이 통일 */
-    box-sizing: border-box;
+    flex: 1;             
+    width: 0;            
+    height: 38px;        
+    margin: 0;          
 }
 
-/* 글꼴 선택창 내부의 select 태그도 부모 크기에 맞춤 */
 #menu-font-menu {
     width: 100%;
     height: 100%;
+    padding: 0 5px;      
 }
 
-/* 저장 버튼 스타일 */
+#font-size {
+    padding: 0 10px;
+    border: 1px solid #767676;
+    border-radius: 2px; 
+}
+
+
 .save-btn {
     background-color: #efefef;
     border: 1px solid #767676;
+    border-radius: 2px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .save-btn:hover {
     background-color: #e0e0e0;
 }
-=======
->>>>>>> 670303f39adb2fdbed72349b5160533315431ec1

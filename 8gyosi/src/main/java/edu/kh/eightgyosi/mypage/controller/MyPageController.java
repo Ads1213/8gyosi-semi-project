@@ -1,5 +1,6 @@
 package edu.kh.eightgyosi.mypage.controller;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.eightgyosi.board.controller.BoardController;
 import edu.kh.eightgyosi.member.model.dto.Member;
 import edu.kh.eightgyosi.mypage.model.dto.CalenderDTO;
 import edu.kh.eightgyosi.mypage.model.dto.DiaryDTO;
@@ -45,6 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyPageController {
 
+    private final BoardController boardController;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
@@ -63,14 +67,12 @@ public class MyPageController {
 	@Autowired
 	private TimetableService timetableService;
 
-    MyPageController(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    MyPageController(BCryptPasswordEncoder bCryptPasswordEncoder, BoardController boardController) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.boardController = boardController;
     }
 	
-	// @Autowired 
-	// private ServletContext application; // 테스트용
-	
-	
+
 	
 	/**
 	 * @param loginMember : 로그인된 멤버의 멤버 객체(session 에 담김)
@@ -104,9 +106,10 @@ public class MyPageController {
 		String semester = (String) session.getAttribute("semester");
 		List<TimetableDTO> timetableDTOLists = timetableService.selectTimetable(memberNo, semester);
 		
+		boolean isTimetableEmpty = false;
 		// 예외처리 : 조회된 데이터 없을 때
 		if(timetableDTOLists.size() == 0) {
-			boolean isTimetableEmpty = true;
+			isTimetableEmpty = true;
 			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
 			
 		// 있다면 이중배열 이용하여 시간표 정보 가공 후 전달	
@@ -129,6 +132,7 @@ public class MyPageController {
 			}
 			// model에 담기
 			model.addAttribute("fullTimetable", tt);
+			model.addAttribute("isTimetableEmpty", isTimetableEmpty);
 			
 			// 학기(2025-2) 등 정보 저장하여 담기
 			 // 조회된 데이터가 있다면 학기 정보는 모두 동일하므로 아무 인덱스의 정보를 보내주어도 무방
@@ -292,6 +296,8 @@ public class MyPageController {
 			@ModelAttribute DiaryDTO inputDiary,
 	        RedirectAttributes ra) { 
 		
+		log.debug("입력합 : " + inputDiary);
+		
 		String message = null;	
 		int memberNo = loginMember.getMemberNo();
 		String inputDiaryDate = inputDiary.getDiaryDate().strip(); // **** 트러블 슈팅에 이용
@@ -393,13 +399,14 @@ public class MyPageController {
 	@PostMapping("changeFont")
 	public FontDTO changeFont(@SessionAttribute("loginMember") Member loginMember,
             @RequestBody FontDTO inputQuotes) {	
-		
-			inputQuotes.setMemberNo(loginMember);
 			
 			int memberNo = loginMember.getMemberNo();		
+		
+			inputQuotes.setMemberNo(memberNo);
 				
 			int result = diaryService.updateQuotes(inputQuotes);
 						
+			log.debug("inputQuotes : " + inputQuotes);
 			
 			return inputQuotes;
 
@@ -432,6 +439,7 @@ public class MyPageController {
 //	        return "redirect:/myPage"; 
 //	    }
 //	}
+
 
 
 	/** 일기 내용 삭제
