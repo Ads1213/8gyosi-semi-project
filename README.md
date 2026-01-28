@@ -25,4 +25,6 @@
 - **문제:** 파일 업로드 시 취소 버튼을 누르면 기존 파일 정보가 소실됨
 - **해결:** `DataTransfer` 인터페이스를 활용하여 이전 파일 객체를 유지하도록 예외 처리 구현
 
-![안다솔 이미지](https://github.com/Ads1213/8gyosi-semi-project/blob/main/git-image.jpg)
+<div align="center">
+  <img src="[ads](https://github.com/Ads1213/8gyosi-semi-project/blob/main/git-image.jpg)" width="300">
+</div>
