@@ -23,5 +23,5 @@
 - **해결:** `DataTransfer` 인터페이스를 활용하여 이전 파일 객체를 유지하도록 예외 처리 구현
 
 <div align="center">
-  <img src="https://github.com/Ads1213/8gyosi-semi-project/blob/main/git-image.jpg" width="300">
+  <img src="https://github.com/Ads1213/8gyosi-semi-project/blob/main/ads.jpg" width="300">
 </div>
