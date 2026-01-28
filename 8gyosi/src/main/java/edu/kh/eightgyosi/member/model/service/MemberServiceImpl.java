@@ -65,7 +65,8 @@ public class MemberServiceImpl implements MemberService {
 	public int checkNickname(String nickname) {
 		return mapper.checkNickname(nickname);
 	}
-
+	
+	// 회원가입 주소, 비밀번화 암호화 서비스
 	@Override
 	public int signup(Member member, String[] memberAddress) {
 		

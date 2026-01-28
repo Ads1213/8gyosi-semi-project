@@ -46,6 +46,10 @@ WHERE MEMBER_NO = 8;
 -- MEMBER SELECT
 SELECT * FROM "MEMBER";
 
+UPDATE "MEMBER"
+SET MEMBER_NICKNAME = '아몬드'
+WHERE MEMBER_NO = 8;
+
 
 UPDATE "MEMBER"
 SET MEMBER_DEL_FL = 'N'
@@ -393,8 +397,9 @@ SELECT * FROM "BOARD";
 
 COMMIT;
 
-
-
+-- 모든 게시글의 작성일을 오늘로 변경
+UPDATE "BOARD" SET BOARD_CREATE_DATE = SYSDATE;
+COMMIT;
 
 
 -----------------------------------------------

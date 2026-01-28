@@ -50,7 +50,7 @@ public class TimetableServiceImpl implements TimetableService{
 			semesterTemp = makeSemester(semesterTemp);
 			TimetableDTO tempDTO = new TimetableDTO();
 			tempDTO.setSemester(semesterTemp);
-			tempResult.set(0, tempDTO);
+			tempResult.add(0, tempDTO);
 			
 			return tempResult; // 이때 반환되는 list 에는 0번째 인덱스 객체에 semester(2025-2)만 들어있다.
 			
